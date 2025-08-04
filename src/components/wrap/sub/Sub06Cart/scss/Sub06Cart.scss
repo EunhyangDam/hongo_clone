@@ -1,0 +1,197 @@
+@use "../../scss/mixin.scss" as *;
+#sub06Cart {
+  margin-top: 70px;
+  width: 100%;
+  .inner {
+    max-width: 1170px;
+    margin: 0 auto;
+  }
+  .container {
+    @include heading();
+    > .content {
+      padding-block: 135px;
+      .inner {
+        display: flex;
+        column-gap: 70px;
+        align-items: flex-start;
+        > .col {
+          &.col1 {
+            flex-grow: 1;
+            > .table {
+              margin-bottom: 80px;
+              ul {
+                @mixin percent() {
+                  &.col1 {
+                    width: 30px;
+                  }
+                  &.col2 {
+                    width: 10%;
+                  }
+                  &.col3 {
+                    width: 30%;
+                  }
+                  &.col4 {
+                    width: 10%;
+                  }
+                  &.col5 {
+                    width: 80px;
+                  }
+                  &.col6 {
+                    width: 10%;
+                  }
+                }
+                &.table-head {
+                  border-bottom: 1px solid rgb(128, 128, 128);
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  > li {
+                    padding-block: 15px;
+                    @include percent();
+                    p {
+                      font-size: 12px;
+                      text-transform: capitalize;
+                      color: #232323;
+                      font-weight: 500;
+                    }
+                  }
+                }
+                &.table-content {
+                  > li {
+                    padding-block: 25px;
+                    border-bottom: 1px solid #80808077;
+                    ul.asset {
+                      display: flex;
+                      align-items: center;
+                      justify-content: space-between;
+                      li {
+                        @include percent();
+                        font-size: 14px;
+                        color: #808080;
+                        &.col1 {
+                          button {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            background: none;
+                            border: none;
+                            cursor: pointer;
+                          }
+                        }
+                        &.col2 {
+                          a {
+                            img {
+                              max-width: 75px;
+                            }
+                          }
+                        }
+                        &.col5 {
+                          form {
+                            border: 1px solid rgba(0, 0, 0, 0.1);
+                            display: flex;
+
+                            input[type="number"] {
+                              appearance: none;
+                              height: 40px;
+                              flex-grow: 1;
+                              -moz-appearance: textfield;
+                              border: none;
+                              border-right: 1px solid #e8e8e8;
+                              text-align: center;
+                              &::-webkit-inner-spin-button {
+                                appearance: none;
+                              }
+                              &::-webkit-outer-spin-button {
+                                appearance: none;
+                              }
+                            }
+                            .change {
+                              button {
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                width: 100%;
+                                height: 50%;
+                                border: none;
+                                background: none;
+                                padding-inline: 10px;
+                                cursor: pointer;
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            .empty {
+              display: flex;
+              justify-content: flex-end;
+              @include button();
+            }
+          }
+          &.col2 {
+            width: 33.33333333%;
+            padding: 50px;
+            background: #f7f7f7;
+            > .heading {
+              font-size: 18px;
+              font-weight: 500;
+              color: #232323;
+            }
+            ul {
+              li {
+                display: flex;
+                padding-block: 20px;
+                &:not(:last-child) {
+                  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                }
+                .heading {
+                  width: 48%;
+                  font-size: 12px;
+                  color: #232323;
+                }
+                .content {
+                  width: 52%;
+                }
+                &.total {
+                  .content {
+                    h3 {
+                      font-size: 23px;
+                      font-weight: 700;
+                    }
+                    p {
+                      color: #767676;
+                      font-size: 11px;
+                      line-height: 1.5;
+                    }
+                  }
+                }
+              }
+            }
+            .btn-box {
+              a {
+                display: block;
+                background: #232323;
+                text-transform: uppercase;
+                text-align: center;
+                color: #fff;
+                font-size: 1.25em;
+                font-weight: 900;
+                padding-block: 15px;
+                border: 2px solid #232323;
+                transition: 0.3s;
+                &:hover {
+                  background: transparent;
+                  color: #232323;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

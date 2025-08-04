@@ -1,0 +1,34 @@
+{
+  "slide": [
+    {
+      "id": "slide-first",
+      "class": "slide3 slide",
+      "h2": "Designer swimwear",
+      "img": "home-page-fashion-slider-03.jpg"
+    },
+    {
+      "id": "slide-01",
+      "class": "slide1 slide active",
+      "h2": "Summer collection",
+      "img": "home-page-fashion-slider-01.jpg"
+    },
+    {
+      "id": "slide-02",
+      "class": "slide2 slide",
+      "h2": "Winter sweatshirt",
+      "img": "home-page-fashion-slider-02.jpg"
+    },
+    {
+      "id": "slide-03",
+      "class": "slide3 slide",
+      "h2": "Designer swimwear",
+      "img": "home-page-fashion-slider-03.jpg"
+    },
+    {
+      "id": "slide-last",
+      "class": "slide1 slide",
+      "h2": "Summer collection",
+      "img": "home-page-fashion-slider-01.jpg"
+    }
+  ]
+}

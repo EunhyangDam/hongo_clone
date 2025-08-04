@@ -1,0 +1,210 @@
+#wrap {
+  .section {
+    width: 100%;
+    &#section4 {
+      padding: 100px 8px;
+      overflow: hidden;
+      .container {
+        .content {
+          ul {
+            display: flex;
+            gap: 7.5px * 2;
+            li {
+              position: relative;
+              img {
+                width: 100%;
+              }
+              .txt {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+              }
+              &:first-child {
+                transform: translateX(-100%);
+                .txt {
+                  right: 15%;
+                  p {
+                    color: #e2d9d6;
+                  }
+                  h2 {
+                    font-size: 65px;
+                    color: #fff;
+                    font-weight: 600;
+                    line-height: 0.8;
+                    margin-block: 13px 30px;
+                  }
+                  @media all and (max-width: 991px) {
+                    h2 {
+                      br {
+                        display: none;
+                      }
+                    }
+                  }
+                  @media all and (max-width: 767px) {
+                    h2 {
+                      font-size: 34px;
+                    }
+                  }
+                  @media all and (max-width: 489px) {
+                    h2 {
+                      br {
+                        display: block;
+                      }
+                    }
+                  }
+                  a {
+                    display: inline-block;
+                    background: #232323;
+                    color: #fff;
+                    font-size: 10px;
+                    text-transform: uppercase;
+                    padding: 8px 12px;
+                    border: 2px solid #232323;
+                    font-weight: 500;
+                    transition: 0.3s;
+                    &:hover {
+                      background: transparent;
+                      color: #232323;
+                    }
+                  }
+                }
+
+                @media all and (max-width: 1499px) {
+                  .txt {
+                    right: 5%;
+                  }
+                }
+              }
+              &:last-child {
+                transform: translateX(100%);
+                .txt {
+                  left: 50%;
+                  transform: translate(-50%, -50%);
+                  text-align: center;
+                  width: 100%;
+                  padding: 0 15%;
+                  @media all and (max-width: 767px) {
+                    padding: 0 15px;
+                  }
+                  h2 {
+                    font-size: 65px;
+                    color: #fff;
+                    font-weight: 600;
+                  }
+                  @media all and (max-width: 767px) {
+                    h2 {
+                      font-size: 34px;
+                    }
+                  }
+                  span {
+                    background: #000;
+                    color: #fff;
+                    display: inline-block;
+                    padding: 10px 15px;
+                    margin-block: 30px 20px;
+                    font-size: 13px;
+                  }
+                  p {
+                    color: #fff;
+                    font-size: 35px;
+                    font-weight: 300;
+                    margin-bottom: 65px;
+                  }
+                  @media all and (max-width: 767px) {
+                    p {
+                      font-size: 20px;
+                    }
+                  }
+                  form {
+                    border: 0;
+                    border-bottom: 0.8px solid #000;
+                    display: flex;
+                    padding-bottom: 10px;
+                    input {
+                      flex-grow: 1;
+                      background: transparent;
+                      border: 0;
+                      padding-right: 10px;
+                      &::placeholder {
+                        font-family: "Noto Sans", "arial";
+                        color: #000;
+                      }
+                      &:focus {
+                        outline: none;
+                      }
+                    }
+                    button {
+                      background: transparent;
+                      border: 0;
+                      font-size: 12px;
+                      font-weight: 600;
+                      opacity: 1;
+                      transition: 0.4s;
+                      i {
+                        font-size: 18px;
+                      }
+                      &:hover {
+                        opacity: 0.5;
+                      }
+                    }
+                  }
+                }
+                @media all and (max-width: 480px) {
+                  background-image: url(../../../../../public/images/home-page-fashion-newsletter-bg.jpg);
+                  img {
+                    display: none;
+                  }
+                  .txt {
+                    position: relative;
+                    top: 0;
+                    left: 0;
+                    transform: translate(0%, 0%);
+                    padding-block: 50px;
+                  }
+                }
+              }
+            }
+          }
+          @media all and (max-width: 991px) {
+            ul {
+              flex-direction: column;
+            }
+          }
+        }
+      }
+      &.active {
+        .container {
+          .content {
+            > ul {
+              > li {
+                &:first-child {
+                  animation: sec4Par1 0.6s ease-in-out forwards;
+                  @keyframes sec4Par1 {
+                    0% {
+                      transform: translateX(-100%);
+                    }
+                    100% {
+                      transform: translateX(0%);
+                    }
+                  }
+                }
+                &:last-child {
+                  transform: translateX(0%);
+                  animation: sec4Par2 0.6s ease-in-out forwards;
+                  @keyframes sec4Par2 {
+                    0% {
+                      transform: translateX(100%);
+                    }
+                    100% {
+                      transform: translateX(0%);
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

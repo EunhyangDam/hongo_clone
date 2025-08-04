@@ -1,0 +1,169 @@
+@use "../../scss/mixin.scss" as *;
+#wishlistComponent {
+  margin-top: 69px;
+  .container {
+    .inner {
+      max-width: 1170px;
+      margin: 0 auto;
+    }
+    @include heading();
+    .content {
+      padding-block: 135px;
+      .inner {
+        .table {
+          @mixin percent {
+            &.col1 {
+              width: 30px;
+            }
+            &.col2 {
+              width: 20%;
+            }
+            &.col3 {
+              width: 22%;
+            }
+            &.col4 {
+              width: 19%;
+            }
+            &.col5 {
+              width: 19%;
+            }
+            &.col6 {
+              width: 20%;
+            }
+            &.col7 {
+              width: 30px;
+            }
+          }
+          @mixin chkbox {
+            input[type="checkbox"] {
+              width: 20px;
+              height: 20px;
+              border: #ccc;
+              background: url(../../../../../../public/images/icon_check_off.svg)
+                no-repeat center/cover;
+              appearance: none;
+              &:checked {
+                background: url(../../../../../../public/images/icon_check_on.svg)
+                  no-repeat center/cover;
+              }
+            }
+          }
+          dt {
+            border-bottom: 1px solid rgb(128, 128, 128);
+            ul.col-box {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              li.col {
+                padding: 15px 10px;
+                @include percent();
+                h3 {
+                  font-size: 12px;
+                  text-transform: capitalize;
+                  color: #232323;
+                  font-weight: 500;
+                }
+                form {
+                  @include chkbox();
+                }
+              }
+            }
+          }
+          dd {
+            ul.col-box {
+              display: flex;
+              justify-content: space-between;
+              li.col {
+                padding: 25px 10px;
+                display: flex;
+                align-items: center;
+                @include percent();
+                &.col1 {
+                  form {
+                    @include chkbox();
+                  }
+                }
+                &.col2 {
+                  text-align: center;
+                  img {
+                    max-width: 75px;
+                  }
+                }
+                @mixin text {
+                  font-size: 14px;
+                  color: #808080;
+                }
+                &.col3 {
+                  a {
+                    @include text();
+                    transition: 0.4s;
+                    &:hover {
+                      color: #f57250;
+                    }
+                  }
+                }
+                &.col4 {
+                  @include text();
+                }
+                &.col5 {
+                  span {
+                    text-transform: uppercase;
+                    padding: 5px 15px;
+                    border: 1px solid #77af64;
+                    color: #77af64;
+                    display: inline-block;
+                    font-size: 11px;
+                    font-weight: 500;
+                  }
+                }
+                &.col6 {
+                  button {
+                    background: #232323;
+                    border: 2px solid #232323;
+                    padding: 8px 20px;
+                    color: #fff;
+                    font-size: 11px;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: all 0.3s;
+                    &:hover {
+                      border: 2px solid #232323;
+                      background: transparent;
+                      color: #232323;
+                    }
+                  }
+                }
+                &.col7 {
+                  button {
+                    border: 0;
+                    background: none;
+                    cursor: pointer;
+                  }
+                }
+              }
+            }
+            &:not(:last-child) {
+              border-bottom: 1px solid #80808077;
+            }
+            h3 {
+              text-align: center;
+              font-size: 40px;
+              font-weight: 900;
+              padding-block: 100px;
+              border-bottom: 1px solid #232323;
+            }
+          }
+        }
+        .bottom {
+          display: flex;
+          padding-block: 25px;
+          justify-content: space-between;
+          .col {
+            padding-bottom: 5px;
+            @include button();
+          }
+        }
+      }
+    }
+  }
+}

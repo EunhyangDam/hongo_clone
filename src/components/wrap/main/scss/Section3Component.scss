@@ -1,0 +1,239 @@
+#wrap {
+  @mixin title() {
+    .title {
+      text-align: center;
+      padding-bottom: 60px;
+      .red-line {
+        width: 1px;
+        height: 25px;
+        background: #f57250;
+        margin: 0 auto;
+      }
+      h2 {
+        font-size: 23px;
+        font-weight: 600;
+        margin-block: 5px 15px;
+        color: #232323;
+      }
+      p {
+        color: #808080;
+        line-height: 1.5;
+      }
+    }
+  }
+  .section {
+    width: 100%;
+
+    &#section3 {
+      .container {
+        padding-top: 100px;
+        @include title();
+        .content {
+          ul {
+            display: flex;
+            padding-inline: 15px;
+            flex-wrap: wrap;
+            li {
+              opacity: 0;
+              margin-inline: 10px;
+              margin-bottom: 25px;
+              width: calc((100% / 5) - 20px);
+              .gap {
+                .sale-box {
+                  position: absolute;
+                  top: 3%;
+                  left: 3%;
+                  background: #16b36e;
+                  padding: 4px 8px;
+                  font-size: 10px;
+                  font-weight: 500;
+                  color: #fff;
+                }
+                position: relative;
+                overflow: hidden;
+                margin-bottom: 20px;
+                img {
+                  width: 100%;
+                  &:last-of-type {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    opacity: 0;
+                    transition: 0.6s;
+                  }
+                }
+                em {
+                  position: absolute;
+                  top: 5%;
+                  left: 5%;
+                  background-color: #16b36e;
+                  padding: 5px 9px;
+                  color: #fff;
+                  font-size: 10px;
+                  font-weight: 500;
+                  z-index: 2;
+                }
+                .heart-container {
+                  position: absolute;
+                  top: 5%;
+                  right: -10%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  width: 30px;
+                  height: 30px;
+                  border-radius: 50%;
+                  background: #fff;
+                  transition: 0.3s;
+                  &:hover {
+                    background: #f57250;
+                    i {
+                      color: #fff;
+                      &.bi-heart-fill {
+                        color: #fff;
+                      }
+                    }
+                  }
+                  i {
+                    &.bi-heart-fill {
+                      color: #f57250;
+                    }
+                  }
+                }
+                @media all and (max-width: 1199px) {
+                  .heart-container {
+                    right: 5%;
+                  }
+                }
+                .icon-container {
+                  position: absolute;
+                  bottom: 0;
+                  left: 0;
+                  width: 100%;
+                  display: flex;
+                  overflow: hidden;
+                  .col {
+                    width: 50%;
+                    transition: 0.3s;
+                    opacity: 0;
+                    &.col2 {
+                      transition-delay: 0.1s;
+                    }
+                    &:hover {
+                      transform: translateY(-100%);
+                      a {
+                        background: #fff;
+                      }
+                      span {
+                        background: #fff;
+                      }
+                    }
+                    a {
+                      display: flex;
+                      width: 100%;
+                      height: 100%;
+                      align-items: center;
+                      justify-content: center;
+                      background: #232323;
+                      border: 0;
+                      padding-block: 3px;
+                      transition: 0.3s;
+                      i {
+                        color: #fff;
+                        height: fit-content;
+                      }
+                    }
+                    span {
+                      display: flex;
+                      width: 100%;
+                      height: 100%;
+                      align-items: center;
+                      justify-content: center;
+                      background: #232323;
+                      text-transform: uppercase;
+                      font-weight: 500;
+                      font-size: 10px;
+                      border: 0;
+                      transition: 0.3s;
+                      cursor: pointer;
+                    }
+                  }
+                }
+              }
+              .txt {
+                text-align: center;
+                h3 {
+                  transition: 0.3s;
+                  color: #232323;
+                  font-weight: 500;
+                  margin-bottom: 5px;
+                  &:hover {
+                    color: #f57250;
+                  }
+                }
+                .price {
+                  color: #808080;
+                  .original {
+                    text-decoration: line-through;
+                    margin-right: 0.7rem;
+                  }
+                }
+              }
+              &:hover {
+                .gap {
+                  img {
+                    &:last-child {
+                      opacity: 1;
+                    }
+                  }
+                }
+                .heart-container {
+                  right: 5%;
+                }
+                .icon-container {
+                  .col {
+                    opacity: 1;
+                  }
+                }
+              }
+            }
+            @media all and (max-width: 1199px) {
+              li {
+                width: calc((100% / 3) - 20px);
+              }
+            }
+            @media all and (max-width: 767px) {
+              li {
+                width: calc((100% / 1) - 20px);
+              }
+            }
+          }
+        }
+      }
+      &.active {
+        .container {
+          .content {
+            > ul {
+              > li {
+                @for $i from 1 through 10 {
+                  &:nth-child(#{$i}) {
+                    animation: sec3Par 0.4s ease-in-out forwards;
+                    animation-delay: #{($i - 1) * 0.3}s;
+                  }
+                }
+                @keyframes sec3Par {
+                  0% {
+                    opacity: 0;
+                  }
+                  100% {
+                    opacity: 1;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

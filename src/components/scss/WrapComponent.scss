@@ -1,0 +1,10 @@
+@mixin new() {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+#wrap {
+  width: 100%;
+  user-select: none;
+  overflow: hidden;
+}

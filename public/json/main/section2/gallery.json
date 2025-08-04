@@ -1,0 +1,20 @@
+{
+  "gallery": [
+    {
+      "id": "gallery01",
+      "img": "graphic-banner-1.jpg",
+      "h2": "Accessories Collection"
+    },
+    {
+      "id": "gallery02",
+      "img": "graphic-banner-2.jpg",
+      "h2": "Men Collection"
+    },
+    { "id": "gallery03", "img": "graphic-banner-3.jpg", "h2": null },
+    {
+      "id": "gallery04",
+      "img": "graphic-banner-4.jpg",
+      "h2": "Women Collection"
+    }
+  ]
+}

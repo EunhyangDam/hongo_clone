@@ -1,0 +1,183 @@
+#wrap {
+  .section {
+    width: 100%;
+
+    &#section6 {
+      .container {
+        padding-block: 8%;
+        background: url("../../../../../public/images/home-page-fashion-deal-day-bg.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position-x: center;
+        text-align: center;
+        .title {
+          margin-bottom: 70px;
+          p {
+            color: #808080;
+          }
+          h2 {
+            font-size: 40px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #232323;
+          }
+        }
+        .content {
+          .timer-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 70px;
+            @media all and (max-width: 767px) {
+              flex-wrap: wrap;
+            }
+            .timer-box {
+              p {
+                &:first-child {
+                  font-size: 55px;
+                  color: #232323;
+                  font-weight: 600;
+                  margin-bottom: 10px;
+                  // opacity: 0;
+                }
+                &:last-child {
+                  color: #808080;
+                  font-size: 12px;
+                  text-transform: uppercase;
+                }
+              }
+              &:not(:last-of-type) {
+                padding-right: 60px;
+                p:first-child {
+                  position: relative;
+                  &::after {
+                    content: ":";
+                    color: #f57250;
+                    font-size: 30px;
+                    font-weight: 500;
+                    position: absolute;
+                    top: 50%;
+                    right: -30px;
+                    transform: translateY(-50%);
+                  }
+                }
+              }
+            }
+          }
+          a {
+            display: inline-block;
+            background: #232323;
+            padding: 12px 25px;
+            border: 2px solid #232323;
+            color: #fff;
+            transition: 0.3s;
+            font-weight: 500;
+            font-size: 13px;
+            opacity: 0;
+            &:hover {
+              background: transparent;
+              color: #232323;
+            }
+          }
+        }
+        @media all and (max-width: 767px) {
+          .title {
+            p {
+              font-size: 14px;
+            }
+            h2 {
+              font-size: 25px;
+            }
+          }
+          .content {
+            .timer-container {
+              .timer-box {
+                width: (100% / 2);
+                padding-right: 0 !important;
+                p {
+                  &:first-child {
+                    font-size: 35px;
+                  }
+                }
+                &:nth-child(2) {
+                  p {
+                    &.hours {
+                      &::after {
+                        content: "";
+                      }
+                    }
+                  }
+                }
+                &:nth-child(odd) {
+                  p {
+                    &:first-child {
+                      &::after {
+                        right: 0;
+                        transform: translateX(50%);
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      &.active {
+        .container {
+          .title {
+            @keyframes sec6Par {
+              0% {
+                opacity: 0;
+                transform: translateY(-50%);
+              }
+              100% {
+                opacity: 1;
+                transform: translateY(0%);
+              }
+            }
+            animation: sec6Par 0.6s forwards ease-in-out;
+          }
+          .content {
+            .timer-container {
+              .timer-box {
+                @for $i from 1 through 4 {
+                  &:nth-child(#{$i}) {
+                    .days {
+                      animation: sec6Par2
+                        0.6s
+                        #{($i - 1) *
+                        0.2}s
+                        forwards
+                        ease-in-out;
+                    }
+                  }
+                }
+                @keyframes sec6Par2 {
+                  0% {
+                    opacity: 0;
+                  }
+                  100% {
+                    opacity: 1;
+                  }
+                }
+              }
+            }
+            a {
+              @keyframes sec6Par3 {
+                0% {
+                  transform: translateY(50%);
+                  opacity: 0;
+                }
+                100% {
+                  transform: translateY(0%);
+                  opacity: 1;
+                }
+              }
+              animation: sec6Par3 0.6s 0.8s forwards ease-in-out;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "blog": {
+    "h2": "Latest Blogs",
+    "p": "Way is there to get clothing you’re sure/to love than by making it your know",
+    "content": [
+      {
+        "id": "blog01",
+        "img": "blog-listing-img106-768x1024.jpg",
+        "type": "Adventure",
+        "heading": "I see that the fashion wears out more apparel",
+        "date": "01 March 2019",
+        "name": "Alexis Richards"
+      },
+      {
+        "id": "blog02",
+        "img": "blog-listing-img96-768x1024.jpg",
+        "type": "Adventure",
+        "heading": "Gucci has design and contemporary lifestyle",
+        "date": "01 March 2019",
+        "name": "Alexis Richards"
+      },
+      {
+        "id": "blog03",
+        "img": "blog-listing-img107-768x1024.jpg",
+        "type": "Adventure",
+        "heading": "A fashion is nothing but an induced epidemic",
+        "date": "01 March 2019",
+        "name": "Alexis Richards"
+      },
+      {
+        "id": "blog04",
+        "img": "blog-listing-img108-768x1024.jpg",
+        "type": "Adventure",
+        "heading": "A designer is only as good as the star who wears",
+        "date": "01 March 2019",
+        "name": "Alexis Richards"
+      }
+    ]
+  }
+}

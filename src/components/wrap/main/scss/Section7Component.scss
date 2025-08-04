@@ -1,0 +1,71 @@
+#wrap {
+  .section {
+    width: 100%;
+
+    &#section7 {
+      padding-block: 70px;
+      max-width: 1170px;
+      width: 100%;
+      margin: 0 auto;
+      .container {
+        ul.content {
+          display: flex;
+          justify-content: space-evenly;
+          li {
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            i {
+              color: #f57250;
+              font-size: 20px;
+              padding-right: 15px;
+            }
+            span {
+              color: #808080;
+              font-size: 12px;
+            }
+          }
+        }
+
+        @media all and (max-width: 992px) {
+          ul.content {
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            row-gap: 30px;
+            li {
+              width: 50%;
+              @media all and (max-width: 768px) {
+                width: 100%;
+              }
+              justify-content: center;
+            }
+          }
+        }
+      }
+      &.active {
+        .container {
+          .content {
+            li {
+              @keyframes sec7Par {
+                0% {
+                  opacity: 0;
+                  transform: translateY(-50%);
+                }
+                100% {
+                  opacity: 1;
+                  transform: translateY(0%);
+                }
+              }
+              @for $i from 1 through 4 {
+                &:nth-child(#{$i}) {
+                  animation: sec7Par 0.6s forwards ease-in-out;
+                  animation-delay: #{($i - 1) * 0.2}s;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

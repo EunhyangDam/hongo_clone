@@ -1,0 +1,43 @@
+@mixin heading() {
+  .title {
+    padding-block: 22px;
+    background: #232323;
+    .inner {
+      display: flex;
+      justify-content: space-between;
+      .left {
+        h2 {
+          color: #fff;
+          text-transform: uppercase;
+          font-size: 16px;
+          font-weight: 600;
+        }
+      }
+      .right {
+        color: #808080;
+        display: flex;
+        justify-content: space-between;
+        column-gap: 11px;
+        font-size: 12px;
+        text-transform: capitalize;
+      }
+    }
+  }
+}
+@mixin button() {
+  button {
+    background: none;
+    border: 0;
+    border-bottom: 3px solid #232323;
+    font-weight: 600;
+    font-size: 12px;
+    color: #232323;
+    text-transform: uppercase;
+    padding-bottom: 3px;
+    transition: 0.3s;
+    cursor: pointer;
+    &:hover {
+      color: #f57250;
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "icon": [
+    { "id": "icon01", "class": "global", "span": "FREE STANDARD SHIPPING" },
+    { "id": "icon02", "class": "wallet", "span": "100% MONEY BACK" },
+    { "id": "icon03", "class": "gift", "span": "GIFTS FOR MEMBERS" },
+    { "id": "icon04", "class": "shield", "span": "BUYER PROTECTION</span" }
+  ]
+}

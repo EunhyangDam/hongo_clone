@@ -1,0 +1,119 @@
+.section {
+  width: 100%;
+  &#section2 {
+    .container {
+      padding: 15px;
+      .content {
+        ul {
+          display: grid;
+          grid-template-areas:
+            "col1 col1 col4 col4"
+            "col2 col3 col4 col4";
+          gap: 15px;
+          li {
+            position: relative;
+            &.col {
+              opacity: 0;
+              &.col1 {
+                grid-area: col1;
+                .txt {
+                  right: 10%;
+                  transform: translateY(-50%);
+                }
+              }
+              &.col2 {
+                grid-area: col2;
+                .txt {
+                  left: 10%;
+                  transform: translateY(-50%);
+                }
+              }
+              &.col3 {
+                grid-area: col3;
+              }
+              &.col4 {
+                grid-area: col4;
+                .txt {
+                  top: 10%;
+                  right: 10%;
+                }
+              }
+            }
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
+            .txt {
+              position: absolute;
+              top: 50%;
+              color: #fff;
+              h2 {
+                font-size: 23px;
+                line-height: 1.2;
+                margin-bottom: 10px;
+              }
+              a {
+                font-size: 12px;
+                text-decoration: underline;
+                font-weight: 500;
+              }
+            }
+          }
+        }
+        @media all and (max-width: 990px) {
+          ul {
+            grid-template-areas:
+              "col1 col1"
+              "col4 col4"
+              "col2 col3";
+          }
+        }
+        @media all and (max-width: 767px) {
+          ul {
+            grid-template-areas:
+              "col1"
+              "col4"
+              "col2"
+              "col3";
+          }
+        }
+      }
+    }
+    &.active {
+      overflow: hidden;
+      .container {
+        .content {
+          > ul {
+            li {
+              &.col {
+                &.col1 {
+                  animation: sec2Par 1s ease-in-out forwards;
+                }
+                &.col2 {
+                  animation: sec2Par 1s 0.3s ease-in-out forwards;
+                }
+                &.col3 {
+                  animation: sec2Par 1s 0.6s ease-in-out forwards;
+                }
+                &.col4 {
+                  animation: sec2Par 1s 0.9s ease-in-out forwards;
+                }
+                @keyframes sec2Par {
+                  0% {
+                    opacity: 0;
+                    transform: translateY(50%);
+                  }
+                  100% {
+                    opacity: 1;
+                    transform: translateY(0%);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
