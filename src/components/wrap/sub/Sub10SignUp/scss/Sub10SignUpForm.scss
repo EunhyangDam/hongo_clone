@@ -1,0 +1,289 @@
+#sub10SignUpForm {
+  margin-top: 70px;
+  .container {
+    margin: 0 auto;
+    max-width: 640px;
+    width: 100%;
+    padding-block: 50px 60px;
+    .title {
+      border-bottom: 2px solid #232323;
+      h2 {
+        font-size: 28px;
+        font-weight: 600;
+        text-align: center;
+        color: #232323;
+        margin-bottom: 50px;
+      }
+      .required {
+        text-align: right;
+        font-size: 12px;
+        margin-bottom: 10px;
+        span {
+          color: #f57250;
+        }
+      }
+    }
+    @mixin child() {
+      > *:first-child {
+        width: 139px;
+        flex-shrink: 0;
+        padding-top: 15px;
+        .rq {
+          color: #f57250;
+        }
+      }
+      > *:nth-child(2) {
+        flex-grow: 1;
+      }
+    }
+    form {
+      .row {
+        display: flex;
+        align-items: flex-start;
+        padding: 10px 20px;
+        @mixin buttonStyle() {
+          height: 46px;
+          border: 1px solid #a2c153;
+          border-radius: 4px;
+          background: transparent;
+          text-transform: capitalize;
+          font-size: 12px;
+          font-family: "noto sans";
+          color: #a2c153;
+          cursor: pointer;
+          &:disabled {
+            color: #dddddd;
+            border-color: #dddddd;
+            cursor: default;
+          }
+        }
+        @include child();
+        > button {
+          width: 120px;
+          margin-left: 8px;
+          @include buttonStyle();
+        }
+        input {
+          border-radius: 4px;
+          border: 1px solid #dddddd;
+          padding: 0px 11px 1px 15px;
+          height: 46px;
+          font-size: 16px;
+          &::placeholder {
+            font-family: "Noto Sans", "arial";
+          }
+          &:focus {
+            outline: 1px solid #232323;
+          }
+          &[type="radio"] {
+            &:focus {
+              outline: none;
+            }
+          }
+        }
+        .col {
+          &.col2 {
+            input {
+              &:not([type="radio"]) {
+                width: 100%;
+              }
+            }
+            p {
+              font-size: 12px;
+              color: #f57250;
+              margin-top: 3px;
+            }
+            button {
+              @include buttonStyle();
+              width: 100%;
+            }
+            .box {
+              display: flex;
+              align-items: center;
+              color: #999;
+              border: 1px solid #dddddd;
+              input {
+                border: 0;
+                flex-grow: 1;
+                &:focus {
+                  outline: none;
+                }
+              }
+              select {
+                border: 0;
+                color: #999;
+                font-size: 16px;
+                padding-inline: 10px;
+                &:focus {
+                  outline: none;
+                }
+              }
+            }
+            &.gender {
+              display: flex;
+              justify-content: space-between;
+              input {
+                appearance: none;
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                padding: 0;
+                margin-right: 5px;
+                &:checked {
+                  border: 6px solid #a2c153;
+                }
+              }
+            }
+            &.birth {
+              display: flex;
+              align-items: center;
+              border: 1px solid #dddddd;
+              border-radius: 4px;
+              color: #dddddd;
+              input {
+                border: none;
+                text-align: center;
+                &::-webkit-outer-spin-button {
+                  appearance: none;
+                }
+                &::-webkit-inner-spin-button {
+                  appearance: none;
+                }
+
+                &::placeholder {
+                  text-align: center;
+                }
+                &:focus {
+                  outline: none;
+                }
+              }
+            }
+          }
+        }
+        &:not(.useButton) {
+          padding-right: 148px;
+        }
+        .adr {
+          display: flex;
+          .col2 {
+            input {
+              &:first-child {
+                margin-bottom: 10px;
+              }
+            }
+          }
+          &:not(.active) {
+            display: none;
+          }
+          button {
+            width: 120px;
+            margin-left: 8px;
+            flex-shrink: 0;
+            @include buttonStyle();
+          }
+        }
+        .right {
+          .dodam {
+            display: flex;
+            &:first-child {
+              margin-bottom: 5px;
+            }
+            .col2 {
+              flex-grow: 1;
+            }
+            button {
+              @include buttonStyle();
+              width: 120px;
+              margin-left: 10px;
+            }
+          }
+        }
+      }
+    }
+    .line {
+      width: 100%;
+      height: 1px;
+      background-color: #232323;
+    }
+    .terms {
+      padding: 10px 0px 10px 20px;
+      display: flex;
+      @include child();
+      .right {
+        .row {
+          display: flex;
+          align-items: flex-start;
+          label {
+            p {
+              &.heading {
+                font-size: 18px;
+                font-weight: 600;
+                margin-bottom: 4px;
+              }
+              &.explain {
+                font-size: 12px;
+                color: #666666;
+              }
+            }
+          }
+          &:not(:last-child) {
+            padding-bottom: 16px;
+          }
+          input {
+            margin-top: 2px;
+            margin-right: 12px;
+            appearance: none;
+            width: 24px;
+            aspect-ratio: 1/1;
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            position: relative;
+            &:checked {
+              &::after {
+                content: "\F26E";
+                font-family: "bootstrap-icons";
+                font-size: 24px;
+                position: absolute;
+                color: #a2c153;
+                top: 0;
+                left: 0;
+                margin: -2px 0 0 0;
+              }
+            }
+          }
+          label {
+            span {
+              color: #333333;
+              &.small {
+                padding-left: 5px;
+                color: rgb(153, 153, 153);
+              }
+            }
+          }
+          &.row4 {
+            display: block;
+            .marketing {
+              display: flex;
+            }
+            .sms-email {
+              label {
+                display: inline-block;
+                padding: 10px 0 0 24px;
+              }
+            }
+          }
+        }
+      }
+    }
+    .submit {
+      text-align: center;
+      button {
+        border-radius: 4px;
+        border: none;
+        background: #a2c153;
+        width: 220px;
+        padding-block: 15px;
+      }
+    }
+  }
+}

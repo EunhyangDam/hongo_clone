@@ -15,7 +15,7 @@ import Sub09DeliveryList from "./wrap/sub/Sub09Delivery/Sub09DeliveryList";
 import Sub09DeliveryWrite from "./wrap/sub/Sub09Delivery/Sub09DeliveryWrite";
 import Sub10SignUpAdminDelete from "./wrap/sub/Sub10SignUpAdmin/Sub10SignUpAdminDelete";
 import Sub10SignUpUpdate from "./wrap/sub/Sub10SignUp/Sub10SignUpUpdate";
-import Sub10SignUpWrite from "./wrap/sub/Sub10SignUp/Sub10SignUpWrite";
+import Sub10SignUpWrite from "./wrap/sub/Sub10SignUp/Sub10SignUpForm";
 import Sub10SignUpDelete from "./wrap/sub/Sub10SignUp/Sub10SignUpDelete";
 import Sub10SignUpList from "./wrap/sub/Sub10SignUp/Sub10SignUpList";
 import Sub10SignUpAdminList from "./wrap/sub/Sub10SignUpAdmin/Sub10SignUpAdminList";
