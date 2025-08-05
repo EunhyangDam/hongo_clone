@@ -1,7 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 import "../scss/sub.scss";
 import "./scss/Sub10SignUpForm.scss";
 export default function Sub10SignUpForm(props) {
+  const [state, setState] = useState({
+    id: "",
+    idError: "",
+    pw: "",
+    pwError: "",
+  });
+  const onChangeId = (e) => {
+    const regEx1 = /^(.){6,}$/g;
+    const regEx2 = /[a-z]+[a-z0-9]*/gi;
+    let id = e.target.value.replace(/[^a-zA-Z0-9\s]/g, "");
+    let errorMsg = "";
+    if (!regEx1.test(id) || !regEx2.test(id)) {
+      errorMsg = "6자 이상 16자 이하의 영문 혹은 영문과 숫자를 조합";
+    } else {
+      errorMsg = "";
+    }
+    setState({
+      ...state,
+      id: id,
+      idError: errorMsg,
+    });
+  };
+  const changePw = (e) => {
+    const regEx =
+      /^(?=(?:.*[a-zA-Z])(?:.*\d)|(?:.*[a-zA-Z])(?:.*[^a-zA-Z0-9])|(?:.*\d)(?:.*[^a-zA-Z0-9]))(?!.*(.)\1\1)[a-zA-Z0-9!@#$%^&*()_\-+=\[\]{};:'",.<>/?\\|`~]$/;
+    let pw = e.target.value;
+    let errorMsg = "";
+    if (!regEx.test(pw)) {
+      errorMsg = "영문/숫자/특수문자(공백 제외)만 허용하며, 2개 이상 조합";
+    } else if (pw.length < 10) {
+      errorMsg = "10자 이상 입력해주세요";
+    } else {
+      errorMsg = "";
+    }
+    setState({
+      ...state,
+      pw: pw,
+      pwError: errorMsg,
+    });
+  };
   return (
     <main id="sub10SignUpForm">
       <div className="container">
@@ -22,8 +62,11 @@ export default function Sub10SignUpForm(props) {
                 name="userId"
                 id="userId"
                 placeholder="enter ID"
+                onChange={onChangeId}
+                maxLength="16"
+                value={state.id}
               />
-              <p>사용 불가능한 아이디입니다.</p>
+              <p>{state.idError}</p>
             </div>
             <button>id duplicate check</button>
           </div>
@@ -37,8 +80,9 @@ export default function Sub10SignUpForm(props) {
                 name="userPw"
                 id="userPw"
                 placeholder="enter Password"
+                onChange={changePw}
               />
-              <p>영문/숫자/특수문자(공백 제외)만 허용하며, 2개 이상 조합</p>
+              <p>{state.pwError}</p>
             </div>
           </div>
           <div className="row row3">
@@ -109,7 +153,7 @@ export default function Sub10SignUpForm(props) {
               </div>
               <div className="dodam two">
                 <div className="col col2">
-                  <input type="tel" name="userTel" id="userTel" />
+                  <input type="tel" name="userAuthor" id="userAuthor" />
                 </div>
                 <button disabled>check verification code</button>
               </div>
@@ -172,7 +216,7 @@ export default function Sub10SignUpForm(props) {
             </div>
           </div>
           <div className="row row9">
-            <label htmlFor="">DOB</label>
+            <p>DOB</p>
             <div className="col col2 birth">
               <input
                 type="number"

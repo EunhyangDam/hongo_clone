@@ -9,7 +9,6 @@ const wishlist = createSlice({
     heartAddAction(state, action) {
       state.wishlist = action.payload;
       localStorage.setItem("wishlist", JSON.stringify(action.payload));
-      console.log(action.payload);
     },
     heartDelAction(state, action) {
       state.wishlist = action.payload;
