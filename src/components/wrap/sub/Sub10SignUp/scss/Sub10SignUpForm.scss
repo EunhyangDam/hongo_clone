@@ -190,6 +190,14 @@
             }
             .col2 {
               flex-grow: 1;
+              position: relative;
+              .timer {
+                position: absolute;
+                color: #f57250;
+                top: 50%;
+                right: 30px;
+                transform: translateY(-50%);
+              }
             }
             button {
               @include buttonStyle();

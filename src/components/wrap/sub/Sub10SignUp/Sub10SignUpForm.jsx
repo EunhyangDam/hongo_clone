@@ -1,12 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../scss/sub.scss";
 import "./scss/Sub10SignUpForm.scss";
+import { useDispatch } from "react-redux";
+import { modalAction } from "../../../../store/confirmModal";
 export default function Sub10SignUpForm(props) {
+  const userTelRef = React.useRef();
+  const dispatch = useDispatch();
   const [state, setState] = useState({
     id: "",
     idError: "",
     pw: "",
     pwError: "",
+    pwConfirm: "",
+    pwConfirmError: "",
+    name: "",
+    nameErorr: "",
+    email: "",
+    emailAdr: "",
+    emailError: "",
+    number: "",
+    numberError: "",
+    verificationDisable: true,
+    verificationNum: null,
+    btnTxt: "verification code",
+    chkCode: true,
+    verificationCheck: null,
+  });
+  const [cnt, setCnt] = useState({
+    seconds: 0,
+    minutes: 0,
   });
   const onChangeId = (e) => {
     const regEx1 = /^(.){6,}$/g;
@@ -26,22 +48,182 @@ export default function Sub10SignUpForm(props) {
   };
   const changePw = (e) => {
     const regEx =
-      /^(?=(?:.*[a-zA-Z])(?:.*\d)|(?:.*[a-zA-Z])(?:.*[^a-zA-Z0-9])|(?:.*\d)(?:.*[^a-zA-Z0-9]))(?!.*(.)\1\1)[a-zA-Z0-9!@#$%^&*()_\-+=\[\]{};:'",.<>/?\\|`~]$/;
+      /^(?=.*[a-zA-Z])(?=.*[\d\W])(?!.*(.)\1\1)[a-zA-Z\d!@#$%^&*()_\-+=\[\]{};:'",.<>/?\\|`~]{10,}$/;
+
     let pw = e.target.value;
     let errorMsg = "";
-    if (!regEx.test(pw)) {
-      errorMsg = "영문/숫자/특수문자(공백 제외)만 허용하며, 2개 이상 조합";
-    } else if (pw.length < 10) {
+
+    if (pw.length < 10) {
       errorMsg = "10자 이상 입력해주세요";
+    } else if (!regEx.test(pw)) {
+      errorMsg =
+        "영문/숫자/특수문자(공백 제외)만 허용하며, 2개 이상 조합. 동일 문자 3회 이상 반복 불가";
     } else {
       errorMsg = "";
     }
+
     setState({
       ...state,
       pw: pw,
       pwError: errorMsg,
     });
   };
+  const changeConfirm = (e) => {
+    const pwConfirm = e.target.value;
+    let errorMsg = "";
+
+    if (state.pw !== pwConfirm) {
+      errorMsg = "비밀번호가 일치하지 않습니다";
+    }
+
+    setState({
+      ...state,
+      pwConfirm: pwConfirm,
+      pwConfirmError: errorMsg,
+    });
+  };
+  const changeName = (e) => {
+    let name = e.target.value.replace(/[^a-zA-Z가-힣]/g, "");
+    let errorMsg = "";
+    setState({
+      ...state,
+      name: name,
+      nameErorr: errorMsg,
+    });
+  };
+  const changeEmail = (e) => {
+    let email = e.target.value.replace(/[^a-zA-Z0-9]/g, "");
+    let errorMsg = "";
+    setState({
+      email: email,
+      emailError: errorMsg,
+    });
+  };
+  const changeAdrEmail = (e) => {
+    let errorMsg = "";
+    let adr = e.target.value;
+    setState({
+      ...state,
+      email: ``,
+    });
+  };
+  const changeNumber = (e) => {
+    let number = e.target.value.replace(/[^0-9]/g, "");
+    let errorMsg = "";
+    let verificationDisable = true;
+    const regEx = /^01[0-9]{1}[0-9]{3,4}[0-9]{4}$/;
+
+    if (!regEx.test(number)) {
+      errorMsg = "번호 형식을 입력해주세요";
+    } else {
+      verificationDisable = false;
+    }
+    setState({
+      ...state,
+      number: number,
+      numberError: errorMsg,
+      verificationDisable: verificationDisable,
+    });
+  };
+  const clickVerfication = (e) => {
+    e.preventDefault();
+    let verificationNum = null;
+
+    if (state.btnTxt === "another number") {
+      setState({
+        ...state,
+        number: "",
+        nameErorr: "",
+        verificationNum: null,
+        btnTxt: "verification code",
+        chkCode: true,
+        verificationDisable: true,
+        verificationCheck: null,
+      });
+      userTelRef.current.focus();
+    } else {
+      verificationNum = Math.floor(Math.random() * 900000 + 10000);
+      const obj = {
+        messege: `인증번호가 발급되었습니다. ${verificationNum}`,
+        isOn: true,
+        isConfirm: false,
+      };
+      dispatch(modalAction(obj));
+      setState({
+        ...state,
+        verificationNum: verificationNum,
+      });
+    }
+  };
+  const changeVerification = (e) => {
+    let verification = e.target.value.replace(/[^0-9]/g, "");
+    if (e.target.value === "") {
+      setState({
+        ...state,
+        chkCode: true,
+      });
+    }
+    setState({
+      ...state,
+      chkCode: false,
+      verificationCheck: parseInt(verification),
+    });
+  };
+  const clickVerficationCheck = (e) => {
+    e.preventDefault();
+    let obj = {};
+    if (state.verificationNum === state.verificationCheck) {
+      obj = {
+        messege: "인증번호가 확인되었습니다.",
+        isOn: true,
+        isConfirm: false,
+      };
+      setState({
+        ...state,
+        verificationNum: null,
+        btnTxt: "another number",
+      });
+    } else {
+      obj = {
+        messege: "인증번호가 일치하지 않습니다. 다시 시도해주세요. ",
+        isOn: true,
+        isConfirm: false,
+      };
+    }
+    dispatch(modalAction(obj));
+  };
+  useEffect(() => {
+    if (state.verificationNum !== null) {
+      let start = new Date();
+      start.setMinutes(start.getMinutes() + 1);
+      const timer = () => {
+        const left = start - new Date();
+        let second = Math.floor((left / 1000) % 60);
+        let minutes = Math.floor((left / (1000 * 60)) % 60);
+        if (new Date() > start) {
+          clearInterval(setId);
+          const obj = {
+            messege: "유효시간이 만료되었습니다.",
+            isOn: true,
+            isConfirm: false,
+          };
+          dispatch(modalAction(obj));
+          setState({
+            ...state,
+            verificationNum: null,
+            chkCode: true,
+            verificationCheck: null,
+          });
+          return;
+        }
+        setCnt({
+          seconds: second,
+          minutes: minutes,
+        });
+      };
+      const setId = setInterval(timer, 1000);
+    }
+  }, [state.verificationNum]);
   return (
     <main id="sub10SignUpForm">
       <div className="container">
@@ -90,8 +272,14 @@ export default function Sub10SignUpForm(props) {
               Confirm Password<span className="rq">*</span>
             </label>
             <div className="col col2">
-              <input type="password" name="userPwConfirm" id="userPwConfirm" />
-              <p>동일한 비밀번호를 입력</p>
+              <input
+                type="password"
+                name="userPwConfirm"
+                id="userPwConfirm"
+                onChange={changeConfirm}
+                value={state.pwConfirm}
+              />
+              <p>{state.pwConfirmError}</p>
             </div>
           </div>
           <div className="row row4">
@@ -104,7 +292,10 @@ export default function Sub10SignUpForm(props) {
                 name="userName"
                 id="userName"
                 placeholder="enter full name"
+                value={state.name}
+                onChange={changeName}
               />
+              <p>{state.nameErorr}</p>
             </div>
           </div>
           <div className="row row5">
@@ -118,9 +309,16 @@ export default function Sub10SignUpForm(props) {
                   name="userEmail"
                   id="userEmail"
                   placeholder="e.g: eunhyang"
+                  value={state.email}
+                  onChange={changeEmail}
                 />
                 @
-                <select name="at" id="at">
+                <select
+                  name="at"
+                  id="at"
+                  onChange={changeAdrEmail}
+                  placeholder="SELECT"
+                >
                   <option value="">select</option>
                   <option value="naver.com">naver.com</option>
                   <option value="gmail.com">gmail.com</option>
@@ -131,7 +329,7 @@ export default function Sub10SignUpForm(props) {
                   <option value="직접 입력">직접 입력</option>
                 </select>
               </div>
-              <p>이메일 형식으로 입력해 주세요.</p>
+              <p>{state.emailError}</p>
             </div>
           </div>
           <div className="row row6 useButton">
@@ -146,17 +344,43 @@ export default function Sub10SignUpForm(props) {
                     name="userTel"
                     id="userTel"
                     placeholder="enter only number"
+                    onChange={changeNumber}
+                    value={state.number}
+                    ref={userTelRef}
                   />
-                  <p>휴대폰 번호를 입력해 주세요.</p>
+                  <p>{state.numberError}</p>
                 </div>
-                <button disabled>verification code</button>
+                <button
+                  disabled={state.verificationDisable}
+                  onClick={clickVerfication}
+                >
+                  {state.btnTxt}
+                </button>
               </div>
-              <div className="dodam two">
-                <div className="col col2">
-                  <input type="tel" name="userAuthor" id="userAuthor" />
+              {state.verificationNum !== null && (
+                <div className="dodam two">
+                  <div className="col col2">
+                    <input
+                      type="tel"
+                      name="userAuthor"
+                      id="userAuthor"
+                      onChange={changeVerification}
+                      value={state.verificationCheck}
+                    />
+                    <div className="timer">
+                      <span>{String(cnt.minutes).padStart(2, 0)}</span>
+                      <i>:</i>
+                      <span>{String(cnt.seconds).padStart(2, 0)}</span>
+                    </div>
+                  </div>
+                  <button
+                    disabled={state.chkCode}
+                    onClick={clickVerficationCheck}
+                  >
+                    check verification code
+                  </button>
                 </div>
-                <button disabled>check verification code</button>
-              </div>
+              )}
             </div>
           </div>
           <div className="row row7">
