@@ -9,9 +9,17 @@ import wishlist from "./store/wishlist";
 import confirmModal from "./store/confirmModal";
 import mainModal from "./store/mainModal";
 import cart from "./store/cart";
+import reactDaumPostcode from "./store/reactDaumPostcode";
 import { CookiesProvider } from "react-cookie";
 let store = configureStore({
-  reducer: { viewProduct, wishlist, confirmModal, mainModal, cart },
+  reducer: {
+    viewProduct,
+    wishlist,
+    confirmModal,
+    mainModal,
+    cart,
+    reactDaumPostcode,
+  },
 });
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

@@ -55,11 +55,14 @@ import { heartAddAction } from "../store/wishlist";
 import { mainModalAction } from "../store/mainModal";
 import { useCookies } from "react-cookie";
 import { cartAddAction } from "../store/cart";
+import ReactDaumPostcode from "./wrap/ReactDaumPostcode";
+import { postAction } from "../store/reactDaumPostcode";
 
 export default function WrapComponent(props) {
   const dispatch = useDispatch();
   const confirmIsOn = useSelector((state) => state.confirmModal.isOn);
   const mainIsOn = useSelector((state) => state.mainModal.isOn);
+  const postIsOn = useSelector((state) => state.reactDaumPostcode.isOpen);
   const [cookies, setCookie] = useCookies();
 
   /**모달 쿠키 관리 */
@@ -94,12 +97,12 @@ export default function WrapComponent(props) {
       alert("cookie ERROR");
     }
   }, []);
-
   useEffect(() => {
     const local = [
       { key: "latest", action: productAddAction },
       { key: "wishlist", action: heartAddAction },
       { key: "cart", action: cartAddAction },
+      { key: "postcode", action: postAction },
     ];
     try {
       local.forEach(({ key, action }) => {
@@ -246,6 +249,7 @@ export default function WrapComponent(props) {
       <GoTopComponent />
       {confirmIsOn && <ConfirmModal />}
       {mainIsOn && <MainModalComponent />}
+      {postIsOn && <ReactDaumPostcode />}
     </div>
   );
 }

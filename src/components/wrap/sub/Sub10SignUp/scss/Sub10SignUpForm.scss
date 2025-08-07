@@ -173,13 +173,16 @@
               }
             }
           }
-          &:not(.active) {
-            display: none;
-          }
           button {
             width: 100%;
             flex-shrink: 0;
             @include buttonStyle();
+          }
+          &.active {
+            button {
+              width: 120px;
+              margin-left: 10px;
+            }
           }
         }
         .right {

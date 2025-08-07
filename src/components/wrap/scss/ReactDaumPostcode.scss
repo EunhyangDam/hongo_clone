@@ -1,0 +1,171 @@
+#reactDaumPostcode {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba($color: #000000, $alpha: 0.1);
+  backdrop-filter: blur(5px);
+  z-index: 15;
+  display: flex;
+  user-select: none;
+  .container {
+    margin: auto;
+    width: 100%;
+    max-width: 532px;
+    height: 590px;
+    background: #fff;
+    border: 2px solid #61666f;
+    display: flex;
+    flex-direction: column;
+    .window-title {
+      background: #f0f1f3;
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      z-index: 3;
+      .col {
+        &.col1 {
+          h1 {
+            img {
+              height: 31px;
+            }
+            strong {
+              font-size: 12px;
+              color: #040507;
+              margin-left: 10px;
+            }
+          }
+        }
+        &.col2 {
+          button {
+            height: 100%;
+            background: none;
+            border: 0;
+            cursor: pointer;
+            padding-inline: 5px;
+            &:hover {
+              background: #e13228;
+              i {
+                color: #fff;
+              }
+            }
+            i {
+              font-size: 20px;
+            }
+          }
+        }
+      }
+    }
+    > .content {
+      position: relative;
+      flex-grow: 1;
+      form {
+        .content {
+          .title {
+            margin-block: 60px;
+            text-align: center;
+            color: #1a1a1a;
+            h1 {
+              font-weight: 900;
+              font-size: 24px;
+              margin-bottom: 10px;
+              span {
+                display: inline-block;
+                color: #a2c153;
+                margin-bottom: 5px;
+              }
+            }
+            h2 {
+              font-size: 16px;
+              letter-spacing: -0.5px;
+              color: #666666;
+            }
+          }
+          .contents {
+            padding-inline: 30px;
+            ul {
+              li {
+                &:not(:last-child) {
+                  margin-bottom: 16px;
+                }
+                @mixin input() {
+                  padding: 12px;
+                  padding-right: 0;
+                  border: 1px solid #dddddd;
+                  border-radius: 3px;
+                  color: #999999;
+                }
+                &.re-search {
+                  display: flex;
+                  column-gap: 10px;
+                  input {
+                    @include input();
+                    flex-grow: 1;
+                    background: #fafafa;
+                    &:focus {
+                      outline: none;
+                    }
+                  }
+                  button {
+                    border: 1px solid #a2c153;
+                    border-radius: 3px;
+                    padding-inline: 19px;
+                    background: #fff;
+                    color: #a2c153;
+                    font-weight: 600;
+                    cursor: pointer;
+                  }
+                }
+                &.detail {
+                  input {
+                    @include input();
+                    width: 100%;
+                    ::placeholder {
+                      font-family: "noto sans";
+                    }
+                    &:focus {
+                      outline: 1px solid #a2c153;
+                    }
+                  }
+                }
+                &.delivery {
+                  font-size: 12px;
+                  color: #999999;
+                }
+                &.button {
+                  margin-bottom: 32px;
+                  button {
+                    width: 100%;
+                    background: #a2c153;
+                    border: none;
+                    color: #fff;
+                    font-weight: 600;
+                    padding-block: 10px;
+                    border-radius: 3px;
+                    cursor: pointer;
+                  }
+                }
+                &.info {
+                  display: flex;
+                  column-gap: auto;
+                  .col {
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: #f03f40;
+                    &.col1 {
+                      margin: 3px 7px 0 0;
+                    }
+                    &.col2 {
+                      line-height: 1.5;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

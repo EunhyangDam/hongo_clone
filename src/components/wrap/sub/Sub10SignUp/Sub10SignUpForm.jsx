@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "../scss/sub.scss";
 import "./scss/Sub10SignUpForm.scss";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { modalAction } from "../../../../store/confirmModal";
+import {
+  postAction,
+  postOpenAction,
+} from "../../../../store/reactDaumPostcode";
 export default function Sub10SignUpForm(props) {
   const userTelRef = React.useRef();
   const dispatch = useDispatch();
+  const postcodeAsset = useSelector((state) => state.reactDaumPostcode);
   const [state, setState] = useState({
     id: "",
     idError: "",
@@ -25,7 +30,23 @@ export default function Sub10SignUpForm(props) {
     btnTxt: "verification code",
     chkCode: true,
     verificationCheck: null,
+    adr1: "",
+    adr2: "",
+    btnOn: false,
+    gender: "nonbinary",
+    year: "",
+    month: "",
+    day: "",
+    dobErrorMsg: "",
   });
+  useEffect(() => {
+    setState({
+      ...state,
+      adr1: `${postcodeAsset.adr} (${postcodeAsset.buildingName})`,
+      adr2: postcodeAsset.adr2,
+      btnOn: postcodeAsset.isOn,
+    });
+  }, [postcodeAsset]);
   const [cnt, setCnt] = useState({
     seconds: 0,
     minutes: 0,
@@ -95,6 +116,7 @@ export default function Sub10SignUpForm(props) {
     let email = e.target.value.replace(/[^a-zA-Z0-9]/g, "");
     let errorMsg = "";
     setState({
+      ...state,
       email: email,
       emailError: errorMsg,
     });
@@ -192,6 +214,14 @@ export default function Sub10SignUpForm(props) {
     }
     dispatch(modalAction(obj));
   };
+  const clickAdrSearch = (e) => {
+    e.preventDefault();
+    dispatch(postOpenAction(true));
+  };
+  const clickReSearch = (e) => {
+    e.preventDefault();
+    dispatch(postOpenAction(true));
+  };
   useEffect(() => {
     if (state.verificationNum !== null) {
       let start = new Date();
@@ -224,6 +254,46 @@ export default function Sub10SignUpForm(props) {
       const setId = setInterval(timer, 1000);
     }
   }, [state.verificationNum]);
+
+  const changeGender = (e) => {
+    setState({
+      ...state,
+      gender: e.target.value,
+    });
+  };
+
+  useEffect(() => {
+    let errorMsg = "";
+    if (state.year === "" && state.month === "" && state.day === "") {
+    } else {
+    }
+  }, [state.year, state.month, state.day]);
+  const changeYear = (e) => {
+    let number = parseFloat(e.target.value.replace(/[^0-9]/g, ""));
+    let errorMsg = "";
+    if (number > new Date().getFullYear()) {
+      errorMsg = "생년월일이 미래로 입력 되었습니다.";
+    }
+    setState({
+      ...state,
+      year: number,
+      dobErrorMsg: errorMsg,
+    });
+  };
+  const changeMonth = (e) => {
+    let number = parseFloat(e.target.value.replace(/[^0-9]/g, ""));
+    setState({
+      ...state,
+      month: number,
+    });
+  };
+  const changeDay = (e) => {
+    let number = parseFloat(e.target.value.replace(/[^0-9]/g, ""));
+    setState({
+      ...state,
+      day: number,
+    });
+  };
   return (
     <main id="sub10SignUpForm">
       <div className="container">
@@ -383,26 +453,41 @@ export default function Sub10SignUpForm(props) {
               )}
             </div>
           </div>
-          <div className="row row7">
+          <div className={`row row7 ${state.btnOn && "useButton"}`}>
             <p>
               Address<span className="rq">*</span>
             </p>
-            <div className="adr active">
-              <div className="col col2">
-                <button type="button">
-                  <i className="bi bi-search"></i> Searching Adress
+            {state.btnOn ? (
+              <div className="adr active">
+                <div className="col col2">
+                  <input
+                    type="text"
+                    name="adr1"
+                    id="adr1"
+                    value={state.adr1}
+                    readOnly
+                  />
+                  <input
+                    type="text"
+                    name="adr2"
+                    id="adr2"
+                    placeholder="enter detail Address"
+                    defaultValue={state.adr2}
+                  />
+                </div>
+                <button onClick={clickReSearch}>
+                  <i className="bi bi-search"></i> re-search
                 </button>
               </div>
-            </div>
-            <div className="adr">
-              <div className="col col2">
-                <input type="text" name="" id="" />
-                <input type="text" name="" id="" />
+            ) : (
+              <div className="adr">
+                <div className="col col2">
+                  <button type="button" onClick={clickAdrSearch}>
+                    <i className="bi bi-search"></i> Searching Address
+                  </button>
+                </div>
               </div>
-              <button>
-                <i className="bi bi-search"></i> re-search
-              </button>
-            </div>
+            )}
           </div>
           <div className="row row8">
             <p>Gender</p>
@@ -413,6 +498,8 @@ export default function Sub10SignUpForm(props) {
                   name="userGender"
                   id="userGenderMale"
                   value="male"
+                  checked={state.gender.includes("male")}
+                  onChange={changeGender}
                 />
                 <label htmlFor="userGenderMale">Male</label>
               </div>
@@ -422,6 +509,8 @@ export default function Sub10SignUpForm(props) {
                   name="userGender"
                   id="userGenderFemale"
                   value="female"
+                  checked={state.gender.includes("female")}
+                  onChange={changeGender}
                 />
                 <label htmlFor="userGenderFemale" className="col col1">
                   Female
@@ -433,7 +522,8 @@ export default function Sub10SignUpForm(props) {
                   name="userGender"
                   id="userGenderNonbinary"
                   value="nonbinary"
-                  aria-checked
+                  checked={state.gender.includes("nonbinary")}
+                  onChange={changeGender}
                 />
                 <label htmlFor="userGenderNonbinary">Nonbinary</label>
               </div>
@@ -448,6 +538,7 @@ export default function Sub10SignUpForm(props) {
                 id="userYear"
                 placeholder="YYYY"
                 maxLength="4"
+                onChange={changeYear}
               />
               <i>/</i>
               <input
@@ -456,6 +547,7 @@ export default function Sub10SignUpForm(props) {
                 id="userMonth"
                 placeholder="MM"
                 maxLength="2"
+                onChange={changeMonth}
               />
               <i>/</i>
               <input
@@ -464,6 +556,7 @@ export default function Sub10SignUpForm(props) {
                 id="userDay"
                 placeholder="DD"
                 maxLength="2"
+                onChange={changeDay}
               />
             </div>
           </div>
