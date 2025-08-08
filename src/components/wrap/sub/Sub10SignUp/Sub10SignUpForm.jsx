@@ -37,7 +37,7 @@ export default function Sub10SignUpForm(props) {
     year: "",
     month: "",
     day: "",
-    dobErrorMsg: "",
+    dobError: "",
   });
   useEffect(() => {
     setState({
@@ -265,15 +265,38 @@ export default function Sub10SignUpForm(props) {
   useEffect(() => {
     let errorMsg = "";
     if (state.year === "" && state.month === "" && state.day === "") {
+      errorMsg = "";
     } else {
+      if (state.year.length < 4) {
+        errorMsg = "태어난 연도 네 자리를 정확하게 입력해주세요.";
+      } else if (parseInt(state.year) > new Date().getFullYear()) {
+        errorMsg = "생년월일이 미래로 설정되었습니다.";
+      } else if (parseInt(state.year) >= new Date().getFullYear() - 14) {
+        errorMsg = "만 14세 미만은 가입이 불가합니다.";
+      } else if (parseInt(state.year) < new Date().getFullYear() - 100) {
+        errorMsg = "생년월일을 다시 확인해주세요.";
+      } else {
+        if (parseInt(state.month) < 1 || parseInt(state.month) > 12) {
+          errorMsg = "태어난 월을 정확하게 입력해주세요.";
+        } else {
+          if (
+            parseInt(state.day) < 1 ||
+            parseInt(state.day) >
+              new Date(parseInt(state.year), parseInt(state.month), 0).getDate()
+          ) {
+            errorMsg = "태어난 일을 정확하게 입력해주세요.";
+          }
+        }
+      }
     }
+    setState({
+      ...state,
+      dobError: errorMsg,
+    });
   }, [state.year, state.month, state.day]);
   const changeYear = (e) => {
-    let number = parseFloat(e.target.value.replace(/[^0-9]/g, ""));
+    let number = e.target.value.replace(/[^0-9]/g, "");
     let errorMsg = "";
-    if (number > new Date().getFullYear()) {
-      errorMsg = "생년월일이 미래로 입력 되었습니다.";
-    }
     setState({
       ...state,
       year: number,
@@ -498,7 +521,7 @@ export default function Sub10SignUpForm(props) {
                   name="userGender"
                   id="userGenderMale"
                   value="male"
-                  checked={state.gender.includes("male")}
+                  checked={state.gender === "male"}
                   onChange={changeGender}
                 />
                 <label htmlFor="userGenderMale">Male</label>
@@ -509,7 +532,7 @@ export default function Sub10SignUpForm(props) {
                   name="userGender"
                   id="userGenderFemale"
                   value="female"
-                  checked={state.gender.includes("female")}
+                  checked={state.gender === "female"}
                   onChange={changeGender}
                 />
                 <label htmlFor="userGenderFemale" className="col col1">
@@ -522,7 +545,7 @@ export default function Sub10SignUpForm(props) {
                   name="userGender"
                   id="userGenderNonbinary"
                   value="nonbinary"
-                  checked={state.gender.includes("nonbinary")}
+                  checked={state.gender === "nonbinary"}
                   onChange={changeGender}
                 />
                 <label htmlFor="userGenderNonbinary">Nonbinary</label>
@@ -532,32 +555,35 @@ export default function Sub10SignUpForm(props) {
           <div className="row row9">
             <p>DOB</p>
             <div className="col col2 birth">
-              <input
-                type="number"
-                name="userYear"
-                id="userYear"
-                placeholder="YYYY"
-                maxLength="4"
-                onChange={changeYear}
-              />
-              <i>/</i>
-              <input
-                type="number"
-                name="userMonth"
-                id="userMonth"
-                placeholder="MM"
-                maxLength="2"
-                onChange={changeMonth}
-              />
-              <i>/</i>
-              <input
-                type="number"
-                name="userDay"
-                id="userDay"
-                placeholder="DD"
-                maxLength="2"
-                onChange={changeDay}
-              />
+              <div className="input-box">
+                <input
+                  type="number"
+                  name="userYear"
+                  id="userYear"
+                  placeholder="YYYY"
+                  maxLength="4"
+                  onChange={changeYear}
+                />
+                <i>/</i>
+                <input
+                  type="number"
+                  name="userMonth"
+                  id="userMonth"
+                  placeholder="MM"
+                  maxLength="2"
+                  onChange={changeMonth}
+                />
+                <i>/</i>
+                <input
+                  type="number"
+                  name="userDay"
+                  id="userDay"
+                  placeholder="DD"
+                  maxLength="2"
+                  onChange={changeDay}
+                />
+              </div>
+              <p>{state.dobError}</p>
             </div>
           </div>
         </form>

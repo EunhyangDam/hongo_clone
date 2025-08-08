@@ -135,26 +135,28 @@
               }
             }
             &.birth {
-              display: flex;
-              align-items: center;
-              border: 1px solid #dddddd;
-              border-radius: 4px;
-              color: #dddddd;
-              input {
-                border: none;
-                text-align: center;
-                &::-webkit-outer-spin-button {
-                  appearance: none;
-                }
-                &::-webkit-inner-spin-button {
-                  appearance: none;
-                }
-
-                &::placeholder {
+              .input-box {
+                display: flex;
+                align-items: center;
+                border: 1px solid #dddddd;
+                border-radius: 4px;
+                color: #dddddd;
+                input {
+                  border: none;
                   text-align: center;
-                }
-                &:focus {
-                  outline: none;
+                  &::-webkit-outer-spin-button {
+                    appearance: none;
+                  }
+                  &::-webkit-inner-spin-button {
+                    appearance: none;
+                  }
+
+                  &::placeholder {
+                    text-align: center;
+                  }
+                  &:focus {
+                    outline: none;
+                  }
                 }
               }
             }
