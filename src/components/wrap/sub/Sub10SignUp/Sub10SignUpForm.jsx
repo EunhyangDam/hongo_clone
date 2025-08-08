@@ -261,32 +261,35 @@ export default function Sub10SignUpForm(props) {
       gender: e.target.value,
     });
   };
-
   useEffect(() => {
     let errorMsg = "";
     if (state.year === "" && state.month === "" && state.day === "") {
       errorMsg = "";
     } else {
-      if (state.year.length < 4) {
-        errorMsg = "태어난 연도 네 자리를 정확하게 입력해주세요.";
-      } else if (parseInt(state.year) > new Date().getFullYear()) {
-        errorMsg = "생년월일이 미래로 설정되었습니다.";
-      } else if (parseInt(state.year) >= new Date().getFullYear() - 14) {
-        errorMsg = "만 14세 미만은 가입이 불가합니다.";
-      } else if (parseInt(state.year) < new Date().getFullYear() - 100) {
-        errorMsg = "생년월일을 다시 확인해주세요.";
-      } else {
-        if (parseInt(state.month) < 1 || parseInt(state.month) > 12) {
+      switch (true) {
+        case state.year.length < 4:
+          errorMsg = "태어난 연도 네 자리를 정확하게 입력해주세요.";
+          break;
+        case parseInt(state.year) > new Date().getFullYear():
+          errorMsg = "생년월일이 미래로 설정되었습니다.";
+          break;
+        case parseInt(state.year) >= new Date().getFullYear() - 14:
+          errorMsg = "만 14세 미만은 가입이 불가합니다.";
+          break;
+        case parseInt(state.year) < new Date().getFullYear() - 100:
+          errorMsg = "생년월일을 다시 확인해주세요.";
+          break;
+        case parseInt(state.month) < 1 || parseInt(state.month) > 12:
           errorMsg = "태어난 월을 정확하게 입력해주세요.";
-        } else {
-          if (
-            parseInt(state.day) < 1 ||
-            parseInt(state.day) >
-              new Date(parseInt(state.year), parseInt(state.month), 0).getDate()
-          ) {
-            errorMsg = "태어난 일을 정확하게 입력해주세요.";
-          }
-        }
+          break;
+        case parseInt(state.day) < 1 ||
+          parseInt(state.day) >
+            new Date(parseInt(state.year), parseInt(state.month), 0).getDate():
+          errorMsg = "태어난 일을 정확하게 입력해주세요.";
+          break;
+        default:
+          errorMsg = "";
+          break;
       }
     }
     setState({
@@ -294,27 +297,12 @@ export default function Sub10SignUpForm(props) {
       dobError: errorMsg,
     });
   }, [state.year, state.month, state.day]);
-  const changeYear = (e) => {
-    let number = e.target.value.replace(/[^0-9]/g, "");
-    let errorMsg = "";
+  const chnageDob = (e) => {
+    let dob = e.target.value.replace(/[^0-9]/g, "");
+    console.log([e.target.dataset.key]);
     setState({
       ...state,
-      year: number,
-      dobErrorMsg: errorMsg,
-    });
-  };
-  const changeMonth = (e) => {
-    let number = parseFloat(e.target.value.replace(/[^0-9]/g, ""));
-    setState({
-      ...state,
-      month: number,
-    });
-  };
-  const changeDay = (e) => {
-    let number = parseFloat(e.target.value.replace(/[^0-9]/g, ""));
-    setState({
-      ...state,
-      day: number,
+      [e.target.dataset.key]: dob,
     });
   };
   return (
@@ -562,7 +550,8 @@ export default function Sub10SignUpForm(props) {
                   id="userYear"
                   placeholder="YYYY"
                   maxLength="4"
-                  onChange={changeYear}
+                  data-key="year"
+                  onChange={chnageDob}
                 />
                 <i>/</i>
                 <input
@@ -571,7 +560,8 @@ export default function Sub10SignUpForm(props) {
                   id="userMonth"
                   placeholder="MM"
                   maxLength="2"
-                  onChange={changeMonth}
+                  data-key="month"
+                  onChange={chnageDob}
                 />
                 <i>/</i>
                 <input
@@ -580,7 +570,8 @@ export default function Sub10SignUpForm(props) {
                   id="userDay"
                   placeholder="DD"
                   maxLength="2"
-                  onChange={changeDay}
+                  data-key="day"
+                  onChange={chnageDob}
                 />
               </div>
               <p>{state.dobError}</p>
