@@ -7,14 +7,16 @@ import {
   postAction,
   postOpenAction,
 } from "../../../../store/reactDaumPostcode";
+import axios from "axios";
 export default function Sub10SignUpForm(props) {
   const userTelRef = React.useRef();
   const dispatch = useDispatch();
   const postcodeAsset = useSelector((state) => state.reactDaumPostcode);
-
+  const [id, setId] = useState(0);
   const [state, setState] = useState({
     id: "",
     idError: "",
+    idDuplicate: false,
     pw: "",
     pwError: "",
     pwConfirm: "",
@@ -24,10 +26,12 @@ export default function Sub10SignUpForm(props) {
     email: "",
     emailAdr: "",
     emailError: "",
+    emailDuplicate: false,
     number: "",
     numberError: "",
     verificationDisable: true,
     verificationNum: null,
+    isVerification: false,
     btnTxt: "verification code",
     chkCode: true,
     verificationCheck: null,
@@ -49,6 +53,7 @@ export default function Sub10SignUpForm(props) {
       "본인은 만 14세 이상입니다. (필수)",
     ],
     termAgree: [],
+    isAgree: 0,
   });
   const [cnt, setCnt] = useState({
     seconds: 0,
@@ -80,7 +85,13 @@ export default function Sub10SignUpForm(props) {
       idError: errorMsg,
     });
   };
-
+  const clickIDDuplicate = (e) => {
+    e.preventDefault();
+    setState({
+      ...state,
+      idDuplicate: true,
+    });
+  };
   const changePw = (e) => {
     const regEx =
       /^(?=.*[a-zA-Z])(?=.*[\d\W])(?!.*(.)\1\1)[a-zA-Z\d!@#$%^&*()_\-+=\[\]{};:'",.<>/?\\|`~]{10,}$/;
@@ -145,7 +156,13 @@ export default function Sub10SignUpForm(props) {
       email: ``,
     });
   };
-
+  const clickEmailDuplicate = (e) => {
+    e.preventDefault();
+    setState({
+      ...state,
+      emailDuplicate: true,
+    });
+  };
   const changeNumber = (e) => {
     let number = e.target.value.replace(/[^0-9]/g, "");
     let errorMsg = "";
@@ -167,7 +184,6 @@ export default function Sub10SignUpForm(props) {
   const clickVerfication = (e) => {
     e.preventDefault();
     let verificationNum = null;
-
     if (state.btnTxt === "another number") {
       setState({
         ...state,
@@ -221,7 +237,9 @@ export default function Sub10SignUpForm(props) {
         ...state,
         verificationNum: null,
         btnTxt: "another number",
+        isVerification: true,
       });
+      clearInterval(id);
     } else {
       obj = {
         messege: "인증번호가 일치하지 않습니다. 다시 시도해주세요. ",
@@ -264,11 +282,13 @@ export default function Sub10SignUpForm(props) {
           return;
         }
         setCnt({
+          ...cnt,
           seconds: second,
           minutes: minutes,
         });
       };
-      const setId = setInterval(timer, 1000);
+      const id = setInterval(timer, 1000);
+      setId(id);
     }
   }, [state.verificationNum]);
 
@@ -373,6 +393,170 @@ export default function Sub10SignUpForm(props) {
       termAgree: arr,
     });
   };
+  useEffect(() => {
+    const termLength = state.termAgree.filter((el) =>
+      el.includes("(필수)")
+    ).length;
+    setState({
+      ...state,
+      isAgree: termLength,
+    });
+  }, [state.termAgree]);
+
+  const submitSignup = (e) => {
+    e.preventDefault();
+    const {
+      id,
+      idDuplicate,
+      pw,
+      pwConfirm,
+      name,
+      email,
+      emailAdr,
+      emailDuplicate,
+      number,
+      isVerification,
+      adr1,
+      adr2,
+      adr3,
+      year,
+      month,
+      day,
+      termAgree,
+      isAgree,
+    } = state;
+    let obj = {
+      messege: "",
+      isOn: false,
+      isConfirm: false,
+    };
+    switch (true) {
+      case id === "":
+        obj = {
+          messege: "아이디를 입력하세요.",
+          isOn: true,
+          isConfirm: false,
+        };
+        dispatch(modalAction(obj));
+        break;
+      case !idDuplicate:
+        obj = {
+          messege: "아이디 중복검사를 실행하세요.",
+          isOn: true,
+          isConfirm: false,
+        };
+        dispatch(modalAction(obj));
+        break;
+      case pw === "":
+        obj = {
+          messege: "비밀번호를 입력하세요.",
+          isOn: true,
+          isConfirm: false,
+        };
+        dispatch(modalAction(obj));
+        break;
+      case pw !== pwConfirm:
+        obj = {
+          messege: "비밀번호가 일치하지 않습니다.",
+          isOn: true,
+          isConfirm: false,
+        };
+        dispatch(modalAction(obj));
+        break;
+      case name === "":
+        obj = {
+          messege: "이름을 입력하세요.",
+          isOn: true,
+          isConfirm: false,
+        };
+        dispatch(modalAction(obj));
+        break;
+      case email === "":
+        obj = {
+          messege: "이메일을 입력하세요.",
+          isOn: true,
+          isConfirm: false,
+        };
+        dispatch(modalAction(obj));
+        break;
+      case !emailDuplicate:
+        obj = {
+          messege: "이메일 중복검사를 실행하세요.",
+          isOn: true,
+          isConfirm: false,
+        };
+        dispatch(modalAction(obj));
+        break;
+      case number === "":
+        obj = {
+          messege: "번호를 입력하세요.",
+          isOn: true,
+          isConfirm: false,
+        };
+        dispatch(modalAction(obj));
+        break;
+      case !isVerification:
+        obj = {
+          messege: "인증되지 않은 번호입니다.",
+          isOn: true,
+          isConfirm: false,
+        };
+        dispatch(modalAction(obj));
+        break;
+      case adr2 === "" || adr3 === "":
+        obj = {
+          messege: "주소를 모두 입력해주세요.",
+          isOn: true,
+          isConfirm: false,
+        };
+        dispatch(modalAction(obj));
+        break;
+      case year === "" || month === "" || day === "":
+        obj = {
+          messege: "생년월일을 입력해주세요.",
+          isOn: true,
+          isConfirm: false,
+        };
+        dispatch(modalAction(obj));
+        break;
+      case isAgree < 3:
+        obj = {
+          messege: "필수 이용약관에 동의해주세요.",
+          isOn: true,
+          isConfirm: false,
+        };
+        dispatch(modalAction(obj));
+        break;
+      default:
+        obj = {
+          messege: `환영합니다, ${id}님!`,
+          isOn: true,
+          isConfirm: false,
+        };
+        dispatch(modalAction(obj));
+        const formData = new FormData();
+        formData.append("userId", id);
+        formData.append("userPw", pw);
+        formData.append("userName", name);
+        formData.append("userEmail", `${email}@gmail.com`);
+        formData.append("userNumber", number);
+        formData.append("userAdr", `${adr3} ${adr2}`);
+        formData.append("userDob", `${year}. ${month}. ${day}`);
+        formData.append("userGender", state.gender);
+        formData.append("userTermAgree", termAgree);
+        axios({
+          url: "/hongo_sign_up/signUP_insert.php",
+          method: "POST",
+          data: formData,
+        })
+          .then((res) => console.log(res.data))
+          .catch((error) => {
+            alert("전송 실패");
+            console.log(error);
+          });
+        break;
+    }
+  };
   return (
     <main id="sub10SignUpForm">
       <div className="container">
@@ -382,401 +566,406 @@ export default function Sub10SignUpForm(props) {
             <span>*</span>required fields
           </p>
         </div>
-        <form action="" method="post">
-          <div className="row row1 useButton">
-            <label htmlFor="userId" className="col col1">
-              ID<span className="rq">*</span>
-            </label>
-            <div className="col col2">
-              <input
-                type="text"
-                name="userId"
-                id="userId"
-                placeholder="enter ID"
-                onChange={onChangeId}
-                maxLength="16"
-                value={state.id}
-              />
-              <p>{state.idError}</p>
-            </div>
-            <button>id duplicate check</button>
-          </div>
-          <div className="row row2">
-            <label htmlFor="userPw" className="col col1">
-              Password<span className="rq">*</span>
-            </label>
-            <div className="col col2">
-              <input
-                type="password"
-                name="userPw"
-                id="userPw"
-                placeholder="enter Password"
-                onChange={changePw}
-              />
-              <p>{state.pwError}</p>
-            </div>
-          </div>
-          <div className="row row3">
-            <label htmlFor="userPwConfirm" className="col col1">
-              Confirm Password<span className="rq">*</span>
-            </label>
-            <div className="col col2">
-              <input
-                type="password"
-                name="userPwConfirm"
-                id="userPwConfirm"
-                onChange={changeConfirm}
-                value={state.pwConfirm}
-              />
-              <p>{state.pwConfirmError}</p>
-            </div>
-          </div>
-          <div className="row row4">
-            <label htmlFor="userName" className="col col1">
-              Name<span className="rq">*</span>
-            </label>
-            <div className="col col2">
-              <input
-                type="text"
-                name="userName"
-                id="userName"
-                placeholder="enter full name"
-                value={state.name}
-                onChange={changeName}
-              />
-              <p>{state.nameErorr}</p>
-            </div>
-          </div>
-          <div className="row row5">
-            <label htmlFor="userEmail">
-              e-mail<span className="rq">*</span>
-            </label>
-            <div className="col col2 email">
-              <div className="box">
+        <form onSubmit={submitSignup}>
+          <div className="form">
+            <div className="row row1 useButton">
+              <label htmlFor="userId" className="col col1">
+                ID<span className="rq">*</span>
+              </label>
+              <div className="col col2">
                 <input
                   type="text"
-                  name="userEmail"
-                  id="userEmail"
-                  placeholder="e.g: eunhyang"
-                  value={state.email}
-                  onChange={changeEmail}
+                  name="userId"
+                  id="userId"
+                  placeholder="enter ID"
+                  onChange={onChangeId}
+                  maxLength="16"
+                  value={state.id}
                 />
-                @
-                <select
-                  name="at"
-                  id="at"
-                  onChange={changeAdrEmail}
-                  placeholder="SELECT"
-                >
-                  <option value="">select</option>
-                  <option value="naver.com">naver.com</option>
-                  <option value="gmail.com">gmail.com</option>
-                  <option value="hanmail.net">hanmail.net</option>
-                  <option value="kakao.com">kakao.com</option>
-                  <option value="hotmail.com">hotmail.com</option>
-                  <option value="yahoo.co.kr">yahoo.co.kr</option>
-                  <option value="직접 입력">직접 입력</option>
-                </select>
+                <p>{state.idError}</p>
               </div>
-              <p>{state.emailError}</p>
+              <button onClick={clickIDDuplicate}>id duplicate check</button>
             </div>
-          </div>
-          <div className="row row6 useButton">
-            <label htmlFor="userTel" className="col col1">
-              phone number<span className="rq">*</span>
-            </label>
-            <div className="right">
-              <div className="dodam one">
-                <div className="col col2">
-                  <input
-                    type="tel"
-                    name="userTel"
-                    id="userTel"
-                    placeholder="enter only number"
-                    onChange={changeNumber}
-                    value={state.number}
-                    ref={userTelRef}
-                  />
-                  <p>{state.numberError}</p>
-                </div>
-                <button
-                  disabled={state.verificationDisable}
-                  onClick={clickVerfication}
-                >
-                  {state.btnTxt}
-                </button>
+            <div className="row row2">
+              <label htmlFor="userPw" className="col col1">
+                Password<span className="rq">*</span>
+              </label>
+              <div className="col col2">
+                <input
+                  type="password"
+                  name="userPw"
+                  id="userPw"
+                  placeholder="enter Password"
+                  onChange={changePw}
+                />
+                <p>{state.pwError}</p>
               </div>
-              {state.verificationNum !== null && (
-                <div className="dodam two">
+            </div>
+            <div className="row row3">
+              <label htmlFor="userPwConfirm" className="col col1">
+                Confirm Password<span className="rq">*</span>
+              </label>
+              <div className="col col2">
+                <input
+                  type="password"
+                  name="userPwConfirm"
+                  id="userPwConfirm"
+                  onChange={changeConfirm}
+                  value={state.pwConfirm}
+                />
+                <p>{state.pwConfirmError}</p>
+              </div>
+            </div>
+            <div className="row row4">
+              <label htmlFor="userName" className="col col1">
+                Name<span className="rq">*</span>
+              </label>
+              <div className="col col2">
+                <input
+                  type="text"
+                  name="userName"
+                  id="userName"
+                  placeholder="enter full name"
+                  value={state.name}
+                  onChange={changeName}
+                />
+                <p>{state.nameErorr}</p>
+              </div>
+            </div>
+            <div className="row row5 useButton">
+              <label htmlFor="userEmail">
+                e-mail<span className="rq">*</span>
+              </label>
+              <div className="col col2 email">
+                <div className="box">
+                  <input
+                    type="text"
+                    name="userEmail"
+                    id="userEmail"
+                    placeholder="e.g: eunhyang"
+                    value={state.email}
+                    onChange={changeEmail}
+                  />
+                  @
+                  <select
+                    name="at"
+                    id="at"
+                    onChange={changeAdrEmail}
+                    placeholder="SELECT"
+                  >
+                    <option value="">select</option>
+                    <option value="naver.com">naver.com</option>
+                    <option value="gmail.com">gmail.com</option>
+                    <option value="hanmail.net">hanmail.net</option>
+                    <option value="kakao.com">kakao.com</option>
+                    <option value="hotmail.com">hotmail.com</option>
+                    <option value="yahoo.co.kr">yahoo.co.kr</option>
+                    <option value="직접 입력">직접 입력</option>
+                  </select>
+                </div>
+                <p>{state.emailError}</p>
+              </div>
+              <button onClick={clickEmailDuplicate}>
+                Email duplicate check
+              </button>
+            </div>
+            <div className="row row6 useButton">
+              <label htmlFor="userTel" className="col col1">
+                phone number<span className="rq">*</span>
+              </label>
+              <div className="right">
+                <div className="dodam one">
                   <div className="col col2">
                     <input
                       type="tel"
-                      name="userAuthor"
-                      id="userAuthor"
-                      onChange={changeVerification}
-                      value={state.verificationCheck}
+                      name="userTel"
+                      id="userTel"
+                      placeholder="enter only number"
+                      onChange={changeNumber}
+                      value={state.number}
+                      ref={userTelRef}
                     />
-                    <div className="timer">
-                      <span>{String(cnt.minutes).padStart(2, 0)}</span>
-                      <i>:</i>
-                      <span>{String(cnt.seconds).padStart(2, 0)}</span>
-                    </div>
+                    <p>{state.numberError}</p>
                   </div>
                   <button
-                    disabled={state.chkCode}
-                    onClick={clickVerficationCheck}
+                    disabled={state.verificationDisable}
+                    onClick={clickVerfication}
                   >
-                    check verification code
+                    {state.btnTxt}
                   </button>
+                </div>
+                {state.verificationNum !== null && (
+                  <div className="dodam two">
+                    <div className="col col2">
+                      <input
+                        type="tel"
+                        name="userAuthor"
+                        id="userAuthor"
+                        onChange={changeVerification}
+                        value={state.verificationCheck}
+                      />
+                      <div className="timer">
+                        <span>{String(cnt.minutes).padStart(2, 0)}</span>
+                        <i>:</i>
+                        <span>{String(cnt.seconds).padStart(2, 0)}</span>
+                      </div>
+                    </div>
+                    <button
+                      disabled={state.chkCode}
+                      onClick={clickVerficationCheck}
+                    >
+                      check verification code
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className={`row row7 ${state.btnOn && "useButton"}`}>
+              <p>
+                Address<span className="rq">*</span>
+              </p>
+              {state.btnOn ? (
+                <div className="adr active">
+                  <div className="col col2">
+                    <input
+                      type="text"
+                      name="adr1"
+                      id="adr1"
+                      value={state.adr1}
+                      readOnly
+                    />
+                    <input
+                      type="text"
+                      name="adr2"
+                      id="adr2"
+                      placeholder="enter detail Address"
+                      defaultValue={state.adr2}
+                    />
+                  </div>
+                  <button onClick={clickReSearch}>
+                    <i className="bi bi-search"></i> re-search
+                  </button>
+                </div>
+              ) : (
+                <div className="adr">
+                  <div className="col col2">
+                    <button type="button" onClick={clickAdrSearch}>
+                      <i className="bi bi-search"></i> Searching Address
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
+            <div className="row row8">
+              <p>Gender</p>
+              <div className="col col2 gender">
+                <div className="male">
+                  <input
+                    type="radio"
+                    name="userGender"
+                    id="userGenderMale"
+                    value="male"
+                    checked={state.gender === "male"}
+                    onChange={changeGender}
+                  />
+                  <label htmlFor="userGenderMale">Male</label>
+                </div>
+                <div className="female">
+                  <input
+                    type="radio"
+                    name="userGender"
+                    id="userGenderFemale"
+                    value="female"
+                    checked={state.gender === "female"}
+                    onChange={changeGender}
+                  />
+                  <label htmlFor="userGenderFemale" className="col col1">
+                    Female
+                  </label>
+                </div>
+                <div className="nonbinary">
+                  <input
+                    type="radio"
+                    name="userGender"
+                    id="userGenderNonbinary"
+                    value="nonbinary"
+                    checked={state.gender === "nonbinary"}
+                    onChange={changeGender}
+                  />
+                  <label htmlFor="userGenderNonbinary">Nonbinary</label>
+                </div>
+              </div>
+            </div>
+            <div className="row row9">
+              <p>DOB</p>
+              <div className="col col2 birth">
+                <div className="input-box">
+                  <input
+                    type="number"
+                    name="userYear"
+                    id="userYear"
+                    placeholder="YYYY"
+                    maxLength="4"
+                    data-key="year"
+                    onChange={chnageDob}
+                  />
+                  <i>/</i>
+                  <input
+                    type="number"
+                    name="userMonth"
+                    id="userMonth"
+                    placeholder="MM"
+                    maxLength="2"
+                    data-key="month"
+                    onChange={chnageDob}
+                  />
+                  <i>/</i>
+                  <input
+                    type="number"
+                    name="userDay"
+                    id="userDay"
+                    placeholder="DD"
+                    maxLength="2"
+                    data-key="day"
+                    onChange={chnageDob}
+                  />
+                </div>
+                <p>{state.dobError}</p>
+              </div>
+            </div>
           </div>
-          <div className={`row row7 ${state.btnOn && "useButton"}`}>
+          <div className="line"></div>
+          <div className="terms">
             <p>
-              Address<span className="rq">*</span>
+              terms<span className="rq">*</span>
             </p>
-            {state.btnOn ? (
-              <div className="adr active">
-                <div className="col col2">
-                  <input
-                    type="text"
-                    name="adr1"
-                    id="adr1"
-                    value={state.adr1}
-                    readOnly
-                  />
-                  <input
-                    type="text"
-                    name="adr2"
-                    id="adr2"
-                    placeholder="enter detail Address"
-                    defaultValue={state.adr2}
-                  />
-                </div>
-                <button onClick={clickReSearch}>
-                  <i className="bi bi-search"></i> re-search
-                </button>
-              </div>
-            ) : (
-              <div className="adr">
-                <div className="col col2">
-                  <button type="button" onClick={clickAdrSearch}>
-                    <i className="bi bi-search"></i> Searching Address
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-          <div className="row row8">
-            <p>Gender</p>
-            <div className="col col2 gender">
-              <div className="male">
-                <input
-                  type="radio"
-                  name="userGender"
-                  id="userGenderMale"
-                  value="male"
-                  checked={state.gender === "male"}
-                  onChange={changeGender}
-                />
-                <label htmlFor="userGenderMale">Male</label>
-              </div>
-              <div className="female">
-                <input
-                  type="radio"
-                  name="userGender"
-                  id="userGenderFemale"
-                  value="female"
-                  checked={state.gender === "female"}
-                  onChange={changeGender}
-                />
-                <label htmlFor="userGenderFemale" className="col col1">
-                  Female
-                </label>
-              </div>
-              <div className="nonbinary">
-                <input
-                  type="radio"
-                  name="userGender"
-                  id="userGenderNonbinary"
-                  value="nonbinary"
-                  checked={state.gender === "nonbinary"}
-                  onChange={changeGender}
-                />
-                <label htmlFor="userGenderNonbinary">Nonbinary</label>
-              </div>
-            </div>
-          </div>
-          <div className="row row9">
-            <p>DOB</p>
-            <div className="col col2 birth">
-              <div className="input-box">
-                <input
-                  type="number"
-                  name="userYear"
-                  id="userYear"
-                  placeholder="YYYY"
-                  maxLength="4"
-                  data-key="year"
-                  onChange={chnageDob}
-                />
-                <i>/</i>
-                <input
-                  type="number"
-                  name="userMonth"
-                  id="userMonth"
-                  placeholder="MM"
-                  maxLength="2"
-                  data-key="month"
-                  onChange={chnageDob}
-                />
-                <i>/</i>
-                <input
-                  type="number"
-                  name="userDay"
-                  id="userDay"
-                  placeholder="DD"
-                  maxLength="2"
-                  data-key="day"
-                  onChange={chnageDob}
-                />
-              </div>
-              <p>{state.dobError}</p>
-            </div>
-          </div>
-        </form>
-        <div className="line"></div>
-        <div className="terms">
-          <p>
-            terms<span className="rq">*</span>
-          </p>
-          <div className="right">
-            <div className="row row1">
-              <input
-                type="checkbox"
-                name="allChk"
-                id="allChk"
-                onChange={changeChkAll}
-                checked={state.term.length === state.termAgree.length}
-              />
-              <label htmlFor="allChk">
-                <p className="heading">전체 동의합니다.</p>
-                <p className="explain">
-                  선택항목에 동의하지 않은 경우도 회원가입 및 일반적인 서비스를
-                  이용할 수 있습니다.
-                </p>
-              </label>
-            </div>
-            <div className="row row2">
-              <input
-                type="checkbox"
-                name="chk1"
-                id="chk1"
-                checked={state.termAgree.includes("이용약관 동의 (필수)")}
-                value="이용약관 동의 (필수)"
-                onChange={changeTerm}
-              />
-              <label htmlFor="chk1">
-                <span>이용약관 동의</span>
-                <span className="small">(필수)</span>
-              </label>
-            </div>
-            <div className="row row3">
-              <input
-                type="checkbox"
-                name="chk2"
-                id="chk2"
-                checked={state.termAgree.includes(
-                  "개인정보 수집∙이용 동의 (필수)"
-                )}
-                value="개인정보 수집∙이용 동의 (필수)"
-                onChange={changeTerm}
-              />
-              <label htmlFor="chk2">
-                <span>개인정보 수집∙이용 동의</span>
-                <span className="small">(필수)</span>
-              </label>
-            </div>
-            <div className="row row4">
-              <div className="marketing">
+            <div className="right">
+              <div className="row row1">
                 <input
                   type="checkbox"
-                  name="chk3"
-                  id="chk3"
-                  checked={state.termAgree.includes(
-                    "마케팅 광고 활용을 위한 수집 및 이용 동의 (선택)"
-                  )}
-                  value="마케팅 광고 활용을 위한 수집 및 이용 동의 (선택)"
+                  name="allChk"
+                  id="allChk"
+                  onChange={changeChkAll}
+                  checked={state.term.length === state.termAgree.length}
+                />
+                <label htmlFor="allChk">
+                  <p className="heading">전체 동의합니다.</p>
+                  <p className="explain">
+                    선택항목에 동의하지 않은 경우도 회원가입 및 일반적인
+                    서비스를 이용할 수 있습니다.
+                  </p>
+                </label>
+              </div>
+              <div className="row row2">
+                <input
+                  type="checkbox"
+                  name="chk1"
+                  id="chk1"
+                  checked={state.termAgree.includes("이용약관 동의 (필수)")}
+                  value="이용약관 동의 (필수)"
                   onChange={changeTerm}
                 />
-                <label htmlFor="chk3">
-                  <span>마케팅 광고 활용을 위한 수집 및 이용 동의</span>
+                <label htmlFor="chk1">
+                  <span>이용약관 동의</span>
+                  <span className="small">(필수)</span>
+                </label>
+              </div>
+              <div className="row row3">
+                <input
+                  type="checkbox"
+                  name="chk2"
+                  id="chk2"
+                  checked={state.termAgree.includes(
+                    "개인정보 수집∙이용 동의 (필수)"
+                  )}
+                  value="개인정보 수집∙이용 동의 (필수)"
+                  onChange={changeTerm}
+                />
+                <label htmlFor="chk2">
+                  <span>개인정보 수집∙이용 동의</span>
+                  <span className="small">(필수)</span>
+                </label>
+              </div>
+              <div className="row row4">
+                <div className="marketing">
+                  <input
+                    type="checkbox"
+                    name="chk3"
+                    id="chk3"
+                    checked={state.termAgree.includes(
+                      "마케팅 광고 활용을 위한 수집 및 이용 동의 (선택)"
+                    )}
+                    value="마케팅 광고 활용을 위한 수집 및 이용 동의 (선택)"
+                    onChange={changeTerm}
+                  />
+                  <label htmlFor="chk3">
+                    <span>마케팅 광고 활용을 위한 수집 및 이용 동의</span>
+                    <span className="small">(선택)</span>
+                  </label>
+                </div>
+                <div className="sms-email">
+                  <label>
+                    <input
+                      type="checkbox"
+                      name="SMS"
+                      id="SMS"
+                      checked={state.termAgree.includes("SMS")}
+                      value="SMS"
+                      onChange={changeTerm}
+                    />
+                    SMS
+                  </label>
+                  <label>
+                    <input
+                      type="checkbox"
+                      name="termEmail"
+                      id="termEmail"
+                      checked={state.termAgree.includes("이메일")}
+                      value="이메일"
+                      onChange={changeTerm}
+                    />
+                    이메일
+                  </label>
+                </div>
+              </div>
+              <div className="row row5">
+                <input
+                  type="checkbox"
+                  name="chk4"
+                  id="chk4"
+                  checked={state.termAgree.includes(
+                    "무료배송, 할인쿠폰 등 혜택/정보 수신 동의 (선택)"
+                  )}
+                  value="무료배송, 할인쿠폰 등 혜택/정보 수신 동의 (선택)"
+                  onChange={changeTerm}
+                />
+                <label htmlFor="chk4">
+                  <span>무료배송, 할인쿠폰 등 혜택/정보 수신 동의</span>
                   <span className="small">(선택)</span>
                 </label>
               </div>
-              <div className="sms-email">
-                <label>
-                  <input
-                    type="checkbox"
-                    name="SMS"
-                    id="SMS"
-                    checked={state.termAgree.includes("SMS")}
-                    value="SMS"
-                    onChange={changeTerm}
-                  />
-                  SMS
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    name="termEmail"
-                    id="termEmail"
-                    checked={state.termAgree.includes("이메일")}
-                    value="이메일"
-                    onChange={changeTerm}
-                  />
-                  이메일
+              <div className="row row6">
+                <input
+                  type="checkbox"
+                  name="chk5"
+                  id="chk5"
+                  checked={state.termAgree.includes(
+                    "본인은 만 14세 이상입니다. (필수)"
+                  )}
+                  value="본인은 만 14세 이상입니다. (필수)"
+                  onChange={changeTerm}
+                />
+                <label htmlFor="chk5">
+                  <span>본인은 만 14세 이상입니다.</span>
+                  <span className="small">(필수)</span>
                 </label>
               </div>
             </div>
-            <div className="row row5">
-              <input
-                type="checkbox"
-                name="chk4"
-                id="chk4"
-                checked={state.termAgree.includes(
-                  "무료배송, 할인쿠폰 등 혜택/정보 수신 동의 (선택)"
-                )}
-                value="무료배송, 할인쿠폰 등 혜택/정보 수신 동의 (선택)"
-                onChange={changeTerm}
-              />
-              <label htmlFor="chk4">
-                <span>무료배송, 할인쿠폰 등 혜택/정보 수신 동의</span>
-                <span className="small">(선택)</span>
-              </label>
-            </div>
-            <div className="row row6">
-              <input
-                type="checkbox"
-                name="chk5"
-                id="chk5"
-                checked={state.termAgree.includes(
-                  "본인은 만 14세 이상입니다. (필수)"
-                )}
-                value="본인은 만 14세 이상입니다. (필수)"
-                onChange={changeTerm}
-              />
-              <label htmlFor="chk5">
-                <span>본인은 만 14세 이상입니다.</span>
-                <span className="small">(필수)</span>
-              </label>
-            </div>
           </div>
-        </div>
-        <div className="submit">
-          <button type="submit">Sign Up</button>
-        </div>
+          <div className="submit">
+            <button type="submit">Sign Up</button>
+          </div>
+        </form>
       </div>
     </main>
   );
