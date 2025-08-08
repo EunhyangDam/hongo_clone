@@ -11,6 +11,7 @@ export default function Sub10SignUpForm(props) {
   const userTelRef = React.useRef();
   const dispatch = useDispatch();
   const postcodeAsset = useSelector((state) => state.reactDaumPostcode);
+
   const [state, setState] = useState({
     id: "",
     idError: "",
@@ -38,7 +39,22 @@ export default function Sub10SignUpForm(props) {
     month: "",
     day: "",
     dobError: "",
+    term: [
+      "이용약관 동의 (필수)",
+      "개인정보 수집∙이용 동의 (필수)",
+      "마케팅 광고 활용을 위한 수집 및 이용 동의 (선택)",
+      "SMS",
+      "이메일",
+      "무료배송, 할인쿠폰 등 혜택/정보 수신 동의 (선택)",
+      "본인은 만 14세 이상입니다. (필수)",
+    ],
+    termAgree: [],
   });
+  const [cnt, setCnt] = useState({
+    seconds: 0,
+    minutes: 0,
+  });
+
   useEffect(() => {
     setState({
       ...state,
@@ -47,10 +63,7 @@ export default function Sub10SignUpForm(props) {
       btnOn: postcodeAsset.isOn,
     });
   }, [postcodeAsset]);
-  const [cnt, setCnt] = useState({
-    seconds: 0,
-    minutes: 0,
-  });
+
   const onChangeId = (e) => {
     const regEx1 = /^(.){6,}$/g;
     const regEx2 = /[a-z]+[a-z0-9]*/gi;
@@ -67,6 +80,7 @@ export default function Sub10SignUpForm(props) {
       idError: errorMsg,
     });
   };
+
   const changePw = (e) => {
     const regEx =
       /^(?=.*[a-zA-Z])(?=.*[\d\W])(?!.*(.)\1\1)[a-zA-Z\d!@#$%^&*()_\-+=\[\]{};:'",.<>/?\\|`~]{10,}$/;
@@ -103,6 +117,7 @@ export default function Sub10SignUpForm(props) {
       pwConfirmError: errorMsg,
     });
   };
+
   const changeName = (e) => {
     let name = e.target.value.replace(/[^a-zA-Z가-힣]/g, "");
     let errorMsg = "";
@@ -112,6 +127,7 @@ export default function Sub10SignUpForm(props) {
       nameErorr: errorMsg,
     });
   };
+
   const changeEmail = (e) => {
     let email = e.target.value.replace(/[^a-zA-Z0-9]/g, "");
     let errorMsg = "";
@@ -129,6 +145,7 @@ export default function Sub10SignUpForm(props) {
       email: ``,
     });
   };
+
   const changeNumber = (e) => {
     let number = e.target.value.replace(/[^0-9]/g, "");
     let errorMsg = "";
@@ -303,6 +320,57 @@ export default function Sub10SignUpForm(props) {
     setState({
       ...state,
       [e.target.dataset.key]: dob,
+    });
+  };
+
+  const changeChkAll = (e) => {
+    setState({
+      ...state,
+      termAgree: e.target.checked ? state.term : [],
+    });
+    if (state.term.length === state.termAgree.length) {
+    }
+  };
+  const changeTerm = (e) => {
+    let arr = state.termAgree;
+    if (e.target.checked) {
+      arr = [e.target.value, ...arr];
+
+      if (
+        e.target.value === "무료배송, 할인쿠폰 등 혜택/정보 수신 동의 (선택)"
+      ) {
+        if (!arr.includes("SMS") && !arr.includes("이메일"))
+          arr = ["SMS", "이메일", ...arr];
+        else if (!arr.includes("SMS") && arr.includes("이메일"))
+          arr = ["이메일", ...arr];
+        else if (!arr.includes("SMS") && arr.includes("이메일"))
+          arr = ["SMS", ...arr];
+      } else if (e.target.value === "SNS") {
+        if (arr.includes("이메일"))
+          arr = ["무료배송, 할인쿠폰 등 혜택/정보 수신 동의 (선택)", ...arr];
+      } else if (e.target.value === "이메일") {
+        if (arr.includes("SMS"))
+          arr = ["무료배송, 할인쿠폰 등 혜택/정보 수신 동의 (선택)", ...arr];
+      }
+    } else {
+      arr = arr.filter((el) => el !== e.target.value);
+      if (
+        e.target.value === "무료배송, 할인쿠폰 등 혜택/정보 수신 동의 (선택)"
+      ) {
+        arr = arr.filter((el) => el !== "SMS");
+        arr = arr.filter((el) => el !== "이메일");
+      } else if (e.target.value === "SMS")
+        arr = arr.filter(
+          (el) => el !== "무료배송, 할인쿠폰 등 혜택/정보 수신 동의 (선택)"
+        );
+      else if (e.target.value === "이메일")
+        arr = arr.filter(
+          (el) => el !== "무료배송, 할인쿠폰 등 혜택/정보 수신 동의 (선택)"
+        );
+    }
+    setState({
+      ...state,
+      termAgree: arr,
     });
   };
   return (
@@ -585,7 +653,13 @@ export default function Sub10SignUpForm(props) {
           </p>
           <div className="right">
             <div className="row row1">
-              <input type="checkbox" name="allChk" id="allChk" />
+              <input
+                type="checkbox"
+                name="allChk"
+                id="allChk"
+                onChange={changeChkAll}
+                checked={state.term.length === state.termAgree.length}
+              />
               <label htmlFor="allChk">
                 <p className="heading">전체 동의합니다.</p>
                 <p className="explain">
@@ -595,14 +669,30 @@ export default function Sub10SignUpForm(props) {
               </label>
             </div>
             <div className="row row2">
-              <input type="checkbox" name="chk1" id="chk1" />
+              <input
+                type="checkbox"
+                name="chk1"
+                id="chk1"
+                checked={state.termAgree.includes("이용약관 동의 (필수)")}
+                value="이용약관 동의 (필수)"
+                onChange={changeTerm}
+              />
               <label htmlFor="chk1">
                 <span>이용약관 동의</span>
                 <span className="small">(필수)</span>
               </label>
             </div>
             <div className="row row3">
-              <input type="checkbox" name="chk2" id="chk2" />
+              <input
+                type="checkbox"
+                name="chk2"
+                id="chk2"
+                checked={state.termAgree.includes(
+                  "개인정보 수집∙이용 동의 (필수)"
+                )}
+                value="개인정보 수집∙이용 동의 (필수)"
+                onChange={changeTerm}
+              />
               <label htmlFor="chk2">
                 <span>개인정보 수집∙이용 동의</span>
                 <span className="small">(필수)</span>
@@ -610,7 +700,16 @@ export default function Sub10SignUpForm(props) {
             </div>
             <div className="row row4">
               <div className="marketing">
-                <input type="checkbox" name="chk3" id="chk3" />
+                <input
+                  type="checkbox"
+                  name="chk3"
+                  id="chk3"
+                  checked={state.termAgree.includes(
+                    "마케팅 광고 활용을 위한 수집 및 이용 동의 (선택)"
+                  )}
+                  value="마케팅 광고 활용을 위한 수집 및 이용 동의 (선택)"
+                  onChange={changeTerm}
+                />
                 <label htmlFor="chk3">
                   <span>마케팅 광고 활용을 위한 수집 및 이용 동의</span>
                   <span className="small">(선택)</span>
@@ -618,24 +717,56 @@ export default function Sub10SignUpForm(props) {
               </div>
               <div className="sms-email">
                 <label>
-                  <input type="checkbox" name="SMS" id="SMS" />
+                  <input
+                    type="checkbox"
+                    name="SMS"
+                    id="SMS"
+                    checked={state.termAgree.includes("SMS")}
+                    value="SMS"
+                    onChange={changeTerm}
+                  />
                   SMS
                 </label>
                 <label>
-                  <input type="checkbox" name="termEmail" id="termEmail" />
+                  <input
+                    type="checkbox"
+                    name="termEmail"
+                    id="termEmail"
+                    checked={state.termAgree.includes("이메일")}
+                    value="이메일"
+                    onChange={changeTerm}
+                  />
                   이메일
                 </label>
               </div>
             </div>
             <div className="row row5">
-              <input type="checkbox" name="chk4" id="chk4" />
+              <input
+                type="checkbox"
+                name="chk4"
+                id="chk4"
+                checked={state.termAgree.includes(
+                  "무료배송, 할인쿠폰 등 혜택/정보 수신 동의 (선택)"
+                )}
+                value="무료배송, 할인쿠폰 등 혜택/정보 수신 동의 (선택)"
+                onChange={changeTerm}
+              />
               <label htmlFor="chk4">
                 <span>무료배송, 할인쿠폰 등 혜택/정보 수신 동의</span>
                 <span className="small">(선택)</span>
               </label>
             </div>
             <div className="row row6">
-              <input type="checkbox" name="chk5" id="chk5" />
+              <input
+                type="checkbox"
+                name="chk5"
+                id="chk5"
+                checked={state.termAgree.includes(
+                  "본인은 만 14세 이상입니다. (필수)"
+                )}
+                value="본인은 만 14세 이상입니다. (필수)"
+                onChange={changeTerm}
+              />
               <label htmlFor="chk5">
                 <span>본인은 만 14세 이상입니다.</span>
                 <span className="small">(필수)</span>
