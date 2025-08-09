@@ -199,8 +199,7 @@ export default function Sub05ProductDetail(props) {
                         wishlist.map((el) => el.id).includes(state.data.id)
                           ? "-fill"
                           : ""
-                      }`}
-                    ></i>
+                      }`}></i>
                     Add to Wishlist
                   </button>
                 </div>
