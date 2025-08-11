@@ -24,7 +24,6 @@ export default function ReactDaumPostcode(props) {
   const [state, setState] = useState({
     adr: "",
     adr2: "",
-    adr3: "",
     buildingName: "",
     zoneCode: "",
   });
@@ -49,8 +48,7 @@ export default function ReactDaumPostcode(props) {
     }
     setState({
       ...state,
-      adr: data.address,
-      adr3: `${data.address} (${extraAddr})`,
+      adr: `${data.address} (${extraAddr})`,
       buildingName: data.buildingName,
       zoneCode: data.zonecode,
       serch: true,
@@ -124,7 +122,7 @@ export default function ReactDaumPostcode(props) {
                       type="text"
                       name="inputAdr"
                       id="inputAdr"
-                      value={state.adr3}
+                      value={state.adr}
                       disabled
                     />
                     <button onClick={clickReSearch}>

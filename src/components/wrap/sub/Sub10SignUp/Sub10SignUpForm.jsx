@@ -8,8 +8,10 @@ import {
   postOpenAction,
 } from "../../../../store/reactDaumPostcode";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 export default function Sub10SignUpForm(props) {
   const userTelRef = React.useRef();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const postcodeAsset = useSelector((state) => state.reactDaumPostcode);
   const [id, setId] = useState(0);
@@ -239,7 +241,9 @@ export default function Sub10SignUpForm(props) {
         btnTxt: "another number",
         isVerification: true,
       });
-      clearInterval(id);
+      ////////////////////////////////////////////////////////////////////////////
+      clearInterval(id); // 셋인터발 메모리 할당 상태 변수 값 타이머 정지
+      ////////////////////////////////////////////////////////////////////////////
     } else {
       obj = {
         messege: "인증번호가 일치하지 않습니다. 다시 시도해주세요. ",
@@ -257,16 +261,23 @@ export default function Sub10SignUpForm(props) {
     e.preventDefault();
     dispatch(postOpenAction(true));
   };
+  const changeAdr2 = (e) => {
+    setState({
+      ...state,
+      adr2: e.target.value,
+    });
+  };
   useEffect(() => {
     if (state.verificationNum !== null) {
       let start = new Date();
       start.setMinutes(start.getMinutes() + 1);
+
       const timer = () => {
         const left = start - new Date();
         let second = Math.floor((left / 1000) % 60);
         let minutes = Math.floor((left / (1000 * 60)) % 60);
         if (new Date() > start) {
-          clearInterval(setId);
+          // clearInterval(setId);  => 아래쪽에 배치 하는게 좋을 듯 가독성이
           const obj = {
             messege: "유효시간이 만료되었습니다.",
             isOn: true,
@@ -279,7 +290,11 @@ export default function Sub10SignUpForm(props) {
             chkCode: true,
             verificationCheck: null,
           });
-          return;
+          /////////////////////////////////////////////////////////////////////////////////
+          clearInterval(id); // 4. 유효시간 만료시 타이머 timer 외부 상태 변수 사용 가능
+          // clearInterval(id2);   // 4. 유효시간 만료시 타이머 timer 내부 변수 사용 거능
+          // return;
+          /////////////////////////////////////////////////////////////////////////////////
         }
         setCnt({
           ...cnt,
@@ -287,8 +302,14 @@ export default function Sub10SignUpForm(props) {
           minutes: minutes,
         });
       };
-      const id = setInterval(timer, 1000);
-      setId(id);
+
+      ////////////////////////////////////////////////////////////////////////////////
+      const id2 = setInterval(timer, 1000); // 1. 셋인터발 메모리저장 할당 값 정수
+      /////////////////////////////////////////////////////////////////////////////////
+      setId(id2); // =>  2. 셋인터발 메모리저장 할당 값 다른 위치에서 종료가 필요할 때 사용
+      /////////////////////////////////////////////////////////////////////////////////
+      return () => clearInterval(id2); // 3. 버블링 발생 막기 위해 리터문 필요
+      /////////////////////////////////////////////////////////////////////////////////
     }
   }, [state.verificationNum]);
 
@@ -336,7 +357,6 @@ export default function Sub10SignUpForm(props) {
   }, [state.year, state.month, state.day]);
   const chnageDob = (e) => {
     let dob = e.target.value.replace(/[^0-9]/g, "");
-    console.log([e.target.dataset.key]);
     setState({
       ...state,
       [e.target.dataset.key]: dob,
@@ -405,6 +425,7 @@ export default function Sub10SignUpForm(props) {
 
   const submitSignup = (e) => {
     e.preventDefault();
+
     const {
       id,
       idDuplicate,
@@ -418,144 +439,94 @@ export default function Sub10SignUpForm(props) {
       isVerification,
       adr1,
       adr2,
-      adr3,
       year,
       month,
       day,
       termAgree,
       isAgree,
     } = state;
-    let obj = {
-      messege: "",
-      isOn: false,
-      isConfirm: false,
-    };
-    switch (true) {
-      case id === "":
-        obj = {
-          messege: "아이디를 입력하세요.",
-          isOn: true,
-          isConfirm: false,
-        };
-        dispatch(modalAction(obj));
-        break;
-      case !idDuplicate:
-        obj = {
-          messege: "아이디 중복검사를 실행하세요.",
-          isOn: true,
-          isConfirm: false,
-        };
-        dispatch(modalAction(obj));
-        break;
-      case pw === "":
-        obj = {
-          messege: "비밀번호를 입력하세요.",
-          isOn: true,
-          isConfirm: false,
-        };
-        dispatch(modalAction(obj));
-        break;
-      case pw !== pwConfirm:
-        obj = {
-          messege: "비밀번호가 일치하지 않습니다.",
-          isOn: true,
-          isConfirm: false,
-        };
-        dispatch(modalAction(obj));
-        break;
-      case name === "":
-        obj = {
-          messege: "이름을 입력하세요.",
-          isOn: true,
-          isConfirm: false,
-        };
-        dispatch(modalAction(obj));
-        break;
-      case email === "":
-        obj = {
-          messege: "이메일을 입력하세요.",
-          isOn: true,
-          isConfirm: false,
-        };
-        dispatch(modalAction(obj));
-        break;
-      case !emailDuplicate:
-        obj = {
-          messege: "이메일 중복검사를 실행하세요.",
-          isOn: true,
-          isConfirm: false,
-        };
-        dispatch(modalAction(obj));
-        break;
-      case number === "":
-        obj = {
-          messege: "번호를 입력하세요.",
-          isOn: true,
-          isConfirm: false,
-        };
-        dispatch(modalAction(obj));
-        break;
-      case !isVerification:
-        obj = {
-          messege: "인증되지 않은 번호입니다.",
-          isOn: true,
-          isConfirm: false,
-        };
-        dispatch(modalAction(obj));
-        break;
-      case adr2 === "" || adr3 === "":
-        obj = {
-          messege: "주소를 모두 입력해주세요.",
-          isOn: true,
-          isConfirm: false,
-        };
-        dispatch(modalAction(obj));
-        break;
-      case year === "" || month === "" || day === "":
-        obj = {
-          messege: "생년월일을 입력해주세요.",
-          isOn: true,
-          isConfirm: false,
-        };
-        dispatch(modalAction(obj));
-        break;
-      case isAgree < 3:
-        obj = {
-          messege: "필수 이용약관에 동의해주세요.",
-          isOn: true,
-          isConfirm: false,
-        };
-        dispatch(modalAction(obj));
-        break;
-      default:
-        obj = {
-          messege: `환영합니다, ${id}님!`,
-          isOn: true,
-          isConfirm: false,
-        };
-        dispatch(modalAction(obj));
-        const formData = new FormData();
-        formData.append("userId", id);
-        formData.append("userPw", pw);
-        formData.append("userName", name);
-        formData.append("userEmail", `${email}@gmail.com`);
-        formData.append("userNumber", number);
-        formData.append("userAdr", `${adr3} ${adr2}`);
-        formData.append("userDob", `${year}. ${month}. ${day}`);
-        formData.append("userGender", state.gender);
-        formData.append("userTermAgree", termAgree);
-        axios({
-          url: "/hongo_sign_up/signUP_insert.php",
-          method: "POST",
-          data: formData,
-        })
-          .then((res) => console.log(res.data))
-          .catch((error) => {
-            alert("전송 실패");
-            console.log(error);
-          });
-        break;
+
+    const switchData = [
+      { condition: id === "", messege: "아이디를 입력하세요." },
+      { condition: !idDuplicate, messege: "아이디 중복검사를 실행하세요." },
+      { condition: pw === "", messege: "비밀번호를 입력하세요." },
+      { condition: pw !== pwConfirm, messege: "비밀번호가 일치하지 않습니다." },
+      { condition: name === "", messege: "이름을 입력하세요." },
+      { condition: email === "", messege: "이메일을 입력하세요." },
+      { condition: !emailDuplicate, messege: "이메일 중복검사를 실행하세요." },
+      { condition: number === "", messege: "번호를 입력하세요." },
+      { condition: !isVerification, messege: "인증되지 않은 번호입니다." },
+      {
+        condition: adr2 === "" || adr1 === "",
+        messege: "주소를 모두 입력해주세요.",
+      },
+      {
+        condition: year === "" || month === "" || day === "",
+        messege: "생년월일을 입력해주세요.",
+      },
+      { condition: isAgree < 3, messege: "필수 이용약관에 동의해주세요." },
+    ];
+    for (const { condition, messege } of switchData) {
+      if (condition) {
+        dispatch(
+          modalAction({
+            messege: messege,
+            isOn: true,
+            isConfirm: false,
+          })
+        );
+        return;
+      }
     }
+    const formData = new FormData();
+
+    const appendData = [
+      { field: "userId", dataKey: id },
+      { field: "userPw", dataKey: pw },
+      { field: "userName", dataKey: name },
+      { field: "userEmail", dataKey: `${email}@gmail.com` },
+      {
+        field: "userNumber",
+        dataKey: number.replace(/^(\d){3}(\d){3,4}(\d){3}$/g, "$1-$2-$3"),
+      },
+      { field: "userAdr", dataKey: `${adr1} ${adr2}` },
+      { field: "userDob", dataKey: `${year}-${month}-${day}` },
+      { field: "userGender", dataKey: state.gender },
+      { field: "userTermAgree", dataKey: termAgree },
+    ];
+    appendData.forEach(({ field, dataKey }) => {
+      formData.append(field, dataKey);
+    });
+
+    axios({
+      url: "/hongo_sign_up/signUP_insert.php",
+      method: "POST",
+      data: formData,
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          let obj = {};
+          if (res.data === 1) {
+            obj = {
+              messege: `Welcome, ${id}!`,
+              isOn: true,
+              isConfirm: false,
+            };
+            dispatch(modalAction(obj));
+          } else if (res.data === 0) {
+            obj = {
+              messege: "Sign up Failed",
+              isOn: true,
+              isConfirm: false,
+            };
+            dispatch(modalAction(obj));
+          }
+        }
+      })
+      .catch((error) => {
+        alert("전송 실패");
+        console.log(error);
+      });
   };
   return (
     <main id="sub10SignUpForm">
@@ -739,7 +710,8 @@ export default function Sub10SignUpForm(props) {
                       name="adr2"
                       id="adr2"
                       placeholder="enter detail Address"
-                      defaultValue={state.adr2}
+                      value={state.adr2}
+                      onChange={changeAdr2}
                     />
                   </div>
                   <button onClick={clickReSearch}>
