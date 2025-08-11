@@ -9,6 +9,7 @@ import {
 } from "../../../../store/reactDaumPostcode";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import InputComponent from "../../custom/InputComponent";
 export default function Sub10SignUpForm(props) {
   const userTelRef = React.useRef();
   const navigate = useNavigate();
@@ -46,13 +47,13 @@ export default function Sub10SignUpForm(props) {
     day: "",
     dobError: "",
     term: [
-      "이용약관 동의 (필수)",
-      "개인정보 수집∙이용 동의 (필수)",
-      "마케팅 광고 활용을 위한 수집 및 이용 동의 (선택)",
+      "이용약관 동의 /(필수)",
+      "개인정보 수집∙이용 동의 /(필수)",
+      "마케팅 광고 활용을 위한 수집 및 이용 동의 /(선택)",
       "SMS",
       "이메일",
-      "무료배송, 할인쿠폰 등 혜택/정보 수신 동의 (선택)",
-      "본인은 만 14세 이상입니다. (필수)",
+      "무료배송, 할인쿠폰 등 혜택/정보 수신 동의 /(선택)",
+      "본인은 만 14세 이상입니다. /(필수)",
     ],
     termAgree: [],
     isAgree: 0,
@@ -537,14 +538,14 @@ export default function Sub10SignUpForm(props) {
             <span>*</span>required fields
           </p>
         </div>
-        <form onSubmit={submitSignup}>
+        <form onSubmit={submitSignup} autoComplete="off">
           <div className="form">
             <div className="row row1 useButton">
               <label htmlFor="userId" className="col col1">
                 ID<span className="rq">*</span>
               </label>
               <div className="col col2">
-                <input
+                <InputComponent
                   type="text"
                   name="userId"
                   id="userId"
@@ -562,7 +563,7 @@ export default function Sub10SignUpForm(props) {
                 Password<span className="rq">*</span>
               </label>
               <div className="col col2">
-                <input
+                <InputComponent
                   type="password"
                   name="userPw"
                   id="userPw"
@@ -577,7 +578,7 @@ export default function Sub10SignUpForm(props) {
                 Confirm Password<span className="rq">*</span>
               </label>
               <div className="col col2">
-                <input
+                <InputComponent
                   type="password"
                   name="userPwConfirm"
                   id="userPwConfirm"
@@ -592,7 +593,7 @@ export default function Sub10SignUpForm(props) {
                 Name<span className="rq">*</span>
               </label>
               <div className="col col2">
-                <input
+                <InputComponent
                   type="text"
                   name="userName"
                   id="userName"
@@ -609,7 +610,7 @@ export default function Sub10SignUpForm(props) {
               </label>
               <div className="col col2 email">
                 <div className="box">
-                  <input
+                  <InputComponent
                     type="text"
                     name="userEmail"
                     id="userEmail"
@@ -647,7 +648,7 @@ export default function Sub10SignUpForm(props) {
               <div className="right">
                 <div className="dodam one">
                   <div className="col col2">
-                    <input
+                    <InputComponent
                       type="tel"
                       name="userTel"
                       id="userTel"
@@ -668,7 +669,7 @@ export default function Sub10SignUpForm(props) {
                 {state.verificationNum !== null && (
                   <div className="dodam two">
                     <div className="col col2">
-                      <input
+                      <InputComponent
                         type="tel"
                         name="userAuthor"
                         id="userAuthor"
@@ -698,14 +699,14 @@ export default function Sub10SignUpForm(props) {
               {state.btnOn ? (
                 <div className="adr active">
                   <div className="col col2">
-                    <input
+                    <InputComponent
                       type="text"
                       name="adr1"
                       id="adr1"
                       value={state.adr1}
-                      readOnly
+                      readOnly={true}
                     />
-                    <input
+                    <InputComponent
                       type="text"
                       name="adr2"
                       id="adr2"
@@ -732,7 +733,7 @@ export default function Sub10SignUpForm(props) {
               <p>Gender</p>
               <div className="col col2 gender">
                 <div className="male">
-                  <input
+                  <InputComponent
                     type="radio"
                     name="userGender"
                     id="userGenderMale"
@@ -743,7 +744,7 @@ export default function Sub10SignUpForm(props) {
                   <label htmlFor="userGenderMale">Male</label>
                 </div>
                 <div className="female">
-                  <input
+                  <InputComponent
                     type="radio"
                     name="userGender"
                     id="userGenderFemale"
@@ -756,7 +757,7 @@ export default function Sub10SignUpForm(props) {
                   </label>
                 </div>
                 <div className="nonbinary">
-                  <input
+                  <InputComponent
                     type="radio"
                     name="userGender"
                     id="userGenderNonbinary"
@@ -772,33 +773,33 @@ export default function Sub10SignUpForm(props) {
               <p>DOB</p>
               <div className="col col2 birth">
                 <div className="input-box">
-                  <input
+                  <InputComponent
                     type="number"
                     name="userYear"
                     id="userYear"
                     placeholder="YYYY"
                     maxLength="4"
-                    data-key="year"
+                    dataKey="year"
                     onChange={chnageDob}
                   />
                   <i>/</i>
-                  <input
+                  <InputComponent
                     type="number"
                     name="userMonth"
                     id="userMonth"
                     placeholder="MM"
                     maxLength="2"
-                    data-key="month"
+                    dataKey="month"
                     onChange={chnageDob}
                   />
                   <i>/</i>
-                  <input
+                  <InputComponent
                     type="number"
                     name="userDay"
                     id="userDay"
                     placeholder="DD"
                     maxLength="2"
-                    data-key="day"
+                    dataKey="day"
                     onChange={chnageDob}
                   />
                 </div>
@@ -818,6 +819,7 @@ export default function Sub10SignUpForm(props) {
                   name="allChk"
                   id="allChk"
                   onChange={changeChkAll}
+                  value={"전체 동의합니다."}
                   checked={state.term.length === state.termAgree.length}
                 />
                 <label htmlFor="allChk">
@@ -828,110 +830,35 @@ export default function Sub10SignUpForm(props) {
                   </p>
                 </label>
               </div>
-              <div className="row row2">
-                <input
-                  type="checkbox"
-                  name="chk1"
-                  id="chk1"
-                  checked={state.termAgree.includes("이용약관 동의 (필수)")}
-                  value="이용약관 동의 (필수)"
-                  onChange={changeTerm}
-                />
-                <label htmlFor="chk1">
-                  <span>이용약관 동의</span>
-                  <span className="small">(필수)</span>
-                </label>
-              </div>
-              <div className="row row3">
-                <input
-                  type="checkbox"
-                  name="chk2"
-                  id="chk2"
-                  checked={state.termAgree.includes(
-                    "개인정보 수집∙이용 동의 (필수)"
-                  )}
-                  value="개인정보 수집∙이용 동의 (필수)"
-                  onChange={changeTerm}
-                />
-                <label htmlFor="chk2">
-                  <span>개인정보 수집∙이용 동의</span>
-                  <span className="small">(필수)</span>
-                </label>
-              </div>
-              <div className="row row4">
-                <div className="marketing">
-                  <input
+              {state.term.map((el, idx) => (
+                <div
+                  className={`row row${idx + 2}`}
+                  key={el}
+                  style={{
+                    ...(el.includes("SMS")
+                      ? {
+                          float: "left",
+                          width: "auto",
+                          marginLeft: "30px",
+                          paddingRight: "10px",
+                        }
+                      : {}),
+                  }}
+                >
+                  <InputComponent
                     type="checkbox"
-                    name="chk3"
-                    id="chk3"
-                    checked={state.termAgree.includes(
-                      "마케팅 광고 활용을 위한 수집 및 이용 동의 (선택)"
-                    )}
-                    value="마케팅 광고 활용을 위한 수집 및 이용 동의 (선택)"
+                    name={`chk${idx + 1}`}
+                    id={`chk${idx + 1}`}
+                    checked={state.termAgree.includes(el)}
+                    value={el}
                     onChange={changeTerm}
                   />
-                  <label htmlFor="chk3">
-                    <span>마케팅 광고 활용을 위한 수집 및 이용 동의</span>
-                    <span className="small">(선택)</span>
+                  <label htmlFor={`chk${idx + 1}`}>
+                    <span>{el.split("/")[0]}</span>
+                    <span className="small">{el.split("/")[1]}</span>
                   </label>
                 </div>
-                <div className="sms-email">
-                  <label>
-                    <input
-                      type="checkbox"
-                      name="SMS"
-                      id="SMS"
-                      checked={state.termAgree.includes("SMS")}
-                      value="SMS"
-                      onChange={changeTerm}
-                    />
-                    SMS
-                  </label>
-                  <label>
-                    <input
-                      type="checkbox"
-                      name="termEmail"
-                      id="termEmail"
-                      checked={state.termAgree.includes("이메일")}
-                      value="이메일"
-                      onChange={changeTerm}
-                    />
-                    이메일
-                  </label>
-                </div>
-              </div>
-              <div className="row row5">
-                <input
-                  type="checkbox"
-                  name="chk4"
-                  id="chk4"
-                  checked={state.termAgree.includes(
-                    "무료배송, 할인쿠폰 등 혜택/정보 수신 동의 (선택)"
-                  )}
-                  value="무료배송, 할인쿠폰 등 혜택/정보 수신 동의 (선택)"
-                  onChange={changeTerm}
-                />
-                <label htmlFor="chk4">
-                  <span>무료배송, 할인쿠폰 등 혜택/정보 수신 동의</span>
-                  <span className="small">(선택)</span>
-                </label>
-              </div>
-              <div className="row row6">
-                <input
-                  type="checkbox"
-                  name="chk5"
-                  id="chk5"
-                  checked={state.termAgree.includes(
-                    "본인은 만 14세 이상입니다. (필수)"
-                  )}
-                  value="본인은 만 14세 이상입니다. (필수)"
-                  onChange={changeTerm}
-                />
-                <label htmlFor="chk5">
-                  <span>본인은 만 14세 이상입니다.</span>
-                  <span className="small">(필수)</span>
-                </label>
-              </div>
+              ))}
             </div>
           </div>
           <div className="submit">
