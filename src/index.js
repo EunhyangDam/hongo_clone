@@ -10,6 +10,7 @@ import confirmModal from "./store/confirmModal";
 import mainModal from "./store/mainModal";
 import cart from "./store/cart";
 import reactDaumPostcode from "./store/reactDaumPostcode";
+import signIn from "./store/signIn";
 import { CookiesProvider } from "react-cookie";
 let store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ let store = configureStore({
     mainModal,
     cart,
     reactDaumPostcode,
+    signIn,
   },
 });
 

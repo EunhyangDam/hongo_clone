@@ -1,10 +1,13 @@
 import { React, useEffect } from "react";
 import "../scss/HeaderComponent.scss";
 import { Link, Outlet } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { signInAction } from "../../store/signIn";
 
 function HeaderComponent(props) {
+  const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.cart);
+  const userData = useSelector((state) => state.signIn.name);
   useEffect(() => {
     // GNB
     const _header = document.querySelector("#header");
@@ -143,6 +146,17 @@ function HeaderComponent(props) {
       transparent();
     });
   }, []);
+  const clickLogOut = (e) => {
+    e.preventDefault();
+    const obj = {
+      name: "",
+      ID: "",
+    };
+    dispatch(signInAction(obj));
+  };
+  const clickUserName = (e) => {
+    e.preventDefault();
+  };
   return (
     <>
       <header id="header">
@@ -1323,15 +1337,29 @@ function HeaderComponent(props) {
                 <span></span>
                 <span></span>
               </li>
+              {userData && (
+                <>
+                  <li style={{ color: "#a2c153" }}>{userData} 님.</li>
+                  <li>
+                    <button onClick={clickLogOut}>log out</button>
+                  </li>
+                </>
+              )}
               <li>
-                <Link to="/sub11signInForm" title="">
+                <Link to="/null" title="">
                   <i className="bi bi-search"></i>
                 </Link>
               </li>
               <li>
-                <Link to="/sub11signInForm" title="">
-                  <i className="bi bi-person-fill"></i>
-                </Link>
+                {userData ? (
+                  <a href="!#" title="" onClick={clickUserName}>
+                    <i className="bi bi-person-fill"></i>
+                  </a>
+                ) : (
+                  <Link to="/sub11signInForm" title="">
+                    <i className="bi bi-person-fill"></i>
+                  </Link>
+                )}
               </li>
               <li>
                 <Link to="/subWishList" title="">

@@ -592,6 +592,7 @@ export default function Sub10SignUpForm(props) {
               isConfirm: false,
             };
             dispatch(modalAction(obj));
+            navigate("/sub11signInForm");
           } else if (res.data === 0) {
             obj = {
               messege: "Sign up Failed",

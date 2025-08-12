@@ -57,6 +57,7 @@ import { useCookies } from "react-cookie";
 import { cartAddAction } from "../store/cart";
 import ReactDaumPostcode from "./wrap/ReactDaumPostcode";
 import { postAction } from "../store/reactDaumPostcode";
+import { signInAction } from "../store/signIn";
 
 export default function WrapComponent(props) {
   const dispatch = useDispatch();
@@ -97,12 +98,14 @@ export default function WrapComponent(props) {
       alert("cookie ERROR");
     }
   }, []);
+  /**로컬 스토리지 관리 */
   useEffect(() => {
     const local = [
       { key: "latest", action: productAddAction },
       { key: "wishlist", action: heartAddAction },
       { key: "cart", action: cartAddAction },
       { key: "postcode", action: postAction },
+      { key: "hongo_sign_in", action: signInAction },
     ];
     try {
       local.forEach(({ key, action }) => {
