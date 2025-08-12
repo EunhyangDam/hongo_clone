@@ -7,17 +7,25 @@ export default function Sub11signInForm(props) {
     <main id="sub11signInForm">
       <div className="container">
         <div className="col col1">
-          Eunhyang
-          <br />
-          Lee
+          <div className="img-container">
+            <img src="./images/sub11/log-in.png" alt="" />
+          </div>
         </div>
         <div className="col col2">
           <form action="" method="post">
-            <h2>Welcome Back Exclusvie Member</h2>
-            <input type="text" id="id" name="id" />
-            <input type="password" name="pw" id="pw" />
-            <div className="rember-forgot">
-              <div className="remeber">
+            <div className="text-box">
+              <h2>Welcome Back</h2>
+              <p>nice to see you again!</p>
+            </div>
+            <input type="text" id="id" name="id" placeholder="Email or ID" />
+            <input
+              type="password"
+              name="pw"
+              id="pw"
+              placeholder="Enter Password"
+            />
+            <div className="remember-forgot">
+              <div className="remember">
                 <input type="checkbox" name="remember" id="remember" />
                 <label htmlFor="remember">Remember Me</label>
               </div>
@@ -27,7 +35,7 @@ export default function Sub11signInForm(props) {
             </div>
             <button type="submit">Log in</button>
             <p>
-              Don't have an acoount?
+              Don't have an account?{" "}
               <Link to="/sub10SignUpWrite">Sign Up!</Link>
             </p>
           </form>
