@@ -1,9 +1,5 @@
 <?php
- $SERVER='localhost';
- $NAME='eunhyang1223';
- $PW='Dodam0602!EMO';
- $DB='eunhyang1223';
- $conn = mysqli_connect($SERVER,$NAME,$PW,$DB);
+  include_once('./header.php');
 
  $user_email = $_POST['userEmail'];
  $INSERT = "INSERT INTO email_list_table(email) VALUES ('$user_email')";

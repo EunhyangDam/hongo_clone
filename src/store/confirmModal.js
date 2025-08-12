@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const confirmModal = createSlice({
   name: "컨펌 모달",
   initialState: {
-    messege: "위시리스트에 등록되었습니다.",
+    messege: "",
     isOn: false,
     isConfirm: false,
     returnYes: false,

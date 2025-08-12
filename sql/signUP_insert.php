@@ -1,9 +1,5 @@
 <?
-    $SERVER='localhost';
-    $NAME='eunhyang1223';
-    $PW='Dodam0602!EMO';
-    $DB='eunhyang1223';
-    $CONN = mysqli_connect($SERVER,$NAME,$PW,$DB);
+    include_once('./header.php');
 
     $USER_ID=$_POST['userId'];
     $USER_PW= password_hash($_POST['userPw'], PASSWORD_DEFAULT);

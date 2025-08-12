@@ -7,7 +7,7 @@ import {
   postAction,
   postOpenAction,
 } from "../../../../store/reactDaumPostcode";
-import axios from "axios";
+import axios, { Axios } from "axios";
 import { useNavigate } from "react-router-dom";
 import InputComponent from "../../custom/InputComponent";
 export default function Sub10SignUpForm(props) {
@@ -75,7 +75,7 @@ export default function Sub10SignUpForm(props) {
   const onChangeId = (e) => {
     const regEx1 = /^(.){6,}$/g;
     const regEx2 = /[a-z]+[a-z0-9]*/gi;
-    let id = e.target.value.replace(/[^a-zA-Z0-9\s]/g, "");
+    let id = e.target.value.replace(/[^a-zA-Z0-9]/g, "");
     let errorMsg = "";
     if (!regEx1.test(id) || !regEx2.test(id)) {
       errorMsg = "6자 이상 16자 이하의 영문 혹은 영문과 숫자를 조합";
@@ -90,10 +90,53 @@ export default function Sub10SignUpForm(props) {
   };
   const clickIDDuplicate = (e) => {
     e.preventDefault();
-    setState({
-      ...state,
-      idDuplicate: true,
-    });
+    let obj = {
+      messege: "",
+      isOn: true,
+      isConfirm: false,
+    };
+    if (state.id === "") {
+      obj = {
+        ...obj,
+        messege: "아이디를 입력하세요.",
+      };
+      dispatch(modalAction(obj));
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("userId", state.id);
+
+    axios({
+      url: "/hongo_sign_up/id_duplicate_check.php",
+      method: "POST",
+      data: formData,
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          if (res.data === 1) {
+            obj = {
+              ...obj,
+              messege: "사용 중인 아이디입니다.",
+            };
+            setState({
+              ...state,
+              idDuplicate: false,
+            });
+          } else if (res.data === 0) {
+            obj = {
+              ...obj,
+              messege: "사용 가능한 아이디입니다.",
+            };
+            setState({
+              ...state,
+              idDuplicate: true,
+            });
+          }
+          dispatch(modalAction(obj));
+        }
+      })
+      .catch((err) => alert(err));
   };
   const changePw = (e) => {
     const regEx =
@@ -161,10 +204,45 @@ export default function Sub10SignUpForm(props) {
   };
   const clickEmailDuplicate = (e) => {
     e.preventDefault();
-    setState({
-      ...state,
-      emailDuplicate: true,
-    });
+    let obj = {
+      messege: "",
+      isOn: true,
+      isConfirm: false,
+    };
+    if (state.email === "") {
+      obj = { ...obj, messege: "이메일을 입력해주세요." };
+      dispatch(modalAction(obj));
+      return;
+    }
+    const formData = new FormData();
+    formData.append("user_email", `${state.email}@gmail.com`);
+    axios({
+      url: "/hongo_sign_up/email_duplicate_check.php",
+      method: "POST",
+      data: formData,
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          if (res.data === 1) {
+            obj = { ...obj, messege: "사용 중인 이메일입니다." };
+            setState({
+              ...state,
+              emailDuplicate: false,
+            });
+          } else if (res.data === 0) {
+            obj = { ...obj, messege: "사용 가능한 이메일입니다." };
+            setState({
+              ...state,
+              emailDuplicate: true,
+            });
+          }
+          dispatch(modalAction(obj));
+        }
+      })
+      .catch((err) => {
+        alert("ERROR");
+        console.log(err);
+      });
   };
   const changeNumber = (e) => {
     let number = e.target.value.replace(/[^0-9]/g, "");
