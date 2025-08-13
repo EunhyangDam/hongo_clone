@@ -851,8 +851,12 @@ function HeaderComponent(props) {
                 </div>
               </li>
               <li>
-                <Link to="/null" className="main-btn" title="Elements">
-                  <span>Elements</span>
+                <Link
+                  to="/sub12NoticeBoardList"
+                  className="main-btn"
+                  title="Elements"
+                >
+                  <span>Notices</span>
                 </Link>
                 <div className="sub text">
                   <div className="sub-container">
