@@ -12,6 +12,7 @@ export default function Sub11signInForm(props) {
   const [state, setState] = useState({
     ID: "",
     password: "",
+    userRemeber: false,
   });
 
   const changeForm = (e) => {
@@ -64,7 +65,9 @@ export default function Sub11signInForm(props) {
             };
             dispatch(modalAction(obj));
           } else {
-            dispatch(signInAction(res.data));
+            dispatch(
+              signInAction({ ...res.data, userRemeber: state.userRemeber })
+            );
             navigate("/mainComponent");
           }
         }
@@ -73,6 +76,13 @@ export default function Sub11signInForm(props) {
         alert("ERROR");
         console.log(err);
       });
+  };
+
+  const changeRememeber = (e) => {
+    setState({
+      ...state,
+      userRemeber: e.target.checked ? true : false,
+    });
   };
   return (
     <main id="sub11signInForm">
@@ -108,7 +118,12 @@ export default function Sub11signInForm(props) {
             />
             <div className="remember-forgot">
               <div className="remember">
-                <input type="checkbox" name="remember" id="remember" />
+                <input
+                  type="checkbox"
+                  name="remember"
+                  id="remember"
+                  onChange={changeRememeber}
+                />
                 <label htmlFor="remember">Remember Me</label>
               </div>
               <div className="forgot">

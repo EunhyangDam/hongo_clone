@@ -2,7 +2,7 @@ import { React, useEffect } from "react";
 import "../scss/HeaderComponent.scss";
 import { Link, Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { signInAction } from "../../store/signIn";
+import { logOutAction, signInAction } from "../../store/signIn";
 
 function HeaderComponent(props) {
   const dispatch = useDispatch();
@@ -148,11 +148,7 @@ function HeaderComponent(props) {
   }, []);
   const clickLogOut = (e) => {
     e.preventDefault();
-    const obj = {
-      name: "",
-      ID: "",
-    };
-    dispatch(signInAction(obj));
+    dispatch(logOutAction());
   };
   const clickUserName = (e) => {
     e.preventDefault();

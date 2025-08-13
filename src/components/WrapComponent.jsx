@@ -107,9 +107,16 @@ export default function WrapComponent(props) {
       { key: "postcode", action: postAction },
       { key: "hongo_sign_in", action: signInAction },
     ];
+    const session = [{ key: "hongo_sign_in", action: signInAction }];
     try {
       local.forEach(({ key, action }) => {
         const data = localStorage.getItem(key);
+        if (data) {
+          dispatch(action(JSON.parse(data)));
+        }
+      });
+      session.forEach(({ key, action }) => {
+        const data = sessionStorage.getItem(key);
         if (data) {
           dispatch(action(JSON.parse(data)));
         }

@@ -5,15 +5,27 @@ const signIn = createSlice({
   initialState: {
     name: "",
     ID: "",
+    userRemeber: false,
   },
   reducers: {
     signInAction(state, action) {
       state.name = action.payload.NAME;
       state.ID = action.payload.ID;
-      localStorage.setItem("hongo_sign_in", JSON.stringify(action.payload));
+      state.userRemeber = action.payload.userRemeber;
+      if (state.userRemeber)
+        localStorage.setItem("hongo_sign_in", JSON.stringify(action.payload));
+      else
+        sessionStorage.setItem("hongo_sign_in", JSON.stringify(action.payload));
+    },
+    logOutAction(state, action) {
+      localStorage.removeItem("hongo_sign_in");
+      sessionStorage.removeItem("hongo_sign_in");
+      state.name = "";
+      state.ID = "";
+      state.userRemeber = false;
     },
   },
 });
 
 export default signIn.reducer;
-export const { signInAction } = signIn.actions;
+export const { signInAction, logOutAction } = signIn.actions;
