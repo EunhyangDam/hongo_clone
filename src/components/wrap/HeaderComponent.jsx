@@ -1,13 +1,16 @@
 import { React, useEffect } from "react";
 import "../scss/HeaderComponent.scss";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logOutAction, signInAction } from "../../store/signIn";
+import axios from "axios";
 
 function HeaderComponent(props) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const cart = useSelector((state) => state.cart.cart);
   const userData = useSelector((state) => state.signIn.name);
+  const userID = useSelector((state) => state.signIn.ID);
   useEffect(() => {
     // GNB
     const _header = document.querySelector("#header");
@@ -152,6 +155,20 @@ function HeaderComponent(props) {
   };
   const clickUserName = (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append("userID", userID);
+    axios({
+      url: "/hongo_sign_up/sign_up_select.php",
+      method: "POST",
+      data: formData,
+    })
+      .then((res) => {
+        navigate("/sub10SignUpUpdate", { state: res.data });
+      })
+      .catch((err) => {
+        alert("ERROR");
+        console.log(err);
+      });
   };
   return (
     <>
