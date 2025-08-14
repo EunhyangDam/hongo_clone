@@ -1,0 +1,36 @@
+main {
+  margin-top: 70px;
+  #sub12NoticeBoard {
+    .container {
+      margin: 0 auto;
+      max-width: 1240px;
+      width: 100%;
+      h2 {
+        font-size: 28px;
+        padding-block: 48px 30px;
+        border-bottom: 2px solid #555;
+      }
+      .title {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-top: 43px;
+        padding: 0 20px 13px 20px;
+        border-bottom: 1px solid #e6e6e6;
+        h3 {
+          font-size: 18px;
+          font-weight: 600;
+        }
+        .date {
+          color: #999;
+          font-size: 13px;
+        }
+      }
+      .content {
+        padding: 30px 20px;
+        text-align: justify;
+        line-height: 2;
+      }
+    }
+  }
+}

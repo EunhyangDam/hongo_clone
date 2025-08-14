@@ -2,13 +2,12 @@ import { React, useEffect, useState } from "react";
 import "./scss/WishlistComponent.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { heartAddAction, heartDelAction } from "../../../../store/wishlist";
+import { heartDelAction } from "../../../../store/wishlist";
 import { cartAddAction } from "../../../../store/cart";
 
 function WishlistComponent(props) {
   const dispatch = useDispatch();
   const heart = useSelector((state) => state.wishlist.wishlist);
-  const cartAsset = useSelector((state) => state.cart.cart);
   const [state, setState] = useState({
     product: [],
     check: [],

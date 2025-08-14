@@ -6,7 +6,7 @@ export default function ConfirmModal(props) {
   const confirmModal = useSelector((state) => state.confirmModal);
 
   const dispatch = useDispatch();
-  const [state, setState] = useState({
+  const [, setState] = useState({
     modal: "",
   });
   useState(() => {

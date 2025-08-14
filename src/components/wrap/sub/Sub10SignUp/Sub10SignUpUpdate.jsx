@@ -3,11 +3,8 @@ import "../scss/sub.scss";
 import "./scss/Sub10SignUpUpdate.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { modalAction } from "../../../../store/confirmModal";
-import {
-  postAction,
-  postOpenAction,
-} from "../../../../store/reactDaumPostcode";
-import axios, { Axios } from "axios";
+import { postOpenAction } from "../../../../store/reactDaumPostcode";
+import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import InputComponent from "../../custom/InputComponent";
 export default function Sub10SignUpUpdate(props) {

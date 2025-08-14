@@ -58,13 +58,14 @@ import { cartAddAction } from "../store/cart";
 import ReactDaumPostcode from "./wrap/ReactDaumPostcode";
 import { postAction } from "../store/reactDaumPostcode";
 import { signInAction } from "../store/signIn";
+import Sub12NoticeBoard from "./wrap/sub/Sub12NoticeBoard/Sub12NoticeBoard";
 
 export default function WrapComponent(props) {
   const dispatch = useDispatch();
   const confirmIsOn = useSelector((state) => state.confirmModal.isOn);
   const mainIsOn = useSelector((state) => state.mainModal.isOn);
   const postIsOn = useSelector((state) => state.reactDaumPostcode.isOpen);
-  const [cookies, setCookie] = useCookies();
+  const [cookies, ,] = useCookies();
 
   /**모달 쿠키 관리 */
   useEffect(() => {
@@ -97,7 +98,7 @@ export default function WrapComponent(props) {
       console.log(error);
       alert("cookie ERROR");
     }
-  }, []);
+  }, [cookies]);
   /**로컬 스토리지 관리 */
   useEffect(() => {
     const local = [
@@ -127,7 +128,7 @@ export default function WrapComponent(props) {
       alert("error!");
       return;
     }
-  }, []);
+  }, [dispatch]);
   return (
     <div id="wrap">
       <Routes>
@@ -220,6 +221,7 @@ export default function WrapComponent(props) {
             path="/sub12NoticeBoardWrite"
             element={<Sub12NoticeBoardWrite />}
           />
+          <Route path="/sub12NoticeBoard" element={<Sub12NoticeBoard />} />
 
           <Route
             path="/sub13NewsBoardDelete"

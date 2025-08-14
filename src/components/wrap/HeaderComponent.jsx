@@ -2,7 +2,7 @@ import { React, useEffect } from "react";
 import "../scss/HeaderComponent.scss";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { logOutAction, signInAction } from "../../store/signIn";
+import { logOutAction } from "../../store/signIn";
 import axios from "axios";
 
 function HeaderComponent(props) {
