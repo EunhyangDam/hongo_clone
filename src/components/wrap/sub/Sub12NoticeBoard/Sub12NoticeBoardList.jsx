@@ -83,6 +83,9 @@ export default function Sub12NoticeBoardList(props) {
     );
   };
 
+  const clickWrite = (e) => {
+    navigation("/sub12NoticeBoardWrite");
+  };
   /**――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― */ return (
     <main id="sub12NoticeBoardList">
       <section id="section1">
@@ -165,6 +168,9 @@ export default function Sub12NoticeBoardList(props) {
               ))
             )}
           </dl>
+          <div className="button-box">
+            <button onClick={clickWrite}>Write</button>
+          </div>
           <div className="pagination">
             <ul>
               <li className="button is-disable">

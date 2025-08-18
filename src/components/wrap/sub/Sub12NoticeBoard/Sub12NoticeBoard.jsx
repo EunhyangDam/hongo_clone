@@ -40,15 +40,13 @@ export default function Sub12NoticeBoard(props) {
             <div className="date">{state.wDate}</div>
           </div>
           <div className="content">
-            {Array(state.wContent.split("<br/>").length)
-              .fill()
-              .map((el, idx) => (
-                <p key={el}>
-                  {state.wContent.split("<br/>")[idx] === "&nbsp;"
-                    ? "　"
-                    : state.wContent.split("<br/>")[idx]}
-                </p>
-              ))}
+            {state.wContent.split("\n").map((el, idx) => (
+              <p key={el}>
+                {state.wContent.split("\n")[idx] === "&nbsp;"
+                  ? "　"
+                  : state.wContent.split("\n")[idx]}
+              </p>
+            ))}
           </div>
           <div className="foot">
             <div className="btn-container">

@@ -75,7 +75,7 @@
       }
     }
     dl {
-      margin-bottom: 80px;
+      margin-bottom: 30px;
       @mixin percent() {
         display: flex;
         justify-content: space-between;
@@ -122,6 +122,20 @@
           font-style: italic;
           color: #555;
         }
+      }
+    }
+    .button-box {
+      text-align: right;
+      margin-bottom: 20px;
+      button {
+        width: 180px;
+        padding-block: 10px;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        color: #333;
+        font-size: 15px;
+        cursor: pointer;
       }
     }
     .pagination {
