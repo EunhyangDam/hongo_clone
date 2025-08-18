@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./scss/Sub12NoticeBoard.scss";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 export default function Sub12NoticeBoard(props) {
   const location = useLocation();
+  const navigation = useNavigate();
 
   const [state, setState] = useState({
     wIDX: 0,
@@ -18,6 +19,17 @@ export default function Sub12NoticeBoard(props) {
   useEffect(() => {
     setState(location.state);
   }, [location]);
+  const clickViewList = (e) => {
+    e.preventDefault();
+    navigation(-1);
+  };
+  const clickEdit = (e) => {
+    e.preventDefault();
+    navigation(
+      { pathname: "/sub12NoticeBoardUpdate", search: `${state.wIDX}` },
+      { state: state }
+    );
+  };
   return (
     <main>
       <section id="sub12NoticeBoard">
@@ -28,11 +40,22 @@ export default function Sub12NoticeBoard(props) {
             <div className="date">{state.wDate}</div>
           </div>
           <div className="content">
-            {Array(state.wContent.split("<br/>").length - 1)
+            {Array(state.wContent.split("<br/>").length)
               .fill()
               .map((el, idx) => (
-                <p>{state.wContent.split("<br/>")[idx]}</p>
+                <p key={el}>
+                  {state.wContent.split("<br/>")[idx] === "&nbsp;"
+                    ? "　"
+                    : state.wContent.split("<br/>")[idx]}
+                </p>
               ))}
+          </div>
+          <div className="foot">
+            <div className="btn-container">
+              <button onClick={clickEdit}>Edit</button>
+              <button onClick={clickViewList}>View List</button>
+              <button>Delete</button>
+            </div>
           </div>
         </div>
       </section>

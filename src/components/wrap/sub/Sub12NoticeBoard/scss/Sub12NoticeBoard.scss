@@ -16,7 +16,6 @@ main {
         align-items: flex-end;
         margin-top: 43px;
         padding: 0 20px 13px 20px;
-        border-bottom: 1px solid #e6e6e6;
         h3 {
           font-size: 18px;
           font-weight: 600;
@@ -29,7 +28,29 @@ main {
       .content {
         padding: 30px 20px;
         text-align: justify;
-        line-height: 2;
+        line-height: 1.47;
+        border-block: 1px solid #e6e6e6;
+        p {
+          white-space: pre-line;
+        }
+      }
+      .foot {
+        margin-block: 40px;
+        .btn-container {
+          display: flex;
+          justify-content: center;
+          column-gap: 10px;
+          button {
+            width: 180px;
+            padding-block: 10px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            color: #333;
+            font-size: 15px;
+            cursor: pointer;
+          }
+        }
       }
     }
   }
