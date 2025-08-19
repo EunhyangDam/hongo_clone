@@ -22,7 +22,7 @@ body {
 :root {
   /* html */
   overflow-y: scroll; /*  웹페이지 우측에 기본 스크롤바 생성 */
-  scroll-behavior: smooth; /* 스무스 스크롤링 */
+  /* scroll-behavior: smooth; 스무스 스크롤링 */
 }
 
 header,

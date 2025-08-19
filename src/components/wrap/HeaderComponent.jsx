@@ -1,16 +1,21 @@
 import { React, useEffect } from "react";
 import "../scss/HeaderComponent.scss";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { href, Link, Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logOutAction } from "../../store/signIn";
 import axios from "axios";
+import useCustomAlink from "./custom/useCustomALink";
 
 function HeaderComponent(props) {
+  const { onClickALink } = useCustomAlink();
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const cart = useSelector((state) => state.cart.cart);
   const userData = useSelector((state) => state.signIn.name);
   const userID = useSelector((state) => state.signIn.ID);
+
   useEffect(() => {
     // GNB
     const _header = document.querySelector("#header");
@@ -175,7 +180,7 @@ function HeaderComponent(props) {
       <header id="header">
         <div className="col col1">
           <h1>
-            <a href="./" title="hongo">
+            <a href="/" title="hongo" onClick={(e) => onClickALink(e, "/")}>
               <img src="./images/logo.png" alt="" />
             </a>
           </h1>
@@ -191,79 +196,143 @@ function HeaderComponent(props) {
                   <div className="sub-container">
                     <ul>
                       <li>
-                        <Link to="/null" className="img-container">
+                        <a
+                          href="!#"
+                          onClick={(e) => onClickALink(e, "#")}
+                          className="img-container"
+                        >
                           <img src="./images/fashion-menu-1.jpg" alt="" />
-                        </Link>
-                        <Link to="/null" className="txt-container">
+                        </a>
+                        <a
+                          href="!#"
+                          onClick={(e) => onClickALink(e, "#")}
+                          className="txt-container"
+                        >
                           <p>Fashion</p>
-                        </Link>
+                        </a>
                       </li>
                       <li>
-                        <Link to="/null" className="img-container">
+                        <a
+                          href="!#"
+                          onClick={(e) => onClickALink(e, "#")}
+                          className="img-container"
+                        >
                           <img src="./images/furniture-menu.jpg" alt="" />
-                        </Link>
-                        <Link to="/null" className="txt-container">
+                        </a>
+                        <a
+                          href="!#"
+                          onClick={(e) => onClickALink(e, "#")}
+                          className="txt-container"
+                        >
                           <p>Furniture</p>
-                        </Link>
+                        </a>
                       </li>
                       <li>
-                        <Link to="/null" className="img-container">
+                        <a
+                          href="!#"
+                          onClick={(e) => onClickALink(e, "#")}
+                          className="img-container"
+                        >
                           <img src="./images/jewellery-menu.jpg" alt="" />
-                        </Link>
-                        <Link to="/null" className="txt-container">
+                        </a>
+                        <a
+                          href="!#"
+                          onClick={(e) => onClickALink(e, "#")}
+                          className="txt-container"
+                        >
                           <p>Jewellery</p>
-                        </Link>
+                        </a>
                       </li>
                       <li>
-                        <Link to="/null" className="img-container">
+                        <a
+                          href="!#"
+                          onClick={(e) => onClickALink(e, "#")}
+                          className="img-container"
+                        >
                           <img src="./images/watch-menu.jpg" alt="" />
-                        </Link>
-                        <Link to="/null" className="txt-container">
+                        </a>
+                        <a
+                          href="!#"
+                          onClick={(e) => onClickALink(e, "#")}
+                          className="txt-container"
+                        >
                           <p>watch</p>
-                        </Link>
+                        </a>
                       </li>
                       <li>
-                        <Link to="/null" className="img-container">
+                        <a
+                          href="!#"
+                          onClick={(e) => onClickALink(e, "#")}
+                          className="img-container"
+                        >
                           <img src="./images/electronic-menu.jpg" alt="" />
-                        </Link>
-                        <Link to="/null" className="txt-container">
+                        </a>
+                        <a
+                          href="!#"
+                          onClick={(e) => onClickALink(e, "#")}
+                          className="txt-container"
+                        >
                           <p>electronic</p>
-                        </Link>
+                        </a>
                       </li>
                       <li>
-                        <Link to="/null" className="img-container">
+                        <a
+                          href="!#"
+                          onClick={(e) => onClickALink(e, "#")}
+                          className="img-container"
+                        >
                           <img src="./images/decor-menu.jpg" alt="" />
-                        </Link>
-                        <Link to="/null" className="txt-container">
+                        </a>
+                        <a
+                          href="!#"
+                          onClick={(e) => onClickALink(e, "#")}
+                          className="txt-container"
+                        >
                           <p>decor</p>
-                        </Link>
+                        </a>
                       </li>
                       <li>
-                        <Link to="/null" className="img-container">
+                        <a
+                          href="!#"
+                          onClick={(e) => onClickALink(e, "#")}
+                          className="img-container"
+                        >
                           <img src="./images/sports-menu.jpg" alt="" />
-                        </Link>
-                        <Link to="/null" className="txt-container">
+                        </a>
+                        <a
+                          href="!#"
+                          onClick={(e) => onClickALink(e, "#")}
+                          className="txt-container"
+                        >
                           <p>sports</p>
                           <span className="new">New</span>
-                        </Link>
+                        </a>
                       </li>
                       <li>
-                        <Link to="/null" className="img-container">
+                        <a
+                          href="!#"
+                          onClick={(e) => onClickALink(e, "#")}
+                          className="img-container"
+                        >
                           <img src="./images/lingerie-menu.jpg" alt="" />
-                        </Link>
-                        <Link to="/null" className="txt-container">
+                        </a>
+                        <a
+                          href="!#"
+                          onClick={(e) => onClickALink(e, "#")}
+                          className="txt-container"
+                        >
                           <p>lingerie</p>
-                        </Link>
+                        </a>
                       </li>
                     </ul>
-                    <Link to="/null">view all demos</Link>
+                    <a href="!#">view all demos</a>
                   </div>
                 </div>
               </li>
               <li>
-                <Link to="/sub01NewProduct" className="main-btn" title="Shop">
+                <a to="/sub01NewProduct" className="main-btn" title="Shop">
                   <span>New Product</span>
-                </Link>
+                </a>
                 <div className="sub text shop">
                   <div className="sub-container">
                     <ul>
@@ -271,37 +340,37 @@ function HeaderComponent(props) {
                         <dl>
                           <dt>Shop style</dt>
                           <dd>
-                            <Link to="/null">Shop – classNameic </Link>
+                            <a href="!#">Shop – classNameic </a>
                           </dd>
                           <dd>
-                            <Link to="/null"> Shop – Minimalist</Link>
+                            <a href="!#"> Shop – Minimalist</a>
                           </dd>
                           <dd>
-                            <Link to="/null"> Shop – Metro</Link>
+                            <a href="!#"> Shop – Metro</a>
                           </dd>
                           <dd>
-                            <Link to="/null"> Shop – Flat</Link>
+                            <a href="!#"> Shop – Flat</a>
                           </dd>
                           <dd>
-                            <Link to="/null"> Shop – Modern</Link>
+                            <a href="!#"> Shop – Modern</a>
                           </dd>
                           <dd>
-                            <Link to="/null"> Shop – Clean</Link>
+                            <a href="!#"> Shop – Clean</a>
                           </dd>
                           <dd>
-                            <Link to="/null"> Shop – Masonry</Link>
+                            <a href="!#"> Shop – Masonry</a>
                           </dd>
                           <dd>
-                            <Link to="/null"> Shop – Standard</Link>
+                            <a href="!#"> Shop – Standard</a>
                           </dd>
                           <dd>
-                            <Link to="/null"> Shop – List</Link>
+                            <a href="!#"> Shop – List</a>
                           </dd>
                           <dd>
-                            <Link to="/null"> Shop – Simple</Link>
+                            <a href="!#"> Shop – Simple</a>
                           </dd>
                           <dd className="needFlex">
-                            <Link to="/null"> Shop – Boxed</Link>
+                            <a href="!#"> Shop – Boxed</a>
                             <span className="new">New</span>
                           </dd>
                         </dl>
@@ -310,31 +379,28 @@ function HeaderComponent(props) {
                         <dl>
                           <dt>Product page style</dt>
                           <dd>
-                            <Link to="/null"> Product – classNameic</Link>
+                            <a href="!#"> Product – classNameic</a>
                           </dd>
                           <dd>
-                            <Link to="/null"> Product – Right content</Link>
+                            <a href="!#"> Product – Right content</a>
                           </dd>
                           <dd>
-                            <Link to="/null"> Product – Carousel</Link>
+                            <a href="!#"> Product – Carousel</a>
                           </dd>
                           <dd>
-                            <Link to="/null"> Product – Left content</Link>
+                            <a href="!#"> Product – Left content</a>
                           </dd>
                           <dd>
-                            <Link to="/null"> Product – Default</Link>
+                            <a href="!#"> Product – Default</a>
                           </dd>
                           <dd>
-                            <Link to="/null"> Product – Sticky</Link>
+                            <a href="!#"> Product – Sticky</a>
                           </dd>
                           <dd>
-                            <Link to="/null"> Product – Modern</Link>
+                            <a href="!#"> Product – Modern</a>
                           </dd>
                           <dd>
-                            <Link to="/null">
-                              {" "}
-                              Product – Extended descriptions
-                            </Link>
+                            <a href="!#"> Product – Extended descriptions</a>
                           </dd>
                         </dl>
                       </li>
@@ -342,37 +408,34 @@ function HeaderComponent(props) {
                         <dl>
                           <dt>Product types</dt>
                           <dd>
-                            <Link to="/null"> Product – Simple</Link>
+                            <a href="!#"> Product – Simple</a>
                           </dd>
                           <dd>
-                            <Link to="/null"> Product – Variable</Link>
+                            <a href="!#"> Product – Variable</a>
                           </dd>
                           <dd>
-                            <Link to="/null"> Product – Grouped</Link>
+                            <a href="!#"> Product – Grouped</a>
                           </dd>
                           <dd>
-                            <Link to="/null">
-                              {" "}
-                              Product – External / Affiliate
-                            </Link>
+                            <a href="!#"> Product – External / Affiliate</a>
                           </dd>
                           <dd>
-                            <Link to="/null"> Product – Sale</Link>
+                            <a href="!#"> Product – Sale</a>
                           </dd>
                           <dd>
-                            <Link to="/null"> Product – Out of stock</Link>
+                            <a href="!#"> Product – Out of stock</a>
                           </dd>
                           <dd>
-                            <Link to="/null"> Product – Video</Link>
+                            <a href="!#"> Product – Video</a>
                           </dd>
                           <dd>
-                            <Link to="/null"> Product – New</Link>
+                            <a href="!#"> Product – New</a>
                           </dd>
                           <dd>
-                            <Link to="/null"> Product – 360° degree</Link>
+                            <a href="!#"> Product – 360° degree</a>
                           </dd>
                           <dd>
-                            <Link to="/null"> Product – Countdown deal</Link>
+                            <a href="!#"> Product – Countdown deal</a>
                           </dd>
                         </dl>
                       </li>
@@ -380,54 +443,54 @@ function HeaderComponent(props) {
                         <dl>
                           <dt>Shop style</dt>
                           <dd>
-                            <Link to="/null"> User dashboard</Link>
+                            <a href="!#"> User dashboard</a>
                           </dd>
                           <dd>
-                            <Link to="/null"> My account</Link>
+                            <a href="!#"> My account</a>
                           </dd>
                           <dd>
-                            <Link to="/null"> Order tracking</Link>
+                            <a href="!#"> Order tracking</a>
                           </dd>
                           <dd>
-                            <Link to="/null"> Cart</Link>
+                            <a href="!#"> Cart</a>
                           </dd>
                           <dd>
-                            <Link to="/null"> Checkout</Link>
+                            <a href="!#"> Checkout</a>
                           </dd>
                           <dd>
-                            <Link to="/null"> Wishlist</Link>
+                            <a href="!#"> Wishlist</a>
                           </dd>
                         </dl>
                       </li>
                     </ul>
                     <div className="sub-img-container">
                       <div className="col col1">
-                        <Link to="/null">
+                        <a href="!#">
                           <img src="./images/menu-banner-01.jpg" alt="" />
-                        </Link>
+                        </a>
                       </div>
                       <div className="col col2">
-                        <Link to="/null">
+                        <a href="!#">
                           <img src="./images/menu-banner-02.jpg" alt="" />
-                        </Link>
+                        </a>
                       </div>
                       <div className="col col3">
-                        <Link to="/null">
+                        <a href="!#">
                           <img src="./images/menu-banner-03.jpg" alt="" />
-                        </Link>
+                        </a>
                       </div>
                     </div>
                   </div>
                 </div>
               </li>
               <li>
-                <Link
+                <a
                   to="/sub02BestProduct"
                   className="main-btn"
                   title="Best Product"
                 >
                   <span>Best Product</span>
-                </Link>
+                </a>
                 <div className="sub sale text">
                   <div className="sub-container">
                     <ul>
@@ -436,67 +499,67 @@ function HeaderComponent(props) {
                           <dt>Product categories</dt>
                           <dd>
                             <div className="img-container">
-                              <Link to="/null">
+                              <a href="!#">
                                 <img
                                   src="/images/category-1-64x64.jpg"
                                   alt=""
                                 />
-                              </Link>
+                              </a>
                             </div>
                             Casual shirts
                           </dd>
                           <dd>
                             <div className="img-container">
-                              <Link to="/null">
+                              <a href="!#">
                                 <img
                                   src="/images/category-2-64x64.jpg"
                                   alt=""
                                 />
-                              </Link>
+                              </a>
                             </div>
                             Leather bags
                           </dd>
                           <dd>
                             <div className="img-container">
-                              <Link to="/null">
+                              <a href="!#">
                                 <img
                                   src="/images/category-3-64x64.jpg"
                                   alt=""
                                 />
-                              </Link>
+                              </a>
                             </div>
                             Men's shorts
                           </dd>
                           <dd>
                             <div className="img-container">
-                              <Link to="/null">
+                              <a href="!#">
                                 <img
                                   src="/images/category-4-64x64.jpg"
                                   alt=""
                                 />
-                              </Link>
+                              </a>
                             </div>
                             Polo t-shirts
                           </dd>
                           <dd>
                             <div className="img-container">
-                              <Link to="/null">
+                              <a href="!#">
                                 <img
                                   src="/images/category-5-64x64.jpg"
                                   alt=""
                                 />
-                              </Link>
+                              </a>
                             </div>
                             Short skirts
                           </dd>
                           <dd>
                             <div className="img-container">
-                              <Link to="/null">
+                              <a href="!#">
                                 <img
                                   src="/images/category-8-64x64.jpg"
                                   alt=""
                                 />
-                              </Link>
+                              </a>
                             </div>
                             Winter jackets
                           </dd>
@@ -509,7 +572,7 @@ function HeaderComponent(props) {
                             <img src="images/image-hotspot-02.jpg" alt="" />
                             <div className="txt-container">
                               <p className="heading">
-                                <Link to="/null">Stylish shirt</Link>
+                                <a href="!#">Stylish shirt</a>
                               </p>
                               <div className="rated">
                                 <i className="bi bi-star-fill"></i>
@@ -528,7 +591,7 @@ function HeaderComponent(props) {
                             />
                             <div className="txt-container">
                               <p className="heading">
-                                <Link to="/null">Cotton Polo T-Shirt </Link>
+                                <a href="!#">Cotton Polo T-Shirt </a>
                               </p>
                               <div className="rated">
                                 <i className="bi bi-star-fill"></i>
@@ -550,7 +613,7 @@ function HeaderComponent(props) {
                             />
                             <div className="txt-container">
                               <p className="heading">
-                                <Link to="/null">Crewneck T-shirt </Link>
+                                <a href="!#">Crewneck T-shirt </a>
                               </p>
                               <div className="rated">
                                 <i className="bi bi-star-fill"></i>
@@ -565,27 +628,27 @@ function HeaderComponent(props) {
                         </dl>
                       </li>
                       <li className="image">
-                        <Link to="/null">
+                        <a href="!#">
                           <img src="./images/sale-banner-02.jpg" alt="" />
-                        </Link>
+                        </a>
                       </li>
                       <li className="image">
-                        <Link to="/null">
+                        <a href="!#">
                           <img src="./images/sale-banner-01.jpg" alt="" />
-                        </Link>
+                        </a>
                       </li>
                     </ul>
                   </div>
                 </div>
               </li>
               <li>
-                <Link
+                <a
                   to="/sub03FleaMarket"
                   className="main-btn"
                   title="Flea Market"
                 >
                   <span>Flea Market</span>
-                </Link>
+                </a>
                 <div className="sub page text">
                   <div className="sub-container">
                     <ul>
@@ -593,37 +656,37 @@ function HeaderComponent(props) {
                         <dl>
                           <dt>Basic pages</dt>
                           <dd>
-                            <Link to="/null">About classNameic</Link>
+                            <a href="!#">About classNameic</a>
                           </dd>
                           <dd>
-                            <Link to="/null">About modern</Link>
+                            <a href="!#">About modern</a>
                           </dd>
                           <dd>
-                            <Link to="/null">The team</Link>
+                            <a href="!#">The team</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Our services</Link>
+                            <a href="!#">Our services</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Our brands</Link>
+                            <a href="!#">Our brands</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Get the voucher</Link>
+                            <a href="!#">Get the voucher</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Pricing plans</Link>
+                            <a href="!#">Pricing plans</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Store locator</Link>
+                            <a href="!#">Store locator</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Contact classNameic</Link>
+                            <a href="!#">Contact classNameic</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Contact modern</Link>
+                            <a href="!#">Contact modern</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Testimonials</Link>
+                            <a href="!#">Testimonials</a>
                           </dd>
                         </dl>
                       </li>
@@ -631,28 +694,28 @@ function HeaderComponent(props) {
                         <dl>
                           <dt>Information pages</dt>
                           <dd>
-                            <Link to="/null">Terms and conditions</Link>
+                            <a href="!#">Terms and conditions</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Privacy policy</Link>
+                            <a href="!#">Privacy policy</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Size guide</Link>
+                            <a href="!#">Size guide</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Help and support</Link>
+                            <a href="!#">Help and support</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Payment method</Link>
+                            <a href="!#">Payment method</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Shipping and delivery</Link>
+                            <a href="!#">Shipping and delivery</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Returns and refunds</Link>
+                            <a href="!#">Returns and refunds</a>
                           </dd>
                           <dd>
-                            <Link to="/null">FAQs</Link>
+                            <a href="!#">FAQs</a>
                           </dd>
                         </dl>
                       </li>
@@ -660,187 +723,295 @@ function HeaderComponent(props) {
                         <dl>
                           <dt>Extra pages</dt>
                           <dd>
-                            <Link to="/null">404 error</Link>
+                            <a href="!#">404 error</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Coming soon</Link>
+                            <a href="!#">Coming soon</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Maintenance</Link>
+                            <a href="!#">Maintenance</a>
                           </dd>
                         </dl>
                       </li>
                       <li>
-                        <Link to="/null">
+                        <a href="!#">
                           <img src="./images/menu-banner-04.jpg" alt="" />
-                        </Link>
+                        </a>
                       </li>
                     </ul>
                   </div>
                 </div>
               </li>
               <li className="blog">
-                <Link
+                <a
                   to="/sub04SpecialOffer"
                   className="main-btn"
                   title="Special Offer"
                 >
                   <span>Special Offer</span>
-                </Link>
+                </a>
                 <div className="sub">
                   <div className="sub-container sub-width">
                     <ul>
                       <li>
-                        <Link to="/null" className="sub-btn">
+                        <a
+                          href="!#"
+                          onClick={(e) => onClickALink(e, "#")}
+                          className="sub-btn"
+                        >
                           <span>Blog standard</span>
                           <i className="bi bi-heart-fill"></i>
-                        </Link>
+                        </a>
                         <div className="sub-sub">
                           <div className="sub-sub-container sub-width">
                             <ul>
                               <li>
-                                <Link to="/null" title="Blog full width">
+                                <a
+                                  href="!#"
+                                  onClick={(e) => onClickALink(e, "#")}
+                                  title="Blog full width"
+                                >
                                   <span>Blog full width</span>
-                                </Link>
+                                </a>
                               </li>
                               <li>
-                                <Link to="/null" title="Blog left sidebar">
+                                <a
+                                  href="!#"
+                                  onClick={(e) => onClickALink(e, "#")}
+                                  title="Blog left sidebar"
+                                >
                                   <span>Blog left sidebar</span>
-                                </Link>
+                                </a>
                               </li>
                               <li>
-                                <Link to="/null" title="Blog right sidebar">
+                                <a
+                                  href="!#"
+                                  onClick={(e) => onClickALink(e, "#")}
+                                  title="Blog right sidebar"
+                                >
                                   <span>Blog right sidebar</span>
-                                </Link>
+                                </a>
                               </li>
                             </ul>
                           </div>
                         </div>
                       </li>
                       <li>
-                        <Link to="/null" className="sub-btn">
+                        <a
+                          href="!#"
+                          onClick={(e) => onClickALink(e, "#")}
+                          className="sub-btn"
+                        >
                           <span>Blog side image</span>
-                        </Link>
+                        </a>
                       </li>
                       <li>
-                        <Link to="/null" className="sub-btn">
+                        <a
+                          href="!#"
+                          onClick={(e) => onClickALink(e, "#")}
+                          className="sub-btn"
+                        >
                           <span>Blog masonry</span>
-                        </Link>
+                        </a>
                       </li>
                       <li>
-                        <Link to="/null" className="sub-btn">
+                        <a
+                          href="!#"
+                          onClick={(e) => onClickALink(e, "#")}
+                          className="sub-btn"
+                        >
                           <span>Blog grid</span>{" "}
-                        </Link>
+                        </a>
                       </li>
                       <li>
-                        <Link to="/null" className="sub-btn">
+                        <a
+                          href="!#"
+                          onClick={(e) => onClickALink(e, "#")}
+                          className="sub-btn"
+                        >
                           <span>Blog clean</span>{" "}
-                        </Link>
+                        </a>
                       </li>
                       <li>
-                        <Link to="/null" className="sub-btn">
+                        <a
+                          href="!#"
+                          onClick={(e) => onClickALink(e, "#")}
+                          className="sub-btn"
+                        >
                           <span>Blog modern</span>
-                        </Link>
+                        </a>
                       </li>
                       <li>
-                        <Link to="/null" className="sub-btn">
+                        <a
+                          href="!#"
+                          onClick={(e) => onClickALink(e, "#")}
+                          className="sub-btn"
+                        >
                           <span>Blog text only</span>
-                        </Link>
+                        </a>
                       </li>
                       <li>
-                        <Link to="/null" className="sub-btn">
+                        <a
+                          href="!#"
+                          onClick={(e) => onClickALink(e, "#")}
+                          className="sub-btn"
+                        >
                           <span>Blog overlay image</span>
-                        </Link>
+                        </a>
                       </li>
                       <li>
-                        <Link to="/null" className="sub-btn">
+                        <a
+                          href="!#"
+                          onClick={(e) => onClickALink(e, "#")}
+                          className="sub-btn"
+                        >
                           <span>Blog image</span>{" "}
-                        </Link>
+                        </a>
                       </li>
                       <li>
-                        <Link to="/null" className="sub-btn">
+                        <a
+                          href="!#"
+                          onClick={(e) => onClickALink(e, "#")}
+                          className="sub-btn"
+                        >
                           <span>Post layout</span>
                           <i className="bi bi-chevron-right"></i>
-                        </Link>
+                        </a>
                         <div className="sub-sub">
                           <div className="sub-sub-container sub-width">
                             <ul>
                               <li>
-                                <Link to="/null" title="Layout – Styles 01">
+                                <a
+                                  href="!#"
+                                  onClick={(e) => onClickALink(e, "#")}
+                                  title="Layout – Styles 01"
+                                >
                                   <span>Layout – Styles 01</span>
-                                </Link>
+                                </a>
                               </li>
                               <li>
-                                <Link to="/null" title="Layout – Styles 02">
+                                <a
+                                  href="!#"
+                                  onClick={(e) => onClickALink(e, "#")}
+                                  title="Layout – Styles 02"
+                                >
                                   <span>Layout – Styles 02</span>
-                                </Link>
+                                </a>
                               </li>
                               <li>
-                                <Link to="/null" title="Layout – Styles 03">
+                                <a
+                                  href="!#"
+                                  onClick={(e) => onClickALink(e, "#")}
+                                  title="Layout – Styles 03"
+                                >
                                   <span>Layout – Styles 03</span>
-                                </Link>
+                                </a>
                               </li>
                               <li>
-                                <Link to="/null" title="Layout – Styles 04">
+                                <a
+                                  href="!#"
+                                  onClick={(e) => onClickALink(e, "#")}
+                                  title="Layout – Styles 04"
+                                >
                                   <span>Layout – Styles 04</span>
-                                </Link>
+                                </a>
                               </li>
                               <li>
-                                <Link to="/null" title="Layout – Styles 05">
+                                <a
+                                  href="!#"
+                                  onClick={(e) => onClickALink(e, "#")}
+                                  title="Layout – Styles 05"
+                                >
                                   <span>Layout – Styles 05</span>
-                                </Link>
+                                </a>
                               </li>
                             </ul>
                           </div>
                         </div>
                       </li>
                       <li>
-                        <Link to="/null" className="sub-btn">
+                        <a
+                          href="!#"
+                          onClick={(e) => onClickALink(e, "#")}
+                          className="sub-btn"
+                        >
                           <span>Post type</span>
                           <i className="bi bi-chevron-rightt"></i>
-                        </Link>
+                        </a>
                         <div className="sub-sub">
                           <div className="sub-sub-container sub-width">
                             <ul>
                               <li>
-                                <Link to="/null" title="Standard post">
+                                <a
+                                  href="!#"
+                                  onClick={(e) => onClickALink(e, "#")}
+                                  title="Standard post"
+                                >
                                   <span>Standard post</span>
-                                </Link>
+                                </a>
                               </li>
                               <li>
-                                <Link to="/null" title="Gallery post">
+                                <a
+                                  href="!#"
+                                  onClick={(e) => onClickALink(e, "#")}
+                                  title="Gallery post"
+                                >
                                   <span>Gallery post</span>
-                                </Link>
+                                </a>
                               </li>
                               <li>
-                                <Link to="/null" title="Images slider post">
+                                <a
+                                  href="!#"
+                                  onClick={(e) => onClickALink(e, "#")}
+                                  title="Images slider post"
+                                >
                                   <span>Images slider post</span>
-                                </Link>
+                                </a>
                               </li>
                               <li>
-                                <Link to="/null" title="HTML5 video post">
+                                <a
+                                  href="!#"
+                                  onClick={(e) => onClickALink(e, "#")}
+                                  title="HTML5 video post"
+                                >
                                   <span>HTML5 video post</span>
-                                </Link>
+                                </a>
                               </li>
                               <li>
-                                <Link to="/null" title="Youtube video post">
+                                <a
+                                  href="!#"
+                                  onClick={(e) => onClickALink(e, "#")}
+                                  title="Youtube video post"
+                                >
                                   <span>Youtube video post</span>
-                                </Link>
+                                </a>
                               </li>
                               <li>
-                                <Link to="/null" title="Vimeo video post">
+                                <a
+                                  href="!#"
+                                  onClick={(e) => onClickALink(e, "#")}
+                                  title="Vimeo video post"
+                                >
                                   <span>Vimeo video post</span>
-                                </Link>
+                                </a>
                               </li>
                               <li>
-                                <Link to="/null" title="Audio post">
+                                <a
+                                  href="!#"
+                                  onClick={(e) => onClickALink(e, "#")}
+                                  title="Audio post"
+                                >
                                   <span>Audio post</span>
-                                </Link>
+                                </a>
                               </li>
                               <li>
-                                <Link to="/null" title="Blockquote post">
+                                <a
+                                  href="!#"
+                                  onClick={(e) => onClickALink(e, "#")}
+                                  title="Blockquote post"
+                                >
                                   <span>Blockquote post</span>
-                                </Link>
+                                </a>
                               </li>
                             </ul>
                           </div>
@@ -851,13 +1022,13 @@ function HeaderComponent(props) {
                 </div>
               </li>
               <li>
-                <Link
+                <a
                   to="/sub12NoticeBoardList"
                   className="main-btn"
                   title="Elements"
                 >
                   <span>Notices</span>
-                </Link>
+                </a>
                 <div className="sub text">
                   <div className="sub-container">
                     <ul>
@@ -865,66 +1036,74 @@ function HeaderComponent(props) {
                         <dl>
                           <dt>Shop elements</dt>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-list-task"></i>Product list
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null" className="needFlex">
+                            <a
+                              href="!#"
+                              onClick={(e) => onClickALink(e, "#")}
+                              className="needFlex"
+                            >
                               <i className="bi bi-battery"></i>Product carousel
                               <span className="new">New</span>
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-menu-button-wide"></i>Product
                               widget
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null" className="needFlex">
+                            <a
+                              href="!#"
+                              onClick={(e) => onClickALink(e, "#")}
+                              className="needFlex"
+                            >
                               <i className="bi bi-list-task"></i>Category
                               listing
                               <span className="new">New</span>
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-folder2"></i>Product tab
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-cart"></i> Best selling
                               products
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-bookmark"></i>Featured
                               products
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-box-seam"></i>New products
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-truck"></i>On sale product
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-dropbox"></i>Recent products
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-award-fill"></i>Top rated
                               products
-                            </Link>
+                            </a>
                           </dd>
                         </dl>
                       </li>
@@ -932,92 +1111,96 @@ function HeaderComponent(props) {
                         <dl>
                           <dt>General elements</dt>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-substack"></i>Accordions
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-mouse-fill"></i>Buttons
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-person"></i>Team
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-sliders2"></i>Team carousel
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-arrows-move"></i>Brands
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-sliders2"></i>Brands carousel
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null" className="needFlex">
+                            <a
+                              href="!#"
+                              onClick={(e) => onClickALink(e, "#")}
+                              className="needFlex"
+                            >
                               <i className="bi bi-bookmark-fill"></i>Subscribe
                               <span className="new">New</span>
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-headset"></i>Call to action
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-folder2"></i>Tab
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-geo-alt-fill"></i>Google map
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-clipboard-fill"></i>Contact
                               form
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-images"></i>Image gallery
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-instagram"></i>Instagram
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-stack"></i>Popup
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-share-fill"></i>Social icons
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-chat-fill"></i>Testimonials
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-chat-text-fill"></i>
                               Testimonials carousel
-                            </Link>
+                            </a>
                           </dd>
                         </dl>
                       </li>
@@ -1025,81 +1208,81 @@ function HeaderComponent(props) {
                         <dl>
                           <dt>Infographics / Interactive</dt>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-hourglass-split"></i>
                               Process bar
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-cassette-fill"></i> Icon with
                               text
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-square-half"></i>Custom icon
                               with text
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-stopwatch"></i>Counters
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-stopwatch-fill"></i> Countdown
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-badge-cc-fill"></i> Text box
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-cassette-fill"></i>Fancy text
                               box
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-camera-video-fill"></i>Video
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-card-image"></i>Interactive
                               banners
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-card-image"></i>Shop banner
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-grid-3x2-gap-fill"></i>Info
                               banners
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-arrow-repeat"></i>Rotate box
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-arrows-vertical"></i>Process
                               step
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null">
+                            <a href="!#">
                               <i className="bi bi-wifi"></i>Image hotspot
-                            </Link>
+                            </a>
                           </dd>
                         </dl>
                       </li>
@@ -1107,57 +1290,97 @@ function HeaderComponent(props) {
                         <dl>
                           <dt>Text & containers</dt>
                           <dd>
-                            <Link to="/null" title="Heading">
+                            <a
+                              href="!#"
+                              onClick={(e) => onClickALink(e, "#")}
+                              title="Heading"
+                            >
                               <i className="bi bi-fonts"></i>Heading
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null" title="Dropcaps">
+                            <a
+                              href="!#"
+                              onClick={(e) => onClickALink(e, "#")}
+                              title="Dropcaps"
+                            >
                               <i className="bi bi-menu-button-wide"></i>Dropcaps
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null" title="Columns">
+                            <a
+                              href="!#"
+                              onClick={(e) => onClickALink(e, "#")}
+                              title="Columns"
+                            >
                               <i className="bi bi-layout-three-columns"></i>
                               Columns
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null" title="Blockquote">
+                            <a
+                              href="!#"
+                              onClick={(e) => onClickALink(e, "#")}
+                              title="Blockquote"
+                            >
                               <i className="bi bi-quote"></i>Blockquote
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null" title="Highlights">
+                            <a
+                              href="!#"
+                              onClick={(e) => onClickALink(e, "#")}
+                              title="Highlights"
+                            >
                               <i className="bi bi-type-underline"></i>Highlights
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null" title="Message box">
+                            <a
+                              href="!#"
+                              onClick={(e) => onClickALink(e, "#")}
+                              title="Message box"
+                            >
                               <i className="bi bi-chat-left-fill"></i>Message
                               box
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null" title="Lists">
+                            <a
+                              href="!#"
+                              onClick={(e) => onClickALink(e, "#")}
+                              title="Lists"
+                            >
                               <i className="bi bi-list-ul"></i>Lists
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null" title="Separators">
+                            <a
+                              href="!#"
+                              onClick={(e) => onClickALink(e, "#")}
+                              title="Separators"
+                            >
                               <i className="bi bi-list"></i>Separators
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null" title="Pricing table">
+                            <a
+                              href="!#"
+                              onClick={(e) => onClickALink(e, "#")}
+                              title="Pricing table"
+                            >
                               <i className="bi bi-table"></i>Pricing table
-                            </Link>
+                            </a>
                           </dd>
                           <dd>
-                            <Link to="/null" title="Tables">
+                            <a
+                              href="!#"
+                              onClick={(e) => onClickALink(e, "#")}
+                              title="Tables"
+                            >
                               <i className="bi bi-file-earmark-spreadsheet-fill"></i>
                               Tables
-                            </Link>
+                            </a>
                           </dd>
                         </dl>
                       </li>
@@ -1166,9 +1389,14 @@ function HeaderComponent(props) {
                 </div>
               </li>
               <li>
-                <Link to="/null" className="main-btn" title="Features">
+                <a
+                  href="!#"
+                  onClick={(e) => onClickALink(e, "#")}
+                  className="main-btn"
+                  title="Features"
+                >
                   <span>Features</span>
-                </Link>
+                </a>
                 <div className="sub text">
                   <div className="sub-container">
                     <ul>
@@ -1176,43 +1404,43 @@ function HeaderComponent(props) {
                         <dl>
                           <dt>Header style</dt>
                           <dd>
-                            <Link to="/null">Transparent header</Link>
+                            <a href="!#">Transparent header</a>
                           </dd>
                           <dd>
-                            <Link to="/null">White header</Link>
+                            <a href="!#">White header</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Dark header</Link>
+                            <a href="!#">Dark header</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Left navigation</Link>
+                            <a href="!#">Left navigation</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Header with sticky top bar</Link>
+                            <a href="!#">Header with sticky top bar</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Header with push</Link>
+                            <a href="!#">Header with push</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Center navigation</Link>
+                            <a href="!#">Center navigation</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Center logo</Link>
+                            <a href="!#">Center logo</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Top logo</Link>
+                            <a href="!#">Top logo</a>
                           </dd>
                           <dd>
-                            <Link to="/null">One page navigation</Link>
+                            <a href="!#">One page navigation</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Left menu</Link>
+                            <a href="!#">Left menu</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Hamburger</Link>
+                            <a href="!#">Hamburger</a>
                           </dd>
                           <dd>
-                            <Link to="/null">With categories menu</Link>
+                            <a href="!#">With categories menu</a>
                           </dd>
                         </dl>
                       </li>
@@ -1220,34 +1448,34 @@ function HeaderComponent(props) {
                         <dl>
                           <dt>Title style</dt>
                           <dd>
-                            <Link to="/null">Left alignment</Link>
+                            <a href="!#">Left alignment</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Right alignment</Link>
+                            <a href="!#">Right alignment</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Center alignment</Link>
+                            <a href="!#">Center alignment</a>
                           </dd>
                           <dd>
-                            <Link to="/null">classNameic title style</Link>
+                            <a href="!#">classNameic title style</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Modern title style</Link>
+                            <a href="!#">Modern title style</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Clean title style</Link>
+                            <a href="!#">Clean title style</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Parallax image background</Link>
+                            <a href="!#">Parallax image background</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Gallery background</Link>
+                            <a href="!#">Gallery background</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Background video</Link>
+                            <a href="!#">Background video</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Mini version</Link>
+                            <a href="!#">Mini version</a>
                           </dd>
                         </dl>
                       </li>
@@ -1255,43 +1483,43 @@ function HeaderComponent(props) {
                         <dl>
                           <dt>Shop features</dt>
                           <dd>
-                            <Link to="/null">Left sidebar</Link>
+                            <a href="!#">Left sidebar</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Right sidebar</Link>
+                            <a href="!#">Right sidebar</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Without sidebar</Link>
+                            <a href="!#">Without sidebar</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Top filter</Link>
+                            <a href="!#">Top filter</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Off canvas filter</Link>
+                            <a href="!#">Off canvas filter</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Infinity scroll</Link>
+                            <a href="!#">Infinity scroll</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Sticky add to cart</Link>
+                            <a href="!#">Sticky add to cart</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Product image gallery</Link>
+                            <a href="!#">Product image gallery</a>
                           </dd>
                         </dl>
                         <dl>
                           <dt>Shop layout</dt>
                           <dd>
-                            <Link to="/null">Two columns grid</Link>
+                            <a href="!#">Two columns grid</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Three columns grid</Link>
+                            <a href="!#">Three columns grid</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Four columns grid</Link>
+                            <a href="!#">Four columns grid</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Five columns grid</Link>
+                            <a href="!#">Five columns grid</a>
                           </dd>
                         </dl>
                       </li>
@@ -1299,36 +1527,40 @@ function HeaderComponent(props) {
                         <dl>
                           <dt>Footer style</dt>
                           <dd>
-                            <Link to="/null">Footer – Style 01</Link>
+                            <a href="!#">Footer – Style 01</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Footer – Style 02</Link>
+                            <a href="!#">Footer – Style 02</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Footer – Style 03</Link>
+                            <a href="!#">Footer – Style 03</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Footer – Style 04</Link>
+                            <a href="!#">Footer – Style 04</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Footer – Style 05</Link>
+                            <a href="!#">Footer – Style 05</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Footer – Style 06</Link>
+                            <a href="!#">Footer – Style 06</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Footer – Style 07</Link>
+                            <a href="!#">Footer – Style 07</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Footer – Style 08</Link>
+                            <a href="!#">Footer – Style 08</a>
                           </dd>
                           <dd>
-                            <Link to="/null">Footer – Style 09</Link>
+                            <a href="!#">Footer – Style 09</a>
                           </dd>
                           <dd>
-                            <Link to="/null" className="needFlex">
+                            <a
+                              href="!#"
+                              onClick={(e) => onClickALink(e, "#")}
+                              className="needFlex"
+                            >
                               Footer – Style 10<span className="new">New</span>
-                            </Link>
+                            </a>
                           </dd>
                         </dl>
                       </li>
@@ -1339,11 +1571,11 @@ function HeaderComponent(props) {
             </ul>
           </nav>
           <div className="toggle">
-            <Link to="/null">
+            <a href="!#">
               <span></span>
               <span></span>
               <span></span>
-            </Link>
+            </a>
           </div>
         </div>
         <div className="col col3">
@@ -1363,32 +1595,32 @@ function HeaderComponent(props) {
                 </>
               )}
               <li>
-                <Link to="/null" title="">
+                <a href="!#" onClick={(e) => onClickALink(e, "#")} title="">
                   <i className="bi bi-search"></i>
-                </Link>
+                </a>
               </li>
               <li>
                 {userData ? (
-                  <a href="!#" title="" onClick={clickUserName}>
+                  <a href="!#" onClick={(e) => onClickALink(e, "#")} title="">
                     <i className="bi bi-person-fill"></i>
                   </a>
                 ) : (
-                  <Link to="/sub11signInForm" title="">
+                  <a to="/sub11signInForm" title="">
                     <i className="bi bi-person-fill"></i>
-                  </Link>
+                  </a>
                 )}
               </li>
               <li>
-                <Link to="/subWishList" title="">
+                <a to="/subWishList" title="">
                   <i className="bi bi-heart-fill"></i>
-                </Link>
+                </a>
               </li>
               <li>
-                <Link to="/sub06Cart" title="">
+                <a to="/sub06Cart" title="">
                   <span className="material-symbols-outlined">
                     shopping_cart
                   </span>
-                </Link>
+                </a>
                 {cart.length > 0 && (
                   <span className="length">{cart.length}</span>
                 )}
