@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import "./scss/Sub12NoticeBoardWrite.scss";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { modalAction } from "../../../../store/confirmModal";
 export default function Sub12NoticeBoardWrite(props) {
   const location = useLocation();
+  const dispatch = useDispatch();
   const nav = useNavigate();
 
   const [state, setState] = useState({
-    wType: "",
+    wType: "normal",
     wSubject: "",
     wContent: "",
     wID: "",
@@ -46,8 +49,6 @@ export default function Sub12NoticeBoardWrite(props) {
     formData.append("id", state.wID);
     formData.append("subject", state.wSubject);
     formData.append("content", state.wContent);
-    formData.append("del", state.wDel);
-    formData.append("hit", state.wHit);
 
     axios({
       url: "/hongo_sign_up/noticeWrite.php",
@@ -56,16 +57,24 @@ export default function Sub12NoticeBoardWrite(props) {
     })
       .then((res) => {
         if (res.status === 200) {
+          let obj = {
+            messege: "",
+            isOn: true,
+            isConfirm: false,
+          };
           switch (res.data) {
             case 1:
-              alert("수정완료");
+              obj = { ...obj, messege: "글이 등록되었습니다." };
               break;
+
             case 0:
-              alert("실패");
+              obj = { ...obj, messege: "등록 실패" };
               break;
+
             default:
               break;
           }
+          dispatch(modalAction(obj));
           console.log(res.data);
         }
       })
@@ -107,7 +116,6 @@ export default function Sub12NoticeBoardWrite(props) {
             <div className="btn-container">
               <button type="submit">Regist</button>
               <button onClick={clickViewList}>View List</button>
-              <button>Delete</button>
             </div>
           </div>
         </form>

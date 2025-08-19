@@ -1,42 +1,50 @@
 import React, { useEffect, useState } from "react";
 import "./scss/Sub12NoticeBoardList.scss";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 export default function Sub12NoticeBoardList(props) {
   const navigation = useNavigate();
   /**――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― */
   const [state, setState] = useState({
     notification: [],
     originData: [],
+    page: [],
   });
   const [search, setSearch] = useState({
     data: "",
     type: "",
   });
+  const [curPage, setCurPage] = useState(1);
+  const pageNum = 5;
+  const start = (curPage - 1) * pageNum;
+  const end = start + pageNum;
+  const piece = state.notification.slice(start, end);
   /**――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― */
 
   /**데이터 가져오기 */
   useEffect(() => {
-    fetch("./json/sub/noitce.json", { method: "GET" })
-      .then((res) => res.json())
-      .then((data) => {
-        let align = data.notification;
-        align = [
-          ...align
-            .filter((el) => el.wType === "notice")
-            .sort((a, b) =>
-              a.wDate > b.wDate ? -1 : a.wDate < b.wDate ? 1 : 0
-            ),
-          ...align
-            .filter((el) => el.wType === "normal")
-            .sort((a, b) =>
-              a.wDate > b.wDate ? -1 : a.wDate < b.wDate ? 1 : 0
-            ),
-        ];
-        setState({
-          ...state,
-          notification: align,
-          originData: align,
-        });
+    axios({ url: "./hongo_sign_up/noticeSelect.php", method: "GET" })
+      .then((res) => {
+        if (res.status === 200) {
+          let align = res.data;
+          align = [
+            ...align
+              .filter((el) => el.wType === "notice")
+              .sort((a, b) =>
+                a.wDate > b.wDate ? -1 : a.wDate < b.wDate ? 1 : 0
+              ),
+            ...align
+              .filter((el) => el.wType === "normal")
+              .sort((a, b) =>
+                a.wDate > b.wDate ? -1 : a.wDate < b.wDate ? 1 : 0
+              ),
+          ];
+          setState({
+            ...state,
+            notification: align,
+            originData: align,
+          });
+        }
       })
       .catch((err) => {
         alert("ERROR");
@@ -44,6 +52,14 @@ export default function Sub12NoticeBoardList(props) {
       });
   }, []);
 
+  useEffect(() => {
+    setState({
+      ...state,
+      page: [...Array(Math.ceil(state.notification.length / pageNum))].map(
+        (el, idx) => idx + 1
+      ),
+    });
+  }, [state.notification]);
   /**――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― */
 
   /**검색 기능 */
@@ -86,6 +102,13 @@ export default function Sub12NoticeBoardList(props) {
   const clickWrite = (e) => {
     navigation("/sub12NoticeBoardWrite");
   };
+
+  /**페이지 번호 클릭 */
+  const clickNum = (e, n) => {
+    e.preventDefault();
+    setCurPage(n);
+  };
+
   /**――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― */ return (
     <main id="sub12NoticeBoardList">
       <section id="section1">
@@ -100,9 +123,7 @@ export default function Sub12NoticeBoardList(props) {
                   onChange={changeSelect}
                   value={search.type}
                 >
-                  <option value="wSubject" selected>
-                    Title
-                  </option>
+                  <option value="wSubject">Title</option>
                   <option value="wType">Type</option>
                   <option value="wID">Writer</option>
                 </select>
@@ -142,10 +163,14 @@ export default function Sub12NoticeBoardList(props) {
             {state.notification.length === 0 ? (
               <dd className="empty">데이터가 없습니다.</dd>
             ) : (
-              state.notification.map((el, idx) => (
-                <dd key={el.wIDX}>
+              piece.map((el, idx) => (
+                <dd key={el.IDX} data-key={el.IDX}>
                   <div className="col col1">
-                    <span>{state.notification.length - idx}</span>
+                    {el.wType === "notice" ? (
+                      <i className="fa-solid fa-circle-exclamation"></i>
+                    ) : (
+                      <span>{el.IDX}</span>
+                    )}
                   </div>
                   <div className="col col2">
                     <span>{el.wType}</span>
@@ -159,7 +184,9 @@ export default function Sub12NoticeBoardList(props) {
                     <span>{el.wID}</span>
                   </div>
                   <div className="col col5">
-                    <span>{el.wDate}</span>
+                    <span>{`${new Date(el.wDate).getFullYear()}.${
+                      new Date(el.wDate).getMonth() + 1
+                    }.${new Date(el.wDate).getDate()}`}</span>
                   </div>
                   <div className="col col6">
                     <span>{el.wHit}</span>
@@ -182,11 +209,16 @@ export default function Sub12NoticeBoardList(props) {
                 </button>
               </li>
               <li className="number">
-                <button className="active">1</button>
-                <button>2</button>
-                <button>3</button>
-                <button>4</button>
-                <button>5</button>
+                {state.page.map((el) => (
+                  <button
+                    key={el}
+                    data-key={el}
+                    className={el === curPage ? "active" : ""}
+                    onClick={(e) => clickNum(e, el)}
+                  >
+                    {el}
+                  </button>
+                ))}
               </li>
               <li className="button">
                 <button>

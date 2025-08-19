@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "./scss/Sub12NoticeBoard.scss";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { modalAction } from "../../../../store/confirmModal";
 export default function Sub12NoticeBoard(props) {
   const location = useLocation();
   const navigation = useNavigate();
-
+  const dispatch = useDispatch();
+  const returnYes = useSelector((state) => state.confirmModal.returnYes);
   const [state, setState] = useState({
-    wIDX: 0,
+    IDX: 0,
     wType: "",
     wSubject: "",
     wContent: "",
@@ -26,10 +30,63 @@ export default function Sub12NoticeBoard(props) {
   const clickEdit = (e) => {
     e.preventDefault();
     navigation(
-      { pathname: "/sub12NoticeBoardUpdate", search: `${state.wIDX}` },
+      { pathname: "/sub12NoticeBoardUpdate", search: `${state.IDX}` },
       { state: state }
     );
   };
+  const clickDelete = (e) => {
+    e.preventDefault();
+    dispatch(
+      modalAction({
+        messege: "삭제하시겠습니까?",
+        isOn: true,
+        isConfirm: true,
+      })
+    );
+  };
+  useEffect(() => {
+    if (!returnYes) return;
+    let formData = new FormData();
+    formData.append("idx", state.IDX);
+    axios({
+      url: "/hongo_sign_up/noticeDelete.php",
+      method: "POST",
+      data: formData,
+    })
+      .then((res) => {
+        switch (res.status) {
+          case 200:
+            let obj = {
+              messege: "",
+              isOn: true,
+              isConfirm: false,
+            };
+            console.log(res.data);
+            switch (res.data) {
+              case 1:
+                obj = { ...obj, messege: "삭제되었습니다." };
+                navigation("/sub12NoticeBoardList");
+                break;
+
+              case 0:
+                obj = { ...obj, messege: "삭제 실패" };
+                break;
+
+              default:
+                break;
+            }
+            dispatch(modalAction(obj));
+            break;
+
+          default:
+            break;
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("ERROR");
+      });
+  }, [returnYes]);
   return (
     <main>
       <section id="sub12NoticeBoard">
@@ -42,7 +99,7 @@ export default function Sub12NoticeBoard(props) {
           <div className="content">
             {state.wContent.split("\n").map((el, idx) => (
               <p key={el}>
-                {state.wContent.split("\n")[idx] === "&nbsp;"
+                {state.wContent.split("\n")[idx] === "\r"
                   ? "　"
                   : state.wContent.split("\n")[idx]}
               </p>
@@ -52,7 +109,7 @@ export default function Sub12NoticeBoard(props) {
             <div className="btn-container">
               <button onClick={clickEdit}>Edit</button>
               <button onClick={clickViewList}>View List</button>
-              <button>Delete</button>
+              <button onClick={clickDelete}>Delete</button>
             </div>
           </div>
         </div>
