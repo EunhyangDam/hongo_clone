@@ -2,7 +2,10 @@ import React from "react";
 import "../scss/FooterComponent.scss";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import useCustomAlink from "./custom/useCustomALink";
 function FooterComponent(props) {
+  const { onClickALink } = useCustomAlink();
+
   const [state, setState] = React.useState({
     email: "",
   });
@@ -75,9 +78,9 @@ function FooterComponent(props) {
           <ul>
             <li className="col col1">
               <h1>
-                <Link to="/null">
+                <a href="/null" onClick={(e) => onClickALink(e, null)}>
                   <img src="./images/footer-logo.png" alt="" />
-                </Link>
+                </a>
               </h1>
               <p>
                 Lorem Ipsum is simply dummy text of the printing and typesetting
@@ -119,52 +122,52 @@ function FooterComponent(props) {
               <dl>
                 <dt>Follow us on Instagram</dt>
                 <dd>
-                  <Link to="/null">
+                  <a href="/null" onClick={(e) => onClickALink(e, null)}>
                     <img src="./images/infa-01.jpg" alt="" />
                     <i className="bi bi-instagram"></i>
-                  </Link>
+                  </a>
                 </dd>
                 <dd>
-                  <Link to="/null">
+                  <a href="/null" onClick={(e) => onClickALink(e, null)}>
                     <img src="./images/infa-02.jpg" alt="" />
                     <i className="bi bi-instagram"></i>
-                  </Link>
+                  </a>
                 </dd>
                 <dd>
-                  <Link to="/null">
+                  <a href="/null" onClick={(e) => onClickALink(e, null)}>
                     <img src="./images/infa-03.jpg" alt="" />
                     <i className="bi bi-instagram"></i>
-                  </Link>
+                  </a>
                 </dd>
                 <dd>
-                  <Link to="/null">
+                  <a href="/null" onClick={(e) => onClickALink(e, null)}>
                     <img src="./images/infa-04.jpg" alt="" />
                     <i className="bi bi-instagram"></i>
-                  </Link>
+                  </a>
                 </dd>
                 <dd>
-                  <Link to="/null">
+                  <a href="/null" onClick={(e) => onClickALink(e, null)}>
                     <img src="./images/infa-05.jpg" alt="" />
                     <i className="bi bi-instagram"></i>
-                  </Link>
+                  </a>
                 </dd>
                 <dd>
-                  <Link to="/null">
+                  <a href="/null" onClick={(e) => onClickALink(e, null)}>
                     <img src="./images/infa-06.jpg" alt="" />
                     <i className="bi bi-instagram"></i>
-                  </Link>
+                  </a>
                 </dd>
                 <dd>
-                  <Link to="/null">
+                  <a href="/null" onClick={(e) => onClickALink(e, null)}>
                     <img src="./images/infa-07.jpg" alt="" />
                     <i className="bi bi-instagram"></i>
-                  </Link>
+                  </a>
                 </dd>
                 <dd>
-                  <Link to="/null">
+                  <a href="/null" onClick={(e) => onClickALink(e, null)}>
                     <img src="./images/infa-08.jpg" alt="" />
                     <i className="bi bi-instagram"></i>
-                  </Link>
+                  </a>
                 </dd>
               </dl>
             </li>
@@ -174,7 +177,10 @@ function FooterComponent(props) {
       <div className="row row3">
         <div className="container">
           <div className="col col1">
-            © 2025 HONGO is Proudly Powered by <Link to="/null">ThemeZaa</Link>
+            © 2025 HONGO is Proudly Powered by{" "}
+            <a href="/null" onClick={(e) => onClickALink(e, null)}>
+              ThemeZaa
+            </a>
           </div>
           <div className="col col2">
             <img src="./images/footer-payment-icon.png" alt="" />

@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./scss/Section8Component.scss";
 import { Link } from "react-router-dom";
+import useCustomAlink from "../custom/useCustomALink";
 
 function Section8Component(props) {
+  const { onClickALink } = useCustomAlink();
+
   const [state, setState] = useState({
     slide: [],
   });
@@ -125,9 +128,9 @@ function Section8Component(props) {
             <ul className="slide-wrap">
               {state.slide.map((el, idx) => (
                 <li className={`slide slide${idx + 1}`} key={`slide${idx + 1}`}>
-                  <Link to="/null">
+                  <a href="/" onClick={(e) => onClickALink(e, null)}>
                     <img src={`./images/${el}`} alt="" />
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>

@@ -1,7 +1,8 @@
 import { React, useEffect, useState } from "react";
 import "./scss/Section1Component.scss";
-import { Link } from "react-router-dom";
+import useCustomAlink from "../custom/useCustomALink";
 function Section1Component(props) {
+  const { onClickALink } = useCustomAlink();
   const [state, setState] = useState({
     slide: [],
   });
@@ -154,9 +155,13 @@ function Section1Component(props) {
   return (
     <section id="section1" className="section">
       <div className="slide-container">
-        <Link to="/null" className="prev-count slide-btn">
+        <a
+          href="/"
+          onClick={(e) => onClickALink(e, null)}
+          className="prev-count slide-btn"
+        >
           03
-        </Link>
+        </a>
         <div className="slide-view">
           <ul className="slide-wrap">
             {state.slide.map((el) => (
@@ -174,20 +179,28 @@ function Section1Component(props) {
                     <br />
                     and not a form of imprisonment
                   </p>
-                  <Link to="/null" title="SHOP COLLECTION">
+                  <a
+                    href="/"
+                    onClick={(e) => onClickALink(e, null)}
+                    title="SHOP COLLECTION"
+                  >
                     SHOP COLLECTION
-                  </Link>
+                  </a>
                 </div>
               </li>
             ))}
           </ul>
         </div>
-        <Link to="/null" className="next-count slide-btn">
+        <a
+          href="/"
+          onClick={(e) => onClickALink(e, null)}
+          className="next-count slide-btn"
+        >
           02
-        </Link>
+        </a>
       </div>
       <div className="direct-box">
-        <a href="#section3">
+        <a href="!#" onClick={(e) => onClickALink(e, "#section3")}>
           <i className="fa-solid fa-angles-down"></i>
         </a>
       </div>

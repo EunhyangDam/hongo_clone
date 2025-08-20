@@ -199,7 +199,7 @@ export default function Sub10SignUpForm(props) {
     let adr = e.target.value;
     setState({
       ...state,
-      email: ``,
+      email: "",
     });
   };
   const clickEmailDuplicate = (e) => {
@@ -215,6 +215,7 @@ export default function Sub10SignUpForm(props) {
       return;
     }
     const formData = new FormData();
+    formData.append("user_ID", state.id);
     formData.append("user_email", `${state.email}@gmail.com`);
     axios({
       url: "/hongo_sign_up/email_duplicate_check.php",
@@ -222,6 +223,7 @@ export default function Sub10SignUpForm(props) {
       data: formData,
     })
       .then((res) => {
+        console.log(res.data);
         if (res.status === 200) {
           if (res.data === 1) {
             obj = { ...obj, messege: "사용 중인 이메일입니다." };

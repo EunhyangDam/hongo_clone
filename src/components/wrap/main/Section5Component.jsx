@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./scss/Section5Component.scss";
 import { Link } from "react-router-dom";
+import useCustomAlink from "../custom/useCustomALink";
 
 function Section5Component(props) {
+  const { onClickALink } = useCustomAlink();
+
   const [state, setState] = useState({
     blog: {
       h2: "",
@@ -42,17 +45,21 @@ function Section5Component(props) {
           <ul>
             {state.blog.content.map((el) => (
               <li key={el.id} data-key={el.id}>
-                <Link to="/null">
+                <a to="/null" onClick={(e) => onClickALink(e, null)}>
                   <img src={`./images/${el.img}`} alt="" />
-                </Link>
+                </a>
                 <div className="txt">
                   <div className="txt-container"></div>
                   <div className="blk">
                     <p className="adventure">
-                      <Link to="/null">{el.type}</Link>
+                      <a href="/null" onClick={(e) => onClickALink(e, null)}>
+                        {el.type}
+                      </a>
                     </p>
                     <p className="heading">
-                      <Link to="/null">{el.heading}</Link>
+                      <a href="/null" onClick={(e) => onClickALink(e, null)}>
+                        {el.heading}
+                      </a>
                     </p>
                   </div>
                   <div className="white">
@@ -60,9 +67,9 @@ function Section5Component(props) {
                     <i>|</i>
                     <p className="name">
                       By
-                      <Link to="/null" className="name">
+                      <a to="/null" className="name">
                         {el.name}
-                      </Link>
+                      </a>
                     </p>
                   </div>
                 </div>

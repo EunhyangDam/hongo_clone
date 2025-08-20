@@ -48,7 +48,7 @@ import NotPageComponent from "./wrap/NotPageComponent";
 import WishlistComponent from "./wrap/sub/Sub16Wishlist/WishlistComponent";
 import MainModalComponent from "./wrap/MainModalComponent";
 import ConfirmModal from "./wrap/ConfirmModal";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { productAddAction } from "../store/viewProduct";
 import { heartAddAction } from "../store/wishlist";
@@ -59,9 +59,11 @@ import ReactDaumPostcode from "./wrap/ReactDaumPostcode";
 import { postAction } from "../store/reactDaumPostcode";
 import { signInAction } from "../store/signIn";
 import Sub12NoticeBoard from "./wrap/sub/Sub12NoticeBoard/Sub12NoticeBoard";
+import WindowScrollTop from "./wrap/custom/WindowScrollTop";
 
 export default function WrapComponent(props) {
   const dispatch = useDispatch();
+  const location = useLocation();
   const confirmIsOn = useSelector((state) => state.confirmModal.isOn);
   const mainIsOn = useSelector((state) => state.mainModal.isOn);
   const postIsOn = useSelector((state) => state.reactDaumPostcode.isOpen);
@@ -98,6 +100,7 @@ export default function WrapComponent(props) {
       console.log(error);
       alert("cookie ERROR");
     }
+    // eslint-disable-next-line
   }, [cookies]);
   /**로컬 스토리지 관리 */
   useEffect(() => {
@@ -129,6 +132,7 @@ export default function WrapComponent(props) {
       return;
     }
   }, [dispatch]);
+
   return (
     <div id="wrap">
       <Routes>
@@ -262,6 +266,7 @@ export default function WrapComponent(props) {
       {confirmIsOn && <ConfirmModal />}
       {mainIsOn && <MainModalComponent />}
       {postIsOn && <ReactDaumPostcode />}
+      <WindowScrollTop />
     </div>
   );
 }

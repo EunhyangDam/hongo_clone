@@ -1,8 +1,11 @@
 import { React, useEffect } from "react";
 import "./scss/Section6Component.scss";
 import { Link } from "react-router-dom";
+import useCustomAlink from "../custom/useCustomALink";
 
 function Section6Component(props) {
+  const { onClickALink } = useCustomAlink();
+
   useEffect(() => {
     const days = document.querySelector(".days");
     const hours = document.querySelector(".hours");
@@ -50,7 +53,10 @@ function Section6Component(props) {
               <p>Seconds</p>
             </div>
           </div>
-          <Link to="/null"> SHOP COLLECTION </Link>
+          <a href="/" onClick={(e) => onClickALink(e, null)}>
+            {" "}
+            SHOP COLLECTION{" "}
+          </a>
         </div>
       </div>
     </section>

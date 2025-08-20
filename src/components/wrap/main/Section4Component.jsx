@@ -2,8 +2,11 @@ import React from "react";
 import "./scss/Section4Component.scss";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import useCustomAlink from "../custom/useCustomALink";
 
 function Section4Component(props) {
+  const { onClickALink } = useCustomAlink();
+
   const [state, setState] = React.useState({
     email: "",
   });
@@ -41,7 +44,9 @@ function Section4Component(props) {
                   LOOK <br />
                   BOOK
                 </h2>
-                <Link to="/null">the lookbook</Link>
+                <a href="/" onClick={(e) => onClickALink(e, null)}>
+                  the lookbook
+                </a>
               </div>
             </li>
             <li>

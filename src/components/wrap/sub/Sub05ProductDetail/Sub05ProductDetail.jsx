@@ -6,7 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { heartAddAction } from "../../../../store/wishlist";
 import { modalAction } from "../../../../store/confirmModal";
 import { cartAddAction } from "../../../../store/cart";
+import useCustomAlink from "../../custom/useCustomALink";
 export default function Sub05ProductDetail(props) {
+  const { onClickALink } = useCustomAlink;
   const location = useLocation();
   const dispatch = useDispatch();
 
@@ -21,6 +23,7 @@ export default function Sub05ProductDetail(props) {
     setState({
       data: location.state,
     });
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }, [location]);
   useEffect(() => {
     setWish({
@@ -152,13 +155,13 @@ export default function Sub05ProductDetail(props) {
             <div className="col2 col">
               <div className="row row1">
                 <div className="site">
-                  <Link to="/mainComponent">
+                  <a href="!#" onClick={(e) => onClickALink(e, null)}>
                     <span>Home</span>
-                  </Link>
+                  </a>
                   <i className="bi bi-chevron-right"></i>
-                  <Link to="/mainComponent">
+                  <a href="!#" onClick={(e) => onClickALink(e, null)}>
                     <span>Jacket collection</span>
-                  </Link>
+                  </a>
                   <i className="bi bi-chevron-right"></i>
                   <span>Top With Pleated</span>
                 </div>
@@ -199,7 +202,8 @@ export default function Sub05ProductDetail(props) {
                         wishlist.map((el) => el.id).includes(state.data.id)
                           ? "-fill"
                           : ""
-                      }`}></i>
+                      }`}
+                    ></i>
                     Add to Wishlist
                   </button>
                 </div>

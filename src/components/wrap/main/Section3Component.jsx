@@ -5,8 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { productAddAction } from "../../../store/viewProduct";
 import { heartAddAction } from "../../../store/wishlist";
 import { modalAction } from "../../../store/confirmModal";
+import useCustomAlink from "../custom/useCustomALink";
 
 function Section3Component(props) {
+  const { onClickALink } = useCustomAlink();
+
   const dispatch = useDispatch();
   const nav = useNavigate();
   const wishlist = useSelector((state) => state.wishlist.wishlist);

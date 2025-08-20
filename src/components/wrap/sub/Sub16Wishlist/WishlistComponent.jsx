@@ -1,11 +1,12 @@
 import { React, useEffect, useState } from "react";
 import "./scss/WishlistComponent.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { heartDelAction } from "../../../../store/wishlist";
 import { cartAddAction } from "../../../../store/cart";
+import useCustomAlink from "../../custom/useCustomALink";
 
 function WishlistComponent(props) {
+  const { onClickALink } = useCustomAlink();
   const dispatch = useDispatch();
   const heart = useSelector((state) => state.wishlist.wishlist);
   const [state, setState] = useState({
@@ -163,14 +164,24 @@ function WishlistComponent(props) {
                         </form>
                       </li>
                       <li className="col col2">
-                        <Link to="/sub05ProductDetail" state={el}>
+                        <a
+                          href="#"
+                          onClick={(e) =>
+                            onClickALink(e, "/sub05ProductDetail", el)
+                          }
+                        >
                           <img src={`./images/${el.front}`} alt="" />
-                        </Link>
+                        </a>
                       </li>
                       <li className="col col3">
-                        <Link to="/sub05ProductDetail" state={el}>
+                        <a
+                          href="#"
+                          onClick={(e) =>
+                            onClickALink(e, "/sub05ProductDetail", el)
+                          }
+                        >
                           {el.name}
-                        </Link>
+                        </a>
                       </li>
                       <li className="col col4">
                         {el.option

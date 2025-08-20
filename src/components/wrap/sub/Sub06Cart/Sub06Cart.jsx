@@ -5,7 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { modalAction, returnAction } from "../../../../store/confirmModal";
 import { cartAddAction } from "../../../../store/cart";
+import useCustomAlink from "../../custom/useCustomALink";
 export default function Sub06Cart(props) {
+  const { onClickALink } = useCustomAlink();
+
   const dispatch = useDispatch();
   const cartData = useSelector((state) => state.cart);
   const returnYes = useSelector((state) => state.confirmModal.returnYes);
@@ -153,16 +156,26 @@ export default function Sub06Cart(props) {
                           </button>
                         </li>
                         <li className="col col2">
-                          <Link to="/sub05ProductDetail" state={el}>
+                          <a
+                            to="!#"
+                            onClick={(e) =>
+                              onClickALink(e, "/sub05ProductDetail", el)
+                            }
+                          >
                             <img src={`./images/${el.front}`} alt="" />
-                          </Link>
+                          </a>
                         </li>
                         <li className="col col3">
                           <div className="col3-text">
                             <p className="name">
-                              <Link to="/sub05ProductDetail" state={el}>
+                              <a
+                                to="!#"
+                                onClick={(e) =>
+                                  onClickALink(e, "/sub05ProductDetail", el)
+                                }
+                              >
                                 {el.name}
-                              </Link>
+                              </a>
                             </p>
                             <p className="size">
                               {/* {el.size.length === 0 ? "size:S" : el.size} */}

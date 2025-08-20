@@ -1,6 +1,6 @@
 import { React, useEffect } from "react";
 import "../scss/HeaderComponent.scss";
-import { href, Link, Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logOutAction } from "../../store/signIn";
 import axios from "axios";
@@ -158,6 +158,8 @@ function HeaderComponent(props) {
     e.preventDefault();
     dispatch(logOutAction());
   };
+
+  // eslint-disable-next-line
   const clickUserName = (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -180,7 +182,11 @@ function HeaderComponent(props) {
       <header id="header">
         <div className="col col1">
           <h1>
-            <a href="/" title="hongo" onClick={(e) => onClickALink(e, "/")}>
+            <a
+              href="/"
+              title="hongo"
+              onClick={(e) => onClickALink(e, "https://www.google.com/")}
+            >
               <img src="./images/logo.png" alt="" />
             </a>
           </h1>
@@ -198,14 +204,14 @@ function HeaderComponent(props) {
                       <li>
                         <a
                           href="!#"
-                          onClick={(e) => onClickALink(e, "#")}
+                          onClick={(e) => onClickALink(e, null)}
                           className="img-container"
                         >
                           <img src="./images/fashion-menu-1.jpg" alt="" />
                         </a>
                         <a
                           href="!#"
-                          onClick={(e) => onClickALink(e, "#")}
+                          onClick={(e) => onClickALink(e, null)}
                           className="txt-container"
                         >
                           <p>Fashion</p>
@@ -214,14 +220,14 @@ function HeaderComponent(props) {
                       <li>
                         <a
                           href="!#"
-                          onClick={(e) => onClickALink(e, "#")}
+                          onClick={(e) => onClickALink(e, null)}
                           className="img-container"
                         >
                           <img src="./images/furniture-menu.jpg" alt="" />
                         </a>
                         <a
                           href="!#"
-                          onClick={(e) => onClickALink(e, "#")}
+                          onClick={(e) => onClickALink(e, null)}
                           className="txt-container"
                         >
                           <p>Furniture</p>
@@ -230,14 +236,14 @@ function HeaderComponent(props) {
                       <li>
                         <a
                           href="!#"
-                          onClick={(e) => onClickALink(e, "#")}
+                          onClick={(e) => onClickALink(e, null)}
                           className="img-container"
                         >
                           <img src="./images/jewellery-menu.jpg" alt="" />
                         </a>
                         <a
                           href="!#"
-                          onClick={(e) => onClickALink(e, "#")}
+                          onClick={(e) => onClickALink(e, null)}
                           className="txt-container"
                         >
                           <p>Jewellery</p>
@@ -246,14 +252,14 @@ function HeaderComponent(props) {
                       <li>
                         <a
                           href="!#"
-                          onClick={(e) => onClickALink(e, "#")}
+                          onClick={(e) => onClickALink(e, null)}
                           className="img-container"
                         >
                           <img src="./images/watch-menu.jpg" alt="" />
                         </a>
                         <a
                           href="!#"
-                          onClick={(e) => onClickALink(e, "#")}
+                          onClick={(e) => onClickALink(e, null)}
                           className="txt-container"
                         >
                           <p>watch</p>
@@ -262,14 +268,14 @@ function HeaderComponent(props) {
                       <li>
                         <a
                           href="!#"
-                          onClick={(e) => onClickALink(e, "#")}
+                          onClick={(e) => onClickALink(e, null)}
                           className="img-container"
                         >
                           <img src="./images/electronic-menu.jpg" alt="" />
                         </a>
                         <a
                           href="!#"
-                          onClick={(e) => onClickALink(e, "#")}
+                          onClick={(e) => onClickALink(e, null)}
                           className="txt-container"
                         >
                           <p>electronic</p>
@@ -278,14 +284,14 @@ function HeaderComponent(props) {
                       <li>
                         <a
                           href="!#"
-                          onClick={(e) => onClickALink(e, "#")}
+                          onClick={(e) => onClickALink(e, null)}
                           className="img-container"
                         >
                           <img src="./images/decor-menu.jpg" alt="" />
                         </a>
                         <a
                           href="!#"
-                          onClick={(e) => onClickALink(e, "#")}
+                          onClick={(e) => onClickALink(e, null)}
                           className="txt-container"
                         >
                           <p>decor</p>
@@ -294,14 +300,14 @@ function HeaderComponent(props) {
                       <li>
                         <a
                           href="!#"
-                          onClick={(e) => onClickALink(e, "#")}
+                          onClick={(e) => onClickALink(e, null)}
                           className="img-container"
                         >
                           <img src="./images/sports-menu.jpg" alt="" />
                         </a>
                         <a
                           href="!#"
-                          onClick={(e) => onClickALink(e, "#")}
+                          onClick={(e) => onClickALink(e, null)}
                           className="txt-container"
                         >
                           <p>sports</p>
@@ -311,14 +317,14 @@ function HeaderComponent(props) {
                       <li>
                         <a
                           href="!#"
-                          onClick={(e) => onClickALink(e, "#")}
+                          onClick={(e) => onClickALink(e, null)}
                           className="img-container"
                         >
                           <img src="./images/lingerie-menu.jpg" alt="" />
                         </a>
                         <a
                           href="!#"
-                          onClick={(e) => onClickALink(e, "#")}
+                          onClick={(e) => onClickALink(e, null)}
                           className="txt-container"
                         >
                           <p>lingerie</p>
@@ -330,7 +336,12 @@ function HeaderComponent(props) {
                 </div>
               </li>
               <li>
-                <a to="/sub01NewProduct" className="main-btn" title="Shop">
+                <a
+                  href="/sub01NewProduct"
+                  className="main-btn"
+                  title="Shop"
+                  onClick={(e) => onClickALink(e, "/sub01NewProduct")}
+                >
                   <span>New Product</span>
                 </a>
                 <div className="sub text shop">
@@ -485,9 +496,10 @@ function HeaderComponent(props) {
               </li>
               <li>
                 <a
-                  to="/sub02BestProduct"
+                  href="/sub02BestProduct"
                   className="main-btn"
                   title="Best Product"
+                  onClick={(e) => onClickALink(e, "/sub02BestProduct")}
                 >
                   <span>Best Product</span>
                 </a>
@@ -643,9 +655,10 @@ function HeaderComponent(props) {
               </li>
               <li>
                 <a
-                  to="/sub03FleaMarket"
+                  href="/sub03FleaMarket"
                   className="main-btn"
                   title="Flea Market"
+                  onClick={(e) => onClickALink(e, "/sub03FleaMarket")}
                 >
                   <span>Flea Market</span>
                 </a>
@@ -744,9 +757,10 @@ function HeaderComponent(props) {
               </li>
               <li className="blog">
                 <a
-                  to="/sub04SpecialOffer"
+                  href="/sub04SpecialOffer"
                   className="main-btn"
                   title="Special Offer"
+                  onClick={(e) => onClickALink(e, "/sub04SpecialOffer")}
                 >
                   <span>Special Offer</span>
                 </a>
@@ -756,7 +770,7 @@ function HeaderComponent(props) {
                       <li>
                         <a
                           href="!#"
-                          onClick={(e) => onClickALink(e, "#")}
+                          onClick={(e) => onClickALink(e, null)}
                           className="sub-btn"
                         >
                           <span>Blog standard</span>
@@ -768,7 +782,7 @@ function HeaderComponent(props) {
                               <li>
                                 <a
                                   href="!#"
-                                  onClick={(e) => onClickALink(e, "#")}
+                                  onClick={(e) => onClickALink(e, null)}
                                   title="Blog full width"
                                 >
                                   <span>Blog full width</span>
@@ -777,7 +791,7 @@ function HeaderComponent(props) {
                               <li>
                                 <a
                                   href="!#"
-                                  onClick={(e) => onClickALink(e, "#")}
+                                  onClick={(e) => onClickALink(e, null)}
                                   title="Blog left sidebar"
                                 >
                                   <span>Blog left sidebar</span>
@@ -786,7 +800,7 @@ function HeaderComponent(props) {
                               <li>
                                 <a
                                   href="!#"
-                                  onClick={(e) => onClickALink(e, "#")}
+                                  onClick={(e) => onClickALink(e, null)}
                                   title="Blog right sidebar"
                                 >
                                   <span>Blog right sidebar</span>
@@ -799,7 +813,7 @@ function HeaderComponent(props) {
                       <li>
                         <a
                           href="!#"
-                          onClick={(e) => onClickALink(e, "#")}
+                          onClick={(e) => onClickALink(e, null)}
                           className="sub-btn"
                         >
                           <span>Blog side image</span>
@@ -808,7 +822,7 @@ function HeaderComponent(props) {
                       <li>
                         <a
                           href="!#"
-                          onClick={(e) => onClickALink(e, "#")}
+                          onClick={(e) => onClickALink(e, null)}
                           className="sub-btn"
                         >
                           <span>Blog masonry</span>
@@ -817,7 +831,7 @@ function HeaderComponent(props) {
                       <li>
                         <a
                           href="!#"
-                          onClick={(e) => onClickALink(e, "#")}
+                          onClick={(e) => onClickALink(e, null)}
                           className="sub-btn"
                         >
                           <span>Blog grid</span>{" "}
@@ -826,7 +840,7 @@ function HeaderComponent(props) {
                       <li>
                         <a
                           href="!#"
-                          onClick={(e) => onClickALink(e, "#")}
+                          onClick={(e) => onClickALink(e, null)}
                           className="sub-btn"
                         >
                           <span>Blog clean</span>{" "}
@@ -835,7 +849,7 @@ function HeaderComponent(props) {
                       <li>
                         <a
                           href="!#"
-                          onClick={(e) => onClickALink(e, "#")}
+                          onClick={(e) => onClickALink(e, null)}
                           className="sub-btn"
                         >
                           <span>Blog modern</span>
@@ -844,7 +858,7 @@ function HeaderComponent(props) {
                       <li>
                         <a
                           href="!#"
-                          onClick={(e) => onClickALink(e, "#")}
+                          onClick={(e) => onClickALink(e, null)}
                           className="sub-btn"
                         >
                           <span>Blog text only</span>
@@ -853,7 +867,7 @@ function HeaderComponent(props) {
                       <li>
                         <a
                           href="!#"
-                          onClick={(e) => onClickALink(e, "#")}
+                          onClick={(e) => onClickALink(e, null)}
                           className="sub-btn"
                         >
                           <span>Blog overlay image</span>
@@ -862,7 +876,7 @@ function HeaderComponent(props) {
                       <li>
                         <a
                           href="!#"
-                          onClick={(e) => onClickALink(e, "#")}
+                          onClick={(e) => onClickALink(e, null)}
                           className="sub-btn"
                         >
                           <span>Blog image</span>{" "}
@@ -871,7 +885,7 @@ function HeaderComponent(props) {
                       <li>
                         <a
                           href="!#"
-                          onClick={(e) => onClickALink(e, "#")}
+                          onClick={(e) => onClickALink(e, null)}
                           className="sub-btn"
                         >
                           <span>Post layout</span>
@@ -883,7 +897,7 @@ function HeaderComponent(props) {
                               <li>
                                 <a
                                   href="!#"
-                                  onClick={(e) => onClickALink(e, "#")}
+                                  onClick={(e) => onClickALink(e, null)}
                                   title="Layout – Styles 01"
                                 >
                                   <span>Layout – Styles 01</span>
@@ -892,7 +906,7 @@ function HeaderComponent(props) {
                               <li>
                                 <a
                                   href="!#"
-                                  onClick={(e) => onClickALink(e, "#")}
+                                  onClick={(e) => onClickALink(e, null)}
                                   title="Layout – Styles 02"
                                 >
                                   <span>Layout – Styles 02</span>
@@ -901,7 +915,7 @@ function HeaderComponent(props) {
                               <li>
                                 <a
                                   href="!#"
-                                  onClick={(e) => onClickALink(e, "#")}
+                                  onClick={(e) => onClickALink(e, null)}
                                   title="Layout – Styles 03"
                                 >
                                   <span>Layout – Styles 03</span>
@@ -910,7 +924,7 @@ function HeaderComponent(props) {
                               <li>
                                 <a
                                   href="!#"
-                                  onClick={(e) => onClickALink(e, "#")}
+                                  onClick={(e) => onClickALink(e, null)}
                                   title="Layout – Styles 04"
                                 >
                                   <span>Layout – Styles 04</span>
@@ -919,7 +933,7 @@ function HeaderComponent(props) {
                               <li>
                                 <a
                                   href="!#"
-                                  onClick={(e) => onClickALink(e, "#")}
+                                  onClick={(e) => onClickALink(e, null)}
                                   title="Layout – Styles 05"
                                 >
                                   <span>Layout – Styles 05</span>
@@ -932,7 +946,7 @@ function HeaderComponent(props) {
                       <li>
                         <a
                           href="!#"
-                          onClick={(e) => onClickALink(e, "#")}
+                          onClick={(e) => onClickALink(e, null)}
                           className="sub-btn"
                         >
                           <span>Post type</span>
@@ -944,7 +958,7 @@ function HeaderComponent(props) {
                               <li>
                                 <a
                                   href="!#"
-                                  onClick={(e) => onClickALink(e, "#")}
+                                  onClick={(e) => onClickALink(e, null)}
                                   title="Standard post"
                                 >
                                   <span>Standard post</span>
@@ -953,7 +967,7 @@ function HeaderComponent(props) {
                               <li>
                                 <a
                                   href="!#"
-                                  onClick={(e) => onClickALink(e, "#")}
+                                  onClick={(e) => onClickALink(e, null)}
                                   title="Gallery post"
                                 >
                                   <span>Gallery post</span>
@@ -962,7 +976,7 @@ function HeaderComponent(props) {
                               <li>
                                 <a
                                   href="!#"
-                                  onClick={(e) => onClickALink(e, "#")}
+                                  onClick={(e) => onClickALink(e, null)}
                                   title="Images slider post"
                                 >
                                   <span>Images slider post</span>
@@ -971,7 +985,7 @@ function HeaderComponent(props) {
                               <li>
                                 <a
                                   href="!#"
-                                  onClick={(e) => onClickALink(e, "#")}
+                                  onClick={(e) => onClickALink(e, null)}
                                   title="HTML5 video post"
                                 >
                                   <span>HTML5 video post</span>
@@ -980,7 +994,7 @@ function HeaderComponent(props) {
                               <li>
                                 <a
                                   href="!#"
-                                  onClick={(e) => onClickALink(e, "#")}
+                                  onClick={(e) => onClickALink(e, null)}
                                   title="Youtube video post"
                                 >
                                   <span>Youtube video post</span>
@@ -989,7 +1003,7 @@ function HeaderComponent(props) {
                               <li>
                                 <a
                                   href="!#"
-                                  onClick={(e) => onClickALink(e, "#")}
+                                  onClick={(e) => onClickALink(e, null)}
                                   title="Vimeo video post"
                                 >
                                   <span>Vimeo video post</span>
@@ -998,7 +1012,7 @@ function HeaderComponent(props) {
                               <li>
                                 <a
                                   href="!#"
-                                  onClick={(e) => onClickALink(e, "#")}
+                                  onClick={(e) => onClickALink(e, null)}
                                   title="Audio post"
                                 >
                                   <span>Audio post</span>
@@ -1007,7 +1021,7 @@ function HeaderComponent(props) {
                               <li>
                                 <a
                                   href="!#"
-                                  onClick={(e) => onClickALink(e, "#")}
+                                  onClick={(e) => onClickALink(e, null)}
                                   title="Blockquote post"
                                 >
                                   <span>Blockquote post</span>
@@ -1023,9 +1037,10 @@ function HeaderComponent(props) {
               </li>
               <li>
                 <a
-                  to="/sub12NoticeBoardList"
+                  href="/sub12NoticeBoardList"
                   className="main-btn"
                   title="Elements"
+                  onClick={(e) => onClickALink(e, "/sub12NoticeBoardList")}
                 >
                   <span>Notices</span>
                 </a>
@@ -1043,7 +1058,7 @@ function HeaderComponent(props) {
                           <dd>
                             <a
                               href="!#"
-                              onClick={(e) => onClickALink(e, "#")}
+                              onClick={(e) => onClickALink(e, null)}
                               className="needFlex"
                             >
                               <i className="bi bi-battery"></i>Product carousel
@@ -1059,7 +1074,7 @@ function HeaderComponent(props) {
                           <dd>
                             <a
                               href="!#"
-                              onClick={(e) => onClickALink(e, "#")}
+                              onClick={(e) => onClickALink(e, null)}
                               className="needFlex"
                             >
                               <i className="bi bi-list-task"></i>Category
@@ -1143,7 +1158,7 @@ function HeaderComponent(props) {
                           <dd>
                             <a
                               href="!#"
-                              onClick={(e) => onClickALink(e, "#")}
+                              onClick={(e) => onClickALink(e, null)}
                               className="needFlex"
                             >
                               <i className="bi bi-bookmark-fill"></i>Subscribe
@@ -1292,7 +1307,7 @@ function HeaderComponent(props) {
                           <dd>
                             <a
                               href="!#"
-                              onClick={(e) => onClickALink(e, "#")}
+                              onClick={(e) => onClickALink(e, null)}
                               title="Heading"
                             >
                               <i className="bi bi-fonts"></i>Heading
@@ -1301,7 +1316,7 @@ function HeaderComponent(props) {
                           <dd>
                             <a
                               href="!#"
-                              onClick={(e) => onClickALink(e, "#")}
+                              onClick={(e) => onClickALink(e, null)}
                               title="Dropcaps"
                             >
                               <i className="bi bi-menu-button-wide"></i>Dropcaps
@@ -1310,7 +1325,7 @@ function HeaderComponent(props) {
                           <dd>
                             <a
                               href="!#"
-                              onClick={(e) => onClickALink(e, "#")}
+                              onClick={(e) => onClickALink(e, null)}
                               title="Columns"
                             >
                               <i className="bi bi-layout-three-columns"></i>
@@ -1320,7 +1335,7 @@ function HeaderComponent(props) {
                           <dd>
                             <a
                               href="!#"
-                              onClick={(e) => onClickALink(e, "#")}
+                              onClick={(e) => onClickALink(e, null)}
                               title="Blockquote"
                             >
                               <i className="bi bi-quote"></i>Blockquote
@@ -1329,7 +1344,7 @@ function HeaderComponent(props) {
                           <dd>
                             <a
                               href="!#"
-                              onClick={(e) => onClickALink(e, "#")}
+                              onClick={(e) => onClickALink(e, null)}
                               title="Highlights"
                             >
                               <i className="bi bi-type-underline"></i>Highlights
@@ -1338,7 +1353,7 @@ function HeaderComponent(props) {
                           <dd>
                             <a
                               href="!#"
-                              onClick={(e) => onClickALink(e, "#")}
+                              onClick={(e) => onClickALink(e, null)}
                               title="Message box"
                             >
                               <i className="bi bi-chat-left-fill"></i>Message
@@ -1348,7 +1363,7 @@ function HeaderComponent(props) {
                           <dd>
                             <a
                               href="!#"
-                              onClick={(e) => onClickALink(e, "#")}
+                              onClick={(e) => onClickALink(e, null)}
                               title="Lists"
                             >
                               <i className="bi bi-list-ul"></i>Lists
@@ -1357,7 +1372,7 @@ function HeaderComponent(props) {
                           <dd>
                             <a
                               href="!#"
-                              onClick={(e) => onClickALink(e, "#")}
+                              onClick={(e) => onClickALink(e, null)}
                               title="Separators"
                             >
                               <i className="bi bi-list"></i>Separators
@@ -1366,7 +1381,7 @@ function HeaderComponent(props) {
                           <dd>
                             <a
                               href="!#"
-                              onClick={(e) => onClickALink(e, "#")}
+                              onClick={(e) => onClickALink(e, null)}
                               title="Pricing table"
                             >
                               <i className="bi bi-table"></i>Pricing table
@@ -1375,7 +1390,7 @@ function HeaderComponent(props) {
                           <dd>
                             <a
                               href="!#"
-                              onClick={(e) => onClickALink(e, "#")}
+                              onClick={(e) => onClickALink(e, null)}
                               title="Tables"
                             >
                               <i className="bi bi-file-earmark-spreadsheet-fill"></i>
@@ -1391,7 +1406,7 @@ function HeaderComponent(props) {
               <li>
                 <a
                   href="!#"
-                  onClick={(e) => onClickALink(e, "#")}
+                  onClick={(e) => onClickALink(e, null)}
                   className="main-btn"
                   title="Features"
                 >
@@ -1556,7 +1571,7 @@ function HeaderComponent(props) {
                           <dd>
                             <a
                               href="!#"
-                              onClick={(e) => onClickALink(e, "#")}
+                              onClick={(e) => onClickALink(e, null)}
                               className="needFlex"
                             >
                               Footer – Style 10<span className="new">New</span>
@@ -1595,28 +1610,44 @@ function HeaderComponent(props) {
                 </>
               )}
               <li>
-                <a href="!#" onClick={(e) => onClickALink(e, "#")} title="">
+                <a href="!#" onClick={(e) => onClickALink(e, null)} title="">
                   <i className="bi bi-search"></i>
                 </a>
               </li>
               <li>
                 {userData ? (
-                  <a href="!#" onClick={(e) => onClickALink(e, "#")} title="">
+                  <a
+                    href="!#"
+                    onClick={(e) => onClickALink(e, "/sub10SignUpUpdate")}
+                    title=""
+                  >
                     <i className="bi bi-person-fill"></i>
                   </a>
                 ) : (
-                  <a to="/sub11signInForm" title="">
+                  <a
+                    href="/sub11signInForm"
+                    title=""
+                    onClick={(e) => onClickALink(e, "/sub11signInForm")}
+                  >
                     <i className="bi bi-person-fill"></i>
                   </a>
                 )}
               </li>
               <li>
-                <a to="/subWishList" title="">
+                <a
+                  href="/subWishList"
+                  title=""
+                  onClick={(e) => onClickALink(e, "/subWishList")}
+                >
                   <i className="bi bi-heart-fill"></i>
                 </a>
               </li>
               <li>
-                <a to="/sub06Cart" title="">
+                <a
+                  href="/sub06Cart"
+                  title=""
+                  onClick={(e) => onClickALink(e, "/sub06Cart")}
+                >
                   <span className="material-symbols-outlined">
                     shopping_cart
                   </span>
