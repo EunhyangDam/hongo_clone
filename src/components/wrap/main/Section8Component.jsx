@@ -3,7 +3,7 @@ import "./scss/Section8Component.scss";
 import { Link } from "react-router-dom";
 import useCustomAlink from "../custom/useCustomALink";
 
-function Section8Component(props) {
+const Section8Component = React.forwardRef((props, ref) => {
   const { onClickALink } = useCustomAlink();
 
   const [state, setState] = useState({
@@ -120,7 +120,7 @@ function Section8Component(props) {
       );
   }, [state.slide]);
   return (
-    <section id="section8" className="section">
+    <section id="section8" className="section" ref={ref}>
       <div className="container">
         <div className="title">#INSTAGRAM FASHION</div>
         <div className="slide-container">
@@ -139,6 +139,6 @@ function Section8Component(props) {
       </div>
     </section>
   );
-}
+});
 
 export default Section8Component;

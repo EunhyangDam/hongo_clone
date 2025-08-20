@@ -3,7 +3,7 @@ import "./scss/Section5Component.scss";
 import { Link } from "react-router-dom";
 import useCustomAlink from "../custom/useCustomALink";
 
-function Section5Component(props) {
+const Section5Component = React.forwardRef((props, ref) => {
   const { onClickALink } = useCustomAlink();
 
   const [state, setState] = useState({
@@ -30,7 +30,7 @@ function Section5Component(props) {
       });
   }, []);
   return (
-    <section id="section5" className="section">
+    <section id="section5" className="section" ref={ref}>
       <div className="container">
         <div className="title">
           <div className="red-line"></div>
@@ -80,6 +80,6 @@ function Section5Component(props) {
       </div>
     </section>
   );
-}
+});
 
 export default Section5Component;

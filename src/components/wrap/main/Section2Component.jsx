@@ -1,7 +1,7 @@
 import React from "react";
 import "./scss/Section2Component.scss";
 
-function Section2Component(props) {
+const Section2Component = React.forwardRef((props, ref) => {
   const [state, setState] = React.useState({
     gallery: [],
   });
@@ -19,7 +19,7 @@ function Section2Component(props) {
       });
   }, []);
   return (
-    <section id="section2" className="section">
+    <section id="section2" className="section" ref={ref}>
       <div className="container">
         <div className="content">
           <ul>
@@ -43,6 +43,6 @@ function Section2Component(props) {
       </div>
     </section>
   );
-}
+});
 
 export default Section2Component;

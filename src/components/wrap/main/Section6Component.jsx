@@ -1,9 +1,8 @@
-import { React, useEffect } from "react";
+import { forwardRef, React, useEffect } from "react";
 import "./scss/Section6Component.scss";
-import { Link } from "react-router-dom";
 import useCustomAlink from "../custom/useCustomALink";
 
-function Section6Component(props) {
+const Section6Component = forwardRef((props, ref) => {
   const { onClickALink } = useCustomAlink();
 
   useEffect(() => {
@@ -28,7 +27,7 @@ function Section6Component(props) {
     }, 1000);
   }, []);
   return (
-    <section id="section6" className="section">
+    <section id="section6" className="section" ref={ref}>
       <div className="container">
         <div className="title">
           <p>We offer a hot deal offer every festival</p>
@@ -61,6 +60,6 @@ function Section6Component(props) {
       </div>
     </section>
   );
-}
+});
 
 export default Section6Component;

@@ -4,7 +4,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import useCustomAlink from "../custom/useCustomALink";
 
-function Section4Component(props) {
+const Section4Component = React.forwardRef((props, ref) => {
   const { onClickALink } = useCustomAlink();
 
   const [state, setState] = React.useState({
@@ -32,7 +32,7 @@ function Section4Component(props) {
       });
   };
   return (
-    <section id="section4" className="section">
+    <section id="section4" className="section" ref={ref}>
       <div className="container">
         <div className="content">
           <ul>
@@ -78,6 +78,6 @@ function Section4Component(props) {
       </div>
     </section>
   );
-}
+});
 
 export default Section4Component;

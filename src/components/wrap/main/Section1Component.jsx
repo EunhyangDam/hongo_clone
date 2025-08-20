@@ -1,7 +1,7 @@
-import { React, useEffect, useState } from "react";
+import { forwardRef, React, useEffect, useState } from "react";
 import "./scss/Section1Component.scss";
 import useCustomAlink from "../custom/useCustomALink";
-function Section1Component(props) {
+const Section1Component = forwardRef((props, ref) => {
   const { onClickALink } = useCustomAlink();
   const [state, setState] = useState({
     slide: [],
@@ -153,7 +153,7 @@ function Section1Component(props) {
     });
   }, [state.slide]);
   return (
-    <section id="section1" className="section">
+    <section id="section1" className="section" ref={ref}>
       <div className="slide-container">
         <a
           href="/"
@@ -206,6 +206,6 @@ function Section1Component(props) {
       </div>
     </section>
   );
-}
+});
 
 export default Section1Component;

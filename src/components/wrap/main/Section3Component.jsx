@@ -7,7 +7,7 @@ import { heartAddAction } from "../../../store/wishlist";
 import { modalAction } from "../../../store/confirmModal";
 import useCustomAlink from "../custom/useCustomALink";
 
-function Section3Component(props) {
+const Section3Component = React.forwardRef((props, ref) => {
   const { onClickALink } = useCustomAlink();
 
   const dispatch = useDispatch();
@@ -90,7 +90,7 @@ function Section3Component(props) {
     dispatch(heartAddAction(arr));
   };
   return (
-    <section id="section3" className="section">
+    <section id="section3" className="section" ref={ref}>
       <div className="container">
         <div className="title">
           <div className="red-line"></div>
@@ -173,6 +173,6 @@ function Section3Component(props) {
       </div>
     </section>
   );
-}
+});
 
 export default Section3Component;

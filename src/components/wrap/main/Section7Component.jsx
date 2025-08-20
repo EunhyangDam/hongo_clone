@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./scss/Section7Component.scss";
 
-function Section7Component(props) {
+const Section7Component = React.forwardRef((props, ref) => {
   const [state, setState] = useState({
     icon: [],
   });
@@ -18,7 +18,7 @@ function Section7Component(props) {
       });
   }, []);
   return (
-    <section id="section7" className="section">
+    <section id="section7" className="section" ref={ref}>
       <div className="container">
         <ul className="content">
           {state.icon.map((el) => (
@@ -31,6 +31,6 @@ function Section7Component(props) {
       </div>
     </section>
   );
-}
+});
 
 export default Section7Component;
