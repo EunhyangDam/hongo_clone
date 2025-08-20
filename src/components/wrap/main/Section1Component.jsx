@@ -1,4 +1,4 @@
-import { forwardRef, React, useEffect, useState } from "react";
+import { forwardRef, React, useEffect, useRef, useState } from "react";
 import "./scss/Section1Component.scss";
 import useCustomAlink from "../custom/useCustomALink";
 const Section1Component = forwardRef((props, ref) => {
@@ -6,6 +6,9 @@ const Section1Component = forwardRef((props, ref) => {
   const [state, setState] = useState({
     slide: [],
   });
+  const [cnt, setCnt] = useState(0);
+  const [intervalID, setIntervalID] = useState(0);
+  const slideWrap = useRef();
   useEffect(() => {
     fetch("./json/main/section1/slide.json", { method: "GET" })
       .then((result) => result.json())
@@ -19,151 +22,66 @@ const Section1Component = forwardRef((props, ref) => {
         console.log(err);
       });
   }, []);
+  const transitionEnd = (e) => {
+    if (cnt > 3) {
+      setCnt(1);
+      slideWrap.current.style.transition = "none";
+      slideWrap.current.style.left = `${0 * -100}%`;
+      return;
+    }
+    if (cnt < 0) {
+      setCnt(2);
+      slideWrap.current.style.transition = "none";
+      slideWrap.current.style.left = `${3 * -100}%`;
+      return;
+    }
+  };
+  const mainSlide = () => {
+    slideWrap.current.style.transition = "left 0.5s";
+    slideWrap.current.style.left = `${cnt * -100}%`;
+    transitionEnd();
+  };
   useEffect(() => {
-    const slideWrap = document.querySelector("#section1 .slide-wrap");
-    const prevBtn = document.querySelector("#section1 .prev-count");
-    const nextBtn = document.querySelector("#section1 .next-count");
-    /**count */
-    let cnt = 0;
-    /**timer */
-    let setId = null;
+    mainSlide();
+  }, [cnt]);
 
-    /**slideBtn */
-    const countDownBtn = (n) => {
-      prevBtn.textContent = `0${n === 0 ? 3 : n}`;
-    };
-    const countUpBtn = (n) => {
-      nextBtn.textContent = `0${n === 4 ? 1 : n}`;
-    };
+  const countUp = () => {
+    setCnt((cnt) => cnt + 1);
+  };
+  const autoTimer = () => {
+    clearInterval(intervalID);
+    const timerID = setInterval(countUp, 3000);
+    setIntervalID(timerID);
+    return () => clearInterval(intervalID);
+  };
 
-    function mainSlide() {
-      slideWrap.style.transition = "left 0.3s ease-in-out";
-      slideWrap.style.left = `${cnt * -100}%`;
-      slideWrap.addEventListener("transitionend", () => {
-        if (cnt >= 3) cnt = 0;
-        if (cnt < 0) cnt = 2;
-        slideWrap.style.transition = "left 0s";
-        slideWrap.style.left = `${cnt * -100}%`;
-        countDownBtn(cnt + 1 - 1);
-        countUpBtn(cnt + 1 + 1);
-        for (const i of slideWrap.children) {
-          if (i.className.split(" ")[0] === `slide${cnt + 1}`) {
-            i.classList.add("active");
-          } else {
-            i.classList.remove("active");
-          }
-        }
-      });
-    }
-    function countUp() {
-      cnt++;
-      mainSlide();
-    }
-    function countDown() {
-      cnt--;
-      mainSlide();
-    }
-    function timer() {
-      clearInterval(setId);
-      setId = setInterval(countUp, 3000);
-    }
-    timer();
-    /**swipe */
-    let mouseDown = null;
-    let mouseUp = null;
-    /**drag and drop */
-    let isMouseDown = false;
-    let dragDown = null;
-    slideWrap.addEventListener("mousedown", (e) => {
-      mouseDown = e.clientX;
-      isMouseDown = true;
-      dragDown =
-        mouseDown -
-        (slideWrap.getBoundingClientRect().left + window.innerWidth);
-      timer();
-    });
-    slideWrap.addEventListener("mouseup", (e) => {
-      mouseUp = e.clientX;
-      if (mouseDown - mouseUp > window.innerWidth / 2) {
-        countUp();
-      } else {
-        mainSlide();
-      }
-      if (mouseDown - mouseUp < -(window.innerWidth / 2)) {
-        countDown();
-      } else {
-        mainSlide();
-      }
-      isMouseDown = false;
-    });
-    document.addEventListener("mouseup", (e) => {
-      if (!isMouseDown) return;
-      mouseUp = e.clientX;
-      if (mouseDown - mouseUp > window.innerWidth / 2) {
-        countUp();
-      } else {
-        mainSlide();
-      }
-      if (mouseDown - mouseUp < -(window.innerWidth / 2)) {
-        countDown();
-      } else {
-        mainSlide();
-      }
-      isMouseDown = false;
-    });
-    slideWrap.addEventListener("mousemove", (e) => {
-      if (!isMouseDown) return;
-      slideWrap.style.left = `${e.clientX - dragDown}px`;
-    });
-    slideWrap.addEventListener("touchstart", (e) => {
-      mouseDown = e.changedTouches[0].clientX;
-      isMouseDown = true;
-      dragDown =
-        mouseDown -
-        (slideWrap.getBoundingClientRect().left + window.innerWidth);
-      timer();
-    });
-    slideWrap.addEventListener("touchend", (e) => {
-      mouseUp = e.changedTouches[0].clientX;
-      if (mouseDown - mouseUp > window.innerWidth / 2) {
-        countUp();
-      } else {
-        mainSlide();
-      }
-      if (mouseDown - mouseUp < -(window.innerWidth / 2)) {
-        countDown();
-      } else {
-        mainSlide();
-      }
-      isMouseDown = false;
-    });
-    slideWrap.addEventListener("touchmove", (e) => {
-      if (!isMouseDown) return;
-      slideWrap.style.left = `${e.changedTouches[0].clientX - dragDown}px`;
-    });
-    prevBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      timer();
-      countDown();
-    });
-    nextBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      timer();
-      countUp();
-    });
-  }, [state.slide]);
+  const clickPrev = (e) => {
+    e.preventDefault();
+    setCnt((cnt) => cnt - 1);
+    autoTimer();
+  };
+  const clickNext = (e) => {
+    e.preventDefault();
+    setCnt((cnt) => cnt + 1);
+    autoTimer();
+  };
+  useEffect(() => {
+    autoTimer();
+    //eslint-disable-next-line
+  }, []);
+
   return (
     <section id="section1" className="section" ref={ref}>
       <div className="slide-container">
-        <a
-          href="/"
-          onClick={(e) => onClickALink(e, null)}
-          className="prev-count slide-btn"
-        >
+        <a href="/" onClick={clickPrev} className="prev-count slide-btn">
           03
         </a>
         <div className="slide-view">
-          <ul className="slide-wrap">
+          <ul
+            className="slide-wrap"
+            ref={slideWrap}
+            onTransitionEnd={transitionEnd}
+          >
             {state.slide.map((el) => (
               <li className={el.class} key={el.id} data-key={el.id}>
                 <img src={`./images/${el.img}`} alt="" />
@@ -191,11 +109,7 @@ const Section1Component = forwardRef((props, ref) => {
             ))}
           </ul>
         </div>
-        <a
-          href="/"
-          onClick={(e) => onClickALink(e, null)}
-          className="next-count slide-btn"
-        >
+        <a href="/" onClick={clickNext} className="next-count slide-btn">
           02
         </a>
       </div>
