@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { modalAction } from "../../../../store/confirmModal";
 import { postOpenAction } from "../../../../store/reactDaumPostcode";
 import axios from "axios";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import InputComponent from "../../custom/InputComponent";
 export default function Sub10SignUpUpdate(props) {
   const userTelRef = React.useRef();
@@ -337,12 +337,12 @@ export default function Sub10SignUpUpdate(props) {
           name: res.data.name,
           email: res.data.email,
           number: res.data.number,
-          adr1: res.data.adress.split(")")[0],
-          adr2: res.data.adress.split(")")[3],
+          adr1: res.data && res.data.adress.split(")")[0],
+          adr2: res.data && res.data.adress.split(")")[3],
           gender: res.data.gender,
-          year: res.data.dob.split("-")[0],
-          month: res.data.dob.split("-")[1],
-          day: res.data.dob.split("-")[2],
+          year: res.data && res.data.dob.split("-")[0],
+          month: res.data && res.data.dob.split("-")[1],
+          day: res.data && res.data.dob.split("-")[2],
         });
       })
       .catch();

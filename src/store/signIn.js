@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const signIn = createSlice({
-  name: "찜 상품 목록",
+  name: "로그인",
   initialState: {
     name: "",
     ID: "",
@@ -12,9 +12,9 @@ const signIn = createSlice({
       state.name = action.payload.NAME;
       state.ID = action.payload.ID;
       state.userRemeber = action.payload.userRemeber;
-      if (state.userRemeber)
+      if (state.userRemeber) {
         localStorage.setItem("hongo_sign_in", JSON.stringify(action.payload));
-      else
+      } else
         sessionStorage.setItem("hongo_sign_in", JSON.stringify(action.payload));
     },
     logOutAction(state, action) {

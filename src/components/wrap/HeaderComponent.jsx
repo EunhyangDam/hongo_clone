@@ -1603,7 +1603,14 @@ function HeaderComponent(props) {
               </li>
               {userData && (
                 <>
-                  <li style={{ color: "#a2c153" }}>{userData} 님.</li>
+                  <li style={{ color: "#a2c153" }}>
+                    <a
+                      href="!#"
+                      onClick={(e) => onClickALink(e, "/sub09Delivery")}
+                    >
+                      {userData} 님.
+                    </a>
+                  </li>
                   <li>
                     <button onClick={clickLogOut}>log out</button>
                   </li>

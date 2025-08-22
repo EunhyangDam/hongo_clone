@@ -184,7 +184,7 @@ export default function Sub05ProductDetail(props) {
                     <input
                       type="number"
                       onChange={changeDigit}
-                      value={state.data.quantity}
+                      value={state.data.quantity ?? 0}
                     />
                     <div className="btn-box">
                       <button onClick={clickPlus}>+</button>

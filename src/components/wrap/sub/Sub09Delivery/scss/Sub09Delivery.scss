@@ -1,0 +1,84 @@
+@use "../../scss/mixin.scss" as *;
+#sub09Delivery {
+  margin-top: 69px;
+  .container {
+    .inner {
+      max-width: 1170px;
+      margin: 0 auto;
+    }
+    @include heading();
+    .content {
+      padding-block: 135px;
+      .inner {
+        .contents {
+          ul {
+            li {
+              padding: 20px;
+              box-shadow: 3px 3px 10px rgba($color: #000000, $alpha: 0.1);
+              border-radius: 15px;
+              border: 1px solid rgba($color: #333, $alpha: 0.2);
+              &:not(:last-child) {
+                margin-bottom: 10px;
+              }
+              dl {
+                dt {
+                  display: inline-block;
+                  padding: 6px 8px;
+                  margin-bottom: 10px;
+                  border-radius: 11px;
+                  background-color: #f7f7f7;
+                  color: #808080;
+                  font-weight: 600;
+                  font-size: 12px;
+                  text-align: center;
+                  white-space: nowrap;
+                }
+                dd {
+                  color: #999999;
+                  &:not(:last-child) {
+                    margin-bottom: 10px;
+                  }
+                  &.adr {
+                    font-size: 16px;
+                    color: #1a1a1a;
+                    word-break: break-all;
+                  }
+                }
+              }
+              .button-container {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                color: rgb(153, 153, 153);
+                button {
+                  background: transparent;
+                  border: none;
+                  color: rgb(153, 153, 153);
+                  padding: 6px;
+                  cursor: pointer;
+                }
+              }
+            }
+          }
+        }
+        > .button-container {
+          button {
+            width: 100%;
+            height: 48px;
+            padding: 0px 16px;
+            margin: 16px 0px 20px;
+            border: 1px solid rgb(221, 221, 221);
+            border-radius: 6px;
+            background-color: rgb(255, 255, 255);
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 22px;
+            text-align: center;
+            font-family: "noto sans";
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}

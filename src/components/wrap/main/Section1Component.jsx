@@ -22,32 +22,49 @@ const Section1Component = forwardRef((props, ref) => {
         console.log(err);
       });
   }, []);
+  let isMouseDown = useRef(false);
+  let touchStart = useRef(0);
+  let touchEnd = useRef(0);
+
+  let dragStart = useRef(0);
+  let dragEnd = useRef(0);
   const transitionEnd = (e) => {
-    if (cnt > 3) {
-      setCnt(1);
-      slideWrap.current.style.transition = "none";
-      slideWrap.current.style.left = `${0 * -100}%`;
+    if (cnt >= 3) {
+      autoTimer();
+      setTimeout(() => {
+        setCnt(1);
+      }, 10);
+      slideWrap.current && (slideWrap.current.style.transition = "none");
+      slideWrap.current && (slideWrap.current.style.left = `${0 * -100}%`);
       return;
     }
     if (cnt < 0) {
-      setCnt(2);
-      slideWrap.current.style.transition = "none";
-      slideWrap.current.style.left = `${3 * -100}%`;
+      autoTimer();
+      setTimeout(() => {
+        setCnt(2);
+      }, 10);
+      slideWrap.current && (slideWrap.current.style.transition = "none");
+      slideWrap.current && (slideWrap.current.style.left = `${3 * -100}%`);
       return;
     }
   };
   const mainSlide = () => {
-    slideWrap.current.style.transition = "left 0.5s";
-    slideWrap.current.style.left = `${cnt * -100}%`;
-    transitionEnd();
+    slideWrap.current && (slideWrap.current.style.transition = "left 0.5s");
+    slideWrap.current && (slideWrap.current.style.left = `${cnt * -100}%`);
   };
-  useEffect(() => {
-    mainSlide();
-  }, [cnt]);
 
+  const countDown = () => {
+    setCnt((cnt) => cnt - 1);
+  };
   const countUp = () => {
     setCnt((cnt) => cnt + 1);
   };
+
+  useEffect(() => {
+    mainSlide();
+    // eslint-disable-next-line
+  }, [cnt]);
+
   const autoTimer = () => {
     clearInterval(intervalID);
     const timerID = setInterval(countUp, 3000);
@@ -57,14 +74,79 @@ const Section1Component = forwardRef((props, ref) => {
 
   const clickPrev = (e) => {
     e.preventDefault();
-    setCnt((cnt) => cnt - 1);
+    countDown();
     autoTimer();
   };
   const clickNext = (e) => {
     e.preventDefault();
-    setCnt((cnt) => cnt + 1);
+    countUp();
     autoTimer();
   };
+
+  const mouseDown = (e) => {
+    autoTimer();
+    touchStart.current = e.clientX;
+    isMouseDown.current = true;
+    dragStart.current =
+      e.clientX -
+      (slideWrap.current.getBoundingClientRect().left + window.innerWidth);
+  };
+  const touchStartE = (e) => {
+    autoTimer();
+    touchStart.current = e.changedTouches[0].clientX;
+    isMouseDown.current = true;
+    dragStart.current =
+      e.clientX -
+      (slideWrap.current.getBoundingClientRect().left + window.innerWidth);
+  };
+
+  const mouseUp = (e) => {
+    autoTimer();
+    touchEnd.current = e.clientX;
+    if (touchStart.current - touchEnd.current > window.innerWidth / 2) {
+      countUp();
+    } else {
+      mainSlide();
+    }
+    if (touchStart.current - touchEnd.current < -(window.innerWidth / 2)) {
+      countDown();
+    } else {
+      mainSlide();
+    }
+    mouseDown.current = false;
+  };
+
+  useEffect(() => {
+    document.addEventListener("mouseup", (e) => {
+      touchEnd.current = e.clientX;
+      if (touchStart.current - touchEnd.current > window.innerWidth / 2) {
+        countUp();
+      } else {
+        mainSlide();
+      }
+      if (touchStart.current - touchEnd.current < -(window.innerWidth / 2)) {
+        countDown();
+      } else {
+        mainSlide();
+      }
+      isMouseDown.current = false;
+
+      autoTimer();
+    });
+    // eslint-disable-next-line
+  }, []);
+
+  const touchEndE = (e) => {};
+
+  const mouseMove = (e) => {
+    autoTimer();
+
+    if (!isMouseDown.current) return;
+    dragEnd.current = e.clientX;
+    slideWrap.current.style.transition = "none";
+    slideWrap.current.style.left = `${dragEnd.current - dragStart.current}px`;
+  };
+  const touchMove = (e) => {};
   useEffect(() => {
     autoTimer();
     //eslint-disable-next-line
@@ -81,6 +163,12 @@ const Section1Component = forwardRef((props, ref) => {
             className="slide-wrap"
             ref={slideWrap}
             onTransitionEnd={transitionEnd}
+            onMouseDown={mouseDown}
+            onMouseUp={mouseUp}
+            onMouseMove={mouseMove}
+            onTouchStart={touchStartE}
+            onTouchEnd={touchEndE}
+            onTouchMove={touchMove}
           >
             {state.slide.map((el) => (
               <li className={el.class} key={el.id} data-key={el.id}>
