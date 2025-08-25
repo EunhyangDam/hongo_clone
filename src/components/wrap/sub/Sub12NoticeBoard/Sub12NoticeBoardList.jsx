@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import "./scss/Sub12NoticeBoardList.scss";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useSelector } from "react-redux";
 export default function Sub12NoticeBoardList(props) {
+  const admin = useSelector((state) => state.signIn.isAdmin);
   const navigation = useNavigate();
   /**――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― */
   const [state, setState] = useState({
@@ -196,7 +198,7 @@ export default function Sub12NoticeBoardList(props) {
             )}
           </dl>
           <div className="button-box">
-            <button onClick={clickWrite}>Write</button>
+            {admin && <button onClick={clickWrite}>Write</button>}
           </div>
           <div className="pagination">
             <ul>

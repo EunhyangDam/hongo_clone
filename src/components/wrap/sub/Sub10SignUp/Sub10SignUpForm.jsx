@@ -40,6 +40,7 @@ export default function Sub10SignUpForm(props) {
     verificationCheck: null,
     adr1: "",
     adr2: "",
+    zoneCode: "",
     btnOn: false,
     gender: "nonbinary",
     year: "",
@@ -68,6 +69,7 @@ export default function Sub10SignUpForm(props) {
       ...state,
       adr1: `${postcodeAsset.adr} (${postcodeAsset.buildingName})`,
       adr2: postcodeAsset.adr2,
+      zoneCode: postcodeAsset.zoneCode,
       btnOn: postcodeAsset.isOn,
     });
   }, [postcodeAsset]);
@@ -525,6 +527,7 @@ export default function Sub10SignUpForm(props) {
       day,
       termAgree,
       isAgree,
+      zoneCode,
     } = state;
 
     const switchData = [
@@ -570,7 +573,10 @@ export default function Sub10SignUpForm(props) {
         field: "userNumber",
         dataKey: number.replace(/^(\d){3}(\d){3,4}(\d){3}$/g, "$1-$2-$3"),
       },
-      { field: "userAdr", dataKey: `${adr1} ${adr2}` },
+      { field: "userAdr", dataKey: `${zoneCode}/${adr1}/${adr2}` },
+      { field: "userPost", dataKey: zoneCode },
+      { field: "userAdr1", dataKey: adr1 },
+      { field: "userAdr2", dataKey: adr2 },
       { field: "userDob", dataKey: `${year}-${month}-${day}` },
       { field: "userGender", dataKey: state.gender },
       { field: "userTermAgree", dataKey: termAgree },
@@ -587,6 +593,7 @@ export default function Sub10SignUpForm(props) {
       .then((res) => {
         if (res.status === 200) {
           let obj = {};
+          console.log(res.data);
           if (res.data === 1) {
             obj = {
               messege: `Welcome, ${id}!`,

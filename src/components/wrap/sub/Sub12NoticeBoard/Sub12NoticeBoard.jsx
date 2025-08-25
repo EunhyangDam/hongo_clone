@@ -9,6 +9,7 @@ export default function Sub12NoticeBoard(props) {
   const navigation = useNavigate();
   const dispatch = useDispatch();
   const returnYes = useSelector((state) => state.confirmModal.returnYes);
+  const isAdmin = useSelector((state) => state.signIn.isAdmin);
   const [state, setState] = useState({
     IDX: 0,
     wType: "",
@@ -107,9 +108,9 @@ export default function Sub12NoticeBoard(props) {
           </div>
           <div className="foot">
             <div className="btn-container">
-              <button onClick={clickEdit}>Edit</button>
+              {isAdmin && <button onClick={clickEdit}>Edit</button>}
               <button onClick={clickViewList}>View List</button>
-              <button onClick={clickDelete}>Delete</button>
+              {isAdmin && <button onClick={clickDelete}>Delete</button>}
             </div>
           </div>
         </div>

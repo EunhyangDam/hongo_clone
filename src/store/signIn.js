@@ -6,12 +6,14 @@ const signIn = createSlice({
     name: "",
     ID: "",
     userRemeber: false,
+    isAdmin: false,
   },
   reducers: {
     signInAction(state, action) {
       state.name = action.payload.NAME;
       state.ID = action.payload.ID;
       state.userRemeber = action.payload.userRemeber;
+      state.isAdmin = action.payload.isAdmin === "1" ? true : false;
       if (state.userRemeber) {
         localStorage.setItem("hongo_sign_in", JSON.stringify(action.payload));
       } else
@@ -23,6 +25,7 @@ const signIn = createSlice({
       state.name = "";
       state.ID = "";
       state.userRemeber = false;
+      state.isAdmin = false;
     },
   },
 });

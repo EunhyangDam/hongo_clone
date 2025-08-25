@@ -4,7 +4,7 @@
     $USER_ID = $_POST['userID'];
     $USER_PW = $_POST['userPW'];
 
-    $SQL = "SELECT * FROM `signup_table` WHERE ID='$USER_ID'";
+    $SQL = "SELECT ID, PW, NAME FROM `signup_table` WHERE ID='$USER_ID'";
     $RES = mysqli_query($CONN, $SQL);
 
     if(mysqli_num_rows($RES)>=1) {
@@ -12,8 +12,7 @@
       if(password_verify($USER_PW,$item['PW'])) {
         $arr = [
             'ID'=>$item['ID'],
-            'NAME'=>$item['NAME'],
-            'isAdmin'=>$item['admin']
+            'NAME'=>$item['NAME']
         ];
         echo json_encode($arr,JSON_UNESCAPED_UNICODE);
       } else{

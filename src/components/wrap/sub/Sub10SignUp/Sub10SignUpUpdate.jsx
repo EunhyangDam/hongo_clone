@@ -15,6 +15,7 @@ export default function Sub10SignUpUpdate(props) {
 
   const postcodeAsset = useSelector((state) => state.reactDaumPostcode);
   const userAsset = useSelector((state) => state.signIn.ID);
+  const returnYes = useSelector((state) => state.confirmModal.isOn);
 
   const [id, setId] = useState(0);
   const [state, setState] = useState({
@@ -34,6 +35,7 @@ export default function Sub10SignUpUpdate(props) {
     verificationCheck: null,
     adr1: "",
     adr2: "",
+    zonecode: "",
     btnOn: false,
     gender: "nonbinary",
     year: "",
@@ -51,6 +53,7 @@ export default function Sub10SignUpUpdate(props) {
       ...state,
       adr1: `${postcodeAsset.adr} (${postcodeAsset.buildingName})`,
       adr2: postcodeAsset.adr2,
+      zonecode: postcodeAsset.zoneCode,
       btnOn: postcodeAsset.isOn,
     });
   }, [postcodeAsset]);
@@ -337,8 +340,9 @@ export default function Sub10SignUpUpdate(props) {
           name: res.data.name,
           email: res.data.email,
           number: res.data.number,
-          adr1: res.data && res.data.adress.split(")")[0],
-          adr2: res.data && res.data.adress.split(")")[3],
+          zonecode: res.data && res.data.adress.split("/")[0],
+          adr1: res.data && res.data.adress.split("/")[1],
+          adr2: res.data && res.data.adress.split("/")[2],
           gender: res.data.gender,
           year: res.data && res.data.dob.split("-")[0],
           month: res.data && res.data.dob.split("-")[1],
@@ -347,8 +351,6 @@ export default function Sub10SignUpUpdate(props) {
       })
       .catch();
   }, [userAsset]);
-
-  useEffect(() => {}, []);
 
   const submitSignup = (e) => {
     e.preventDefault();
@@ -364,6 +366,7 @@ export default function Sub10SignUpUpdate(props) {
       emailDuplicate,
       number,
       isVerification,
+      zonecode,
       adr1,
       adr2,
       year,
@@ -411,7 +414,7 @@ export default function Sub10SignUpUpdate(props) {
         field: "userNumber",
         dataKey: number.replace(/^(\d{3})(\d{3,4})(\d{3})$/g, "$1-$2-$3"),
       },
-      { field: "userAdr", dataKey: `${adr1} ${adr2}` },
+      { field: "userAdr", dataKey: `${zonecode}/${adr1}/${adr2}` },
       { field: "userDob", dataKey: `${year}-${month}-${day}` },
       { field: "userGender", dataKey: state.gender },
     ];
@@ -435,14 +438,14 @@ export default function Sub10SignUpUpdate(props) {
               ...obj,
               messege: "회원 정보가 수정되었습니다.",
             };
-            navigate("/mainComponent");
+            dispatch(modalAction(obj));
           } else if (res.data === 0) {
             obj = {
               ...obj,
               messege: "정보 수정 실패.",
             };
+            dispatch(modalAction(obj));
           }
-          dispatch(modalAction(obj));
         }
       })
       .catch((error) => {
@@ -597,7 +600,7 @@ export default function Sub10SignUpUpdate(props) {
                 )}
               </div>
             </div>
-            <div className={`row row7 useButton`}>
+            <div className="row row7 useButton">
               <p>
                 Address<span className="rq">*</span>
               </p>
@@ -622,6 +625,22 @@ export default function Sub10SignUpUpdate(props) {
                 <button onClick={clickReSearch}>
                   <i className="bi bi-search"></i> re-search
                 </button>
+              </div>
+            </div>
+            <div className="row row7">
+              <p>
+                Zonecode<span className="rq">*</span>
+              </p>
+              <div className="adr active">
+                <div className="col col2">
+                  <InputComponent
+                    type="text"
+                    name="zonecode"
+                    id="zonecode"
+                    value={state.zonecode}
+                    readOnly={true}
+                  />
+                </div>
               </div>
             </div>
             <div className="row row8">

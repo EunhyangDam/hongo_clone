@@ -7,6 +7,7 @@ const confirmModal = createSlice({
     isOn: false,
     isConfirm: false,
     returnYes: false,
+    returnOK: false,
   },
   reducers: {
     modalAction(state, action) {

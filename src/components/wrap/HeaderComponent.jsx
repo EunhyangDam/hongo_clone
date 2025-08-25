@@ -15,6 +15,7 @@ function HeaderComponent(props) {
   const cart = useSelector((state) => state.cart.cart);
   const userData = useSelector((state) => state.signIn.name);
   const userID = useSelector((state) => state.signIn.ID);
+  const isAdmin = useSelector((state) => state.signIn.isAdmin);
 
   useEffect(() => {
     // GNB
@@ -156,7 +157,8 @@ function HeaderComponent(props) {
   }, []);
   const clickLogOut = (e) => {
     e.preventDefault();
-    dispatch(logOutAction());
+    dispatch(logOutAction(false));
+    navigate("/mainComponent");
   };
 
   // eslint-disable-next-line
@@ -1608,7 +1610,7 @@ function HeaderComponent(props) {
                       href="!#"
                       onClick={(e) => onClickALink(e, "/sub09Delivery")}
                     >
-                      {userData} 님.
+                      {userData} {isAdmin && "관리자"}님.
                     </a>
                   </li>
                   <li>

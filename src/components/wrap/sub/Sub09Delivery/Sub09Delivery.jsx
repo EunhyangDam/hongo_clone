@@ -48,6 +48,13 @@ export default function Sub09Delivery(props) {
         console.log(err);
       });
   }, [userAsset]);
+
+  const clickDel = (e, idx) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append();
+    axios({ url: "", method: "POST", data: formData });
+  };
   return (
     <div id="sub09Delivery">
       <div className="container">
@@ -81,7 +88,9 @@ export default function Sub09Delivery(props) {
                         {el.dRequst && <dd>{el.dRequst}</dd>}
                       </dl>
                       <div className="button-container">
-                        <button>Delete</button>
+                        <button onClick={(e) => clickDel(e, el.IDX)}>
+                          Delete
+                        </button>
                         <i>|</i>
                         <button>Edit</button>
                       </div>
