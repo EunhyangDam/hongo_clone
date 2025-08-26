@@ -2,18 +2,20 @@ import React, { useEffect, useState } from "react";
 import "./scss/Sub12NoticeBoardWrite.scss";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { modalAction } from "../../../../store/confirmModal";
 export default function Sub12NoticeBoardWrite(props) {
   const location = useLocation();
   const dispatch = useDispatch();
   const nav = useNavigate();
 
+  const userAsset = useSelector((state) => state.signIn);
+
   const [state, setState] = useState({
     wType: "normal",
     wSubject: "",
     wContent: "",
-    wID: "",
+    wID: userAsset.ID,
     wDel: 0,
     wHit: 1,
   });

@@ -17,7 +17,7 @@ export default function Sub12NoticeBoardList(props) {
     type: "",
   });
   const [curPage, setCurPage] = useState(1);
-  const pageNum = 5;
+  const pageNum = 2;
   const start = (curPage - 1) * pageNum;
   const end = start + pageNum;
   const piece = state.notification.slice(start, end);
@@ -62,7 +62,7 @@ export default function Sub12NoticeBoardList(props) {
       ),
     });
   }, [state.notification]);
-  /**――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― */
+  /**―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――*/
 
   /**검색 기능 */
   /**검색 기능 - 셀렉트 입력값 가져오기 */

@@ -14,9 +14,9 @@ const signIn = createSlice({
       state.ID = action.payload.ID;
       state.userRemeber = action.payload.userRemeber;
       state.isAdmin = action.payload.isAdmin === "1" ? true : false;
-      if (state.userRemeber) {
+      if (state.userRemeber)
         localStorage.setItem("hongo_sign_in", JSON.stringify(action.payload));
-      } else
+      else
         sessionStorage.setItem("hongo_sign_in", JSON.stringify(action.payload));
     },
     logOutAction(state, action) {

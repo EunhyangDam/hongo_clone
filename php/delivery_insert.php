@@ -12,7 +12,7 @@
 
   if($dDefaultADR==1){
     $SQL = "UPDATE `delivery_table`
-            SET `dDefaultADR`=0
+            SET `dDefaultADR`= '0'
             WHERE `userID`='$userId'";
     mysqli_query($CONN, $SQL);
   }

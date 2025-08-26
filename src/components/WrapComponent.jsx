@@ -60,6 +60,7 @@ import { postAction } from "../store/reactDaumPostcode";
 import { signInAction } from "../store/signIn";
 import Sub12NoticeBoard from "./wrap/sub/Sub12NoticeBoard/Sub12NoticeBoard";
 import WindowScrollTop from "./wrap/custom/WindowScrollTop";
+import Sub09DeliveryUpdate from "./wrap/sub/Sub09Delivery/Sub09DeliveryUpdate";
 
 export default function WrapComponent(props) {
   const dispatch = useDispatch();
@@ -150,6 +151,10 @@ export default function WrapComponent(props) {
           <Route path="/sub09Delivery" element={<Sub09Delivery />} />
           <Route path="/sub09DeliveryWrite" element={<Sub09DeliveryWrite />} />
           <Route path="/sub09DeliveryList" element={<Sub09DeliveryList />} />
+          <Route
+            path="/sub09DeliveryUpdate"
+            element={<Sub09DeliveryUpdate />}
+          />
           <Route path="/sub10SignUpWrite" element={<Sub10SignUpWrite />} />
           <Route path="/sub10SignUpUpdate" element={<Sub10SignUpUpdate />} />
           <Route path="/sub10SignUpDelete" element={<Sub10SignUpDelete />} />

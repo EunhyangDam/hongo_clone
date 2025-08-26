@@ -55,21 +55,10 @@ export default function Sub09DeliveryWrite() {
   const changeAdr1 = (e) => {};
   const changeAdr2 = (e) => {};
   const changeDefault = (e) => {
-    switch (e.target.value) {
-      case "0":
-        setState({
-          ...state,
-          dDefaultADR: true,
-        });
-        break;
-
-      case "1":
-        setState({
-          ...state,
-          dDefaultADR: false,
-        });
-        break;
-    }
+    setState({
+      ...state,
+      dDefaultADR: Number(e.target.value),
+    });
   };
   const changeRequset = (e) => {
     setState({
@@ -217,8 +206,8 @@ export default function Sub09DeliveryWrite() {
                       type="radio"
                       name="userDefault"
                       id="userDefaultTrue"
-                      value={0}
-                      checked={state.dDefaultADR}
+                      value={1}
+                      checked={state.dDefaultADR === 1}
                       onChange={changeDefault}
                     />
                     <label htmlFor="userDefaultTrue">YES</label>
@@ -228,8 +217,8 @@ export default function Sub09DeliveryWrite() {
                       type="radio"
                       name="userDefault"
                       id="userDefaultFalse"
-                      value={1}
-                      checked={state.dDefaultADR === false}
+                      value={0}
+                      checked={state.dDefaultADR === 0}
                       onChange={changeDefault}
                     />
                     <label htmlFor="userDefaultFalse" className="col col1">

@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from "react";
 import "./scss/Sub09Delivery.scss";
 import useCustomAlink from "../../custom/useCustomALink";
-import axios from "axios";
-import { useSelector } from "react-redux";
+import axios, { Axios } from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { modalAction } from "../../../../store/confirmModal";
+import { useNavigate } from "react-router-dom";
 export default function Sub09Delivery(props) {
   const { onClickALink } = useCustomAlink();
+
   const userAsset = useSelector((state) => state.signIn);
+
+  const dispatch = useDispatch();
+  const nav = useNavigate();
+
   const [state, setState] = useState([
     {
       IDX: "",
@@ -22,6 +29,7 @@ export default function Sub09Delivery(props) {
       dDel: "",
     },
   ]);
+
   useEffect(() => {
     const formData = new FormData();
     formData.append("userID", userAsset.ID);
@@ -49,11 +57,50 @@ export default function Sub09Delivery(props) {
       });
   }, [userAsset]);
 
-  const clickDel = (e, idx) => {
+  const clickDel = (e, idx, defaultAdr) => {
+    e.preventDefault();
+    if (defaultAdr === "1") {
+      return dispatch(
+        modalAction({
+          messege: "기본 배송지는 삭제할 수 없습니다.",
+          isOn: true,
+        })
+      );
+    }
+    const formData = new FormData();
+    formData.append("userID", userAsset.ID);
+    formData.append("Index", idx);
+    axios({
+      url: "/hongo_sign_up/delivery_delete.php",
+      method: "POST",
+      data: formData,
+    }).then((res) => {
+      if (res.status === 200) {
+        if (res.data === 1) {
+          dispatch(
+            modalAction({
+              messege: "배송지가 삭제되었습니다.",
+              isOn: true,
+            })
+          );
+          nav(0);
+        } else if (res.data === 0) {
+          alert("삭제 실패. 콘솔로그 확인");
+          console.log(res.data);
+        }
+      }
+    });
+  };
+
+  const clickEdit = (e, data) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append();
-    axios({ url: "", method: "POST", data: formData });
+    formData.append("userID", userAsset.ID);
+    formData.append("IDX", data.IDX);
+
+    nav("/sub09DeliveryUpdate", {
+      state: { userID: userAsset.ID, IDX: data.IDX },
+    });
   };
   return (
     <div id="sub09Delivery">
@@ -78,7 +125,7 @@ export default function Sub09Delivery(props) {
                   state.map((el) => (
                     <li key={el.IDX}>
                       <dl>
-                        {el.dDefaultADR === 1 && <dt>기본 배송지</dt>}
+                        {el.dDefaultADR === "1" && <dt>기본 배송지</dt>}
                         <dd className="adr">
                           ({el.dPostNumber}) {el.dPostADR1} {el.dPostADR2}
                         </dd>
@@ -88,11 +135,13 @@ export default function Sub09Delivery(props) {
                         {el.dRequst && <dd>{el.dRequst}</dd>}
                       </dl>
                       <div className="button-container">
-                        <button onClick={(e) => clickDel(e, el.IDX)}>
+                        <button
+                          onClick={(e) => clickDel(e, el.IDX, el.dDefaultADR)}
+                        >
                           Delete
                         </button>
                         <i>|</i>
-                        <button>Edit</button>
+                        <button onClick={(e) => clickEdit(e, el)}>Edit</button>
                       </div>
                     </li>
                   ))}
