@@ -21,6 +21,16 @@ export default function Sub12NoticeBoardList(props) {
   const start = (curPage - 1) * pageNum;
   const end = start + pageNum;
   const piece = state.notification.slice(start, end);
+
+  const 총페이지수 = Math.ceil(state.notification.length / pageNum);
+  const 페이지그룹 = 3;
+  const 현재그룹번호 = Math.floor((curPage - 1) / 페이지그룹);
+  const 총그룹수 = Math.ceil(총페이지수 / 페이지그룹);
+  const 그룹시작 = 현재그룹번호 * 페이지그룹 + 1;
+  const 그룹끝 = Math.min(그룹시작 + 페이지그룹 - 1, 총페이지수);
+  const 페이지번호 = [...Array(그룹끝 - 그룹시작 + 1)].map(
+    (item, i) => 그룹시작 + i
+  );
   /**――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― */
 
   /**데이터 가져오기 */
@@ -202,16 +212,22 @@ export default function Sub12NoticeBoardList(props) {
           </div>
           <div className="pagination">
             <ul>
-              <li className="button is-disable">
-                <button>
+              <li className="button">
+                <button
+                  disabled={현재그룹번호 > 0 ? false : true}
+                  onClick={(e) => clickNum(e, 1)}
+                >
                   <i className="fa-solid fa-angles-left"></i>
                 </button>
-                <button>
+                <button
+                  disabled={그룹시작 > 1 ? false : true}
+                  onClick={(e) => clickNum(e, 그룹시작 - 1)}
+                >
                   <i className="fa-solid fa-angle-left"></i>
                 </button>
               </li>
               <li className="number">
-                {state.page.map((el) => (
+                {페이지번호.map((el) => (
                   <button
                     key={el}
                     data-key={el}
@@ -223,11 +239,17 @@ export default function Sub12NoticeBoardList(props) {
                 ))}
               </li>
               <li className="button">
-                <button>
-                  <i className="fa-solid fa-angles-right"></i>
-                </button>
-                <button>
+                <button
+                  disabled={그룹끝 < 총페이지수 ? false : true}
+                  onClick={(e) => clickNum(e, 그룹끝 + 1)}
+                >
                   <i className="fa-solid fa-angle-right"></i>
+                </button>
+                <button
+                  disabled={현재그룹번호 < 총그룹수 - 1 ? false : true}
+                  onClick={(e) => clickNum(e, 총그룹수)}
+                >
+                  <i className="fa-solid fa-angles-right"></i>
                 </button>
               </li>
             </ul>
