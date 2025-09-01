@@ -3,12 +3,23 @@ import "./scss/Section1Component.scss";
 import useCustomAlink from "../custom/useCustomALink";
 const Section1Component = forwardRef((props, ref) => {
   const { onClickALink } = useCustomAlink();
+
   const [state, setState] = useState({
     slide: [],
   });
-  const [cnt, setCnt] = useState(0);
-  const [intervalID, setIntervalID] = useState(0);
+
   const slideWrap = useRef();
+  const [cnt, setCnt] = useState(0);
+
+  let intervalID = useRef(null);
+
+  let isMouseDown = useRef(false);
+  let touchStart = useRef(0);
+  let touchEnd = useRef(0);
+
+  let dragStart = useRef(0);
+  let dragEnd = useRef(0);
+
   useEffect(() => {
     fetch("./json/main/section1/slide.json", { method: "GET" })
       .then((result) => result.json())
@@ -22,35 +33,43 @@ const Section1Component = forwardRef((props, ref) => {
         console.log(err);
       });
   }, []);
-  let isMouseDown = useRef(false);
-  let touchStart = useRef(0);
-  let touchEnd = useRef(0);
 
-  let dragStart = useRef(0);
-  let dragEnd = useRef(0);
-  const transitionEnd = (e) => {
-    if (cnt >= 3) {
-      autoTimer();
-      setTimeout(() => {
-        setCnt(1);
-      }, 10);
-      slideWrap.current && (slideWrap.current.style.transition = "none");
-      slideWrap.current && (slideWrap.current.style.left = `${0 * -100}%`);
-      return;
-    }
-    if (cnt < 0) {
-      autoTimer();
-      setTimeout(() => {
-        setCnt(2);
-      }, 10);
-      slideWrap.current && (slideWrap.current.style.transition = "none");
-      slideWrap.current && (slideWrap.current.style.left = `${3 * -100}%`);
-      return;
-    }
+  const autoTimer = () => {
+    clearInterval(intervalID.current);
+    intervalID.current = setInterval(() => {
+      countUp();
+    }, 3000);
+    return () => clearInterval(intervalID.current);
   };
+
+  useEffect(() => {
+    autoTimer();
+    return () => clearInterval(intervalID.current);
+  }, []);
+
   const mainSlide = () => {
     slideWrap.current && (slideWrap.current.style.transition = "left 0.5s");
     slideWrap.current && (slideWrap.current.style.left = `${cnt * -100}%`);
+  };
+
+  const transitionEnd = (e) => {
+    if (cnt >= 3) {
+      autoTimer();
+      slideWrap.current && (slideWrap.current.style.transition = "none");
+      slideWrap.current && (slideWrap.current.style.left = `${0 * -100}%`);
+      setTimeout(() => {
+        setCnt(0);
+      }, 10);
+    }
+    if (cnt < 0) {
+      autoTimer();
+      slideWrap.current && (slideWrap.current.style.transition = "none");
+      slideWrap.current && (slideWrap.current.style.left = `${2 * -100}%`);
+
+      setTimeout(() => {
+        setCnt(2);
+      }, 10);
+    }
   };
 
   const countDown = () => {
@@ -65,22 +84,15 @@ const Section1Component = forwardRef((props, ref) => {
     // eslint-disable-next-line
   }, [cnt]);
 
-  const autoTimer = () => {
-    clearInterval(intervalID);
-    const timerID = setInterval(countUp, 3000);
-    setIntervalID(timerID);
-    return () => clearInterval(intervalID);
-  };
-
   const clickPrev = (e) => {
     e.preventDefault();
-    countDown();
     autoTimer();
+    countDown();
   };
   const clickNext = (e) => {
     e.preventDefault();
-    countUp();
     autoTimer();
+    countUp();
   };
 
   const mouseDown = (e) => {
@@ -89,19 +101,19 @@ const Section1Component = forwardRef((props, ref) => {
     isMouseDown.current = true;
     dragStart.current =
       e.clientX -
-      (slideWrap.current.getBoundingClientRect().left + window.innerWidth);
+      (slideWrap.current.getBoundingClientRect().left +
+        (window.innerWidth - 15));
   };
   const touchStartE = (e) => {
     autoTimer();
     touchStart.current = e.changedTouches[0].clientX;
     isMouseDown.current = true;
     dragStart.current =
-      e.clientX -
+      e.changedTouches[0].clientX -
       (slideWrap.current.getBoundingClientRect().left + window.innerWidth);
   };
 
   const mouseUp = (e) => {
-    autoTimer();
     touchEnd.current = e.clientX;
     if (touchStart.current - touchEnd.current > window.innerWidth / 2) {
       countUp();
@@ -118,6 +130,8 @@ const Section1Component = forwardRef((props, ref) => {
 
   useEffect(() => {
     document.addEventListener("mouseup", (e) => {
+      if (isMouseDown.current === false) return;
+
       touchEnd.current = e.clientX;
       if (touchStart.current - touchEnd.current > window.innerWidth / 2) {
         countUp();
@@ -130,27 +144,40 @@ const Section1Component = forwardRef((props, ref) => {
         mainSlide();
       }
       isMouseDown.current = false;
-
-      autoTimer();
     });
     // eslint-disable-next-line
   }, []);
 
-  const touchEndE = (e) => {};
+  const touchEndE = (e) => {
+    touchEnd.current = e.changedTouches[0].clientX;
+    if (touchStart.current - touchEnd.current > (window.innerWidth - 15) / 2) {
+      countUp();
+    } else {
+      mainSlide();
+    }
+    if (
+      touchStart.current - touchEnd.current <
+      -((window.innerWidth - 15) / 2)
+    ) {
+      countDown();
+    } else {
+      mainSlide();
+    }
+    mouseDown.current = false;
+  };
 
   const mouseMove = (e) => {
-    autoTimer();
-
     if (!isMouseDown.current) return;
     dragEnd.current = e.clientX;
     slideWrap.current.style.transition = "none";
     slideWrap.current.style.left = `${dragEnd.current - dragStart.current}px`;
   };
-  const touchMove = (e) => {};
-  useEffect(() => {
-    autoTimer();
-    //eslint-disable-next-line
-  }, []);
+  const touchMove = (e) => {
+    if (!isMouseDown.current) return;
+    dragEnd.current = e.changedTouches[0].clientX;
+    slideWrap.current.style.transition = "none";
+    slideWrap.current.style.left = `${dragEnd.current - dragStart.current}px`;
+  };
 
   return (
     <section id="section1" className="section" ref={ref}>

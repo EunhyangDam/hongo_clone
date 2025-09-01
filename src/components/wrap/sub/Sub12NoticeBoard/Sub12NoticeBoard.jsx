@@ -99,7 +99,7 @@ export default function Sub12NoticeBoard(props) {
           </div>
           <div className="content">
             {state.wContent.split("\n").map((el, idx) => (
-              <p key={el}>
+              <p key={idx}>
                 {state.wContent.split("\n")[idx] === "\r"
                   ? "　"
                   : state.wContent.split("\n")[idx]}

@@ -110,7 +110,21 @@ export default function Sub12NoticeBoardList(props) {
       { state: data }
     );
   };
-
+  const clickHitUp = (e, data) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("idx", data.IDX);
+    axios({
+      url: "./hongo_sign_up/notice_hit_count.php",
+      method: "POST",
+      data: formData,
+    })
+      .then((res) => {})
+      .catch((err) => {
+        alert("ERROR");
+        console.log(err);
+      });
+  };
   const clickWrite = (e) => {
     navigation("/sub12NoticeBoardWrite");
   };
@@ -187,7 +201,7 @@ export default function Sub12NoticeBoardList(props) {
                   <div className="col col2">
                     <span>{el.wType}</span>
                   </div>
-                  <div className="col col3">
+                  <div className="col col3" onClick={(e) => clickHitUp(e, el)}>
                     <a href="!#" onClick={(e) => clickSubject(e, el)}>
                       {el.wSubject}
                     </a>
